@@ -1,17 +1,26 @@
+import 'dart:math' as math;
 import 'package:flame/components.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:flutter/services.dart';
+import 'package:game_name/tile_info.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setPreferredOrientations([
+      DeviceOrientation.landscapeLeft,
+      DeviceOrientation.landscapeRight,
+    ]);
     return GameWidget(game: TiledGame());
   }
 }
@@ -64,6 +73,27 @@ class TiledGame extends FlameGame with ScaleDetector, TapDetector {
     _checkDragBorders();
   }
 
+  @override
+  Future<void> onTapUp(TapUpInfo info) async {
+    final tappedCel = _getTappedCell(info);
+
+    // final tappedCel = estimateCallTime<TileInfo>(() {
+    //     return _getTappedCell(info);
+    //   },
+    // );
+
+    // developer.log('cell: ${tappedCel.row}; ${tappedCel.col}');
+
+    final spriteComponent = SpriteComponent(
+      size: Vector2.all(64.0),
+      sprite: await Sprite.load('unit_infantry_germany.png'),
+    )
+      ..anchor = Anchor.center
+      ..position = Vector2(tappedCel.center.dx, tappedCel.center.dy)
+      ..priority = 1;
+    mapComponent.add(spriteComponent);
+  }
+
   void _processDrag(ScaleUpdateInfo info) {
     final delta = info.delta.global;
     final zoomDragFactor = 1.0 /
@@ -109,5 +139,41 @@ class TiledGame extends FlameGame with ScaleDetector, TapDetector {
 
     camera.viewfinder.position =
         currentPosition.translated(xTranslate, yTranslate);
+  }
+
+  TileInfo _getTappedCell(TapUpInfo info) {
+    final clickOnMapPoint = camera.globalToLocal(info.eventPosition.global);
+
+    final rows = mapComponent.tileMap.map.width;
+    final cols = mapComponent.tileMap.map.height;
+
+    final tileSize = mapComponent.tileMap.destTileSize;
+
+    var targetRow = 0;
+    var targetCol = 0;
+    var minDistance = double.maxFinite;
+    var targetCenter = Offset.zero;
+
+    for (var row = 0; row < rows; row++) {
+      for (var col = 0; col < cols; col++) {
+        final xCenter = col * tileSize.x +
+            tileSize.x / 2 +
+            (row.isEven ? 0 : tileSize.x / 2);
+        final yCenter =
+            row * tileSize.y - (row * tileSize.y / 4) + tileSize.y / 2;
+
+        final distance = math.sqrt(math.pow(xCenter - clickOnMapPoint.x, 2) +
+            math.pow(yCenter - clickOnMapPoint.y, 2));
+
+        if (distance < minDistance) {
+          minDistance = distance;
+          targetRow = row;
+          targetCol = col;
+          targetCenter = Offset(xCenter, yCenter);
+        }
+      }
+    }
+
+    return TileInfo(center: targetCenter, row: targetRow, col: targetCol);
   }
 }
