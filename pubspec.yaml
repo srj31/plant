@@ -63,7 +63,11 @@ flutter:
   # To add assets to your application, add an assets section, like this:
   assets:
     - assets/images/hexagonAll_sheet.png
+    - assets/images/hexagonObjects_sheet.png
     - assets/tiles/game.tmx
+    - assets/images/healthy_heart.png
+    - assets/images/unhealthy_heart.png
+    - assets/images/dead_heart.png
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
