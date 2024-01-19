@@ -14,6 +14,8 @@ import 'tile_info.dart';
 class OurGame extends FlameGame with ScaleDetector, TapDetector {
   late TiledComponent mapComponent;
   late BuildComponent buildComponent;
+  late Sprite evFactory;
+  late Sprite windmill;
 
   static const double _minZoom = 0.1;
   static const double _maxZoom = 2.0;
@@ -48,6 +50,8 @@ class OurGame extends FlameGame with ScaleDetector, TapDetector {
 
   void initializeGame() {
     buildComponent = BuildComponent();
+    evFactory = getObjectSprite(120, 0, 94, 84);
+    windmill = getObjectSprite(712, 128, 52, 66);
     camera.viewport.add(buildComponent);
     camera.viewport.add(Hud());
   }
@@ -159,9 +163,9 @@ class OurGame extends FlameGame with ScaleDetector, TapDetector {
     return TileInfo(center: targetCenter, row: targetRow, col: targetCol);
   }
 
-  Sprite getBuildingSprite(double x, double y, double width, double height) {
+  Sprite getObjectSprite(double x, double y, double width, double height) {
     return Sprite(
-      Flame.images.fromCache('hexagonBuildings_sheet.png'),
+      Flame.images.fromCache('hexagonObjects_sheet.png'),
       srcPosition: Vector2(x, y),
       srcSize: Vector2(width, height),
     );
