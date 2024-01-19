@@ -33,6 +33,5 @@ class MyApp extends StatelessWidget {
         ),
       ),
     );
-    return GameWidget(game: OurGame());
   }
 }

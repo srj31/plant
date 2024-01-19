@@ -17,7 +17,6 @@ class BuildComponent extends SpriteComponent
 
   @override
   Future<void> onLoad() async {
-    print("ONLOAD CALLED");
     sprite = await game.loadSprite(
       'dead_heart.png',
       srcSize: Vector2.all(300),
@@ -86,7 +85,7 @@ class ElevatedCard extends StatelessWidget {
     return Center(
         child: GestureDetector(
       onTap: () {},
-      child: Stack(children: [
+      child: Stack(clipBehavior: Clip.none, children: [
         Positioned(
             child: Card(
           elevation: 10,
@@ -108,34 +107,38 @@ class ElevatedCard extends StatelessWidget {
                 height: size.y,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(15.0),
-                    image: DecorationImage(
+                    image: const DecorationImage(
                         image: NetworkImage('https://picsum.photos/200/300'),
                         fit: BoxFit.fill)),
-                child: const Center(child: Text('Lol Card')),
               ),
             )),
         Positioned(
           top: 10,
           right: 0,
-          width: size.x / 2 - 10,
+          width: size.x / 2 - 5,
           height: size.y,
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-            Text("Heading",
+            const Text("Heading",
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-            Text("Subheading", style: TextStyle(fontSize: 12)),
-            Text(
+            const Text("Subheading", style: TextStyle(fontSize: 12)),
+            const Text(
                 "This is the description of the item that you will be using so be careful of it ",
                 style: TextStyle(fontSize: 10)),
-            ButtonTheme(
-                height: 1,
-                minWidth: 1,
-                child: ElevatedButton(
-                    onPressed: () {},
-                    style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(Colors.blue),
-                    ),
-                    child: Text("Buy")))
+            Container(
+                alignment: Alignment.center,
+                margin: const EdgeInsets.only(top: 20),
+                child: SizedBox(
+                    height: 25,
+                    child: ElevatedButton(
+                        onPressed: () {},
+                        style: ButtonStyle(
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.blue),
+                          fixedSize:
+                              MaterialStateProperty.all(Size(size.x / 3, 20)),
+                        ),
+                        child: Text("Buy"))))
           ]),
         )
       ]),
