@@ -8,6 +8,7 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/services.dart';
 import 'package:game_name/game/overlays/build.dart';
+import 'package:game_name/game/state/default.dart';
 import 'overlays/hud.dart';
 import 'tile_info.dart';
 
@@ -16,6 +17,8 @@ class OurGame extends FlameGame with ScaleDetector, TapDetector {
   late BuildComponent buildComponent;
   late Sprite evFactory;
   late Sprite windmill;
+  late Sprite toAdd;
+  AbstractState state = DefaultState();
 
   static const double _minZoom = 0.1;
   static const double _maxZoom = 2.0;
@@ -80,6 +83,11 @@ class OurGame extends FlameGame with ScaleDetector, TapDetector {
     _checkDragBorders();
   }
 
+  @override
+  Future<void> onTapUp(TapUpInfo info) async {
+    state.handleTap(this, info);
+  }
+
   void _processDrag(ScaleUpdateInfo info) {
     final delta = info.delta.global;
     final zoomDragFactor = 1.0 /
@@ -127,7 +135,7 @@ class OurGame extends FlameGame with ScaleDetector, TapDetector {
         currentPosition.translated(xTranslate, yTranslate);
   }
 
-  TileInfo _getTappedCell(TapUpInfo info) {
+  TileInfo getTappedCell(TapUpInfo info) {
     final clickOnMapPoint = camera.globalToLocal(info.eventPosition.global);
 
     final rows = mapComponent.tileMap.map.width;

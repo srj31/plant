@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flame/events.dart';
 import 'package:game_name/game/our_game.dart';
+import 'package:game_name/game/state/place_item.dart';
 
 class BuildComponent extends SpriteComponent
     with TapCallbacks, HasGameReference<OurGame> {
@@ -61,18 +62,21 @@ class BuildMenu extends StatelessWidget {
               children: [
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   ElevatedCard(
+                      game,
                       Vector2(game.size.x * 0.30, game.size.y * 0.40),
                       game.evFactory,
                       "EV Factory",
                       "^Energy vCO2 ^Capital",
                       "Establish your Electric Vehicle (EV) factory, produce eco-friendly cars, and ride the wave of sustainability."),
                   ElevatedCard(
+                      game,
                       Vector2(game.size.x * 0.30, game.size.y * 0.40),
                       game.windmill,
                       "Wind Energy",
                       "^Eneryg vCO2",
                       "Capitalize on the wind's force to boost your Energy production, reduce Carbon Emission, and strengthen Earth's health"),
                   ElevatedCard(
+                      game,
                       Vector2(game.size.x * 0.30, game.size.y * 0.40),
                       game.evFactory,
                       "EV Factory",
@@ -81,12 +85,14 @@ class BuildMenu extends StatelessWidget {
                 ]),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   ElevatedCard(
+                      game,
                       Vector2(game.size.x * 0.30, game.size.y * 0.40),
                       game.evFactory,
                       "EV Factory",
                       "^Energy vCO2 ^Capital",
                       "Establish your Electric Vehicle (EV) factory, produce eco-friendly cars, and ride the wave of sustainability."),
                   ElevatedCard(
+                      game,
                       Vector2(game.size.x * 0.30, game.size.y * 0.40),
                       game.evFactory,
                       "EV Factory",
@@ -101,8 +107,9 @@ class BuildMenu extends StatelessWidget {
 }
 
 class ElevatedCard extends StatelessWidget {
-  const ElevatedCard(this.size,
+  const ElevatedCard(this.game, this.size,
       [this.sprite, this.heading, this.subheading, this.description]);
+  final OurGame game;
   final String? heading;
   final String? subheading;
   final String? description;
@@ -169,7 +176,11 @@ class ElevatedCard extends StatelessWidget {
                             child: SizedBox(
                                 height: 25,
                                 child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      game.overlays.remove(BuildMenu.id);
+                                      game.state = PlaceItemState();
+                                      game.toAdd = sprite!;
+                                    },
                                     style: ButtonStyle(
                                       backgroundColor:
                                           MaterialStateProperty.all(
