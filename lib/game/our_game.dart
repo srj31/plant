@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:math' as math;
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
@@ -6,21 +7,28 @@ import 'package:flutter/material.dart';
 
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
-import 'package:flutter/services.dart';
 import 'package:game_name/game/overlays/build.dart';
 import 'package:game_name/game/state/default.dart';
+import 'package:game_name/game/structures/structures.dart';
 import 'overlays/hud.dart';
 import 'tile_info.dart';
 
-class OurGame extends FlameGame with ScaleDetector, TapDetector {
+import 'dart:developer';
+
+class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   late TiledComponent mapComponent;
   late BuildComponent buildComponent;
   late Sprite evFactory;
   late Sprite windmill;
-  late Sprite toAdd;
+  late Structure toAdd;
+  late Timer interval;
+  late Structure selectedStructure;
+
+  int elapsedSecs = 0;
   AbstractState state = DefaultState();
 
-  static const double _minZoom = 0.1;
+  bool hasTimerStarted = true;
+  static const double _minZoom = 0.3;
   static const double _maxZoom = 2.0;
   double _startZoom = _minZoom;
   double health = 20;
@@ -29,6 +37,29 @@ class OurGame extends FlameGame with ScaleDetector, TapDetector {
   double resources = 10;
   double energy = 70;
   double capital = 10000;
+
+  double deltaHealth = -0.5;
+  double deltaMorale = -0.5;
+  double deltaCarbon = -0.5;
+  double deltaResources = -0.5;
+  double deltaEnergy = -0.5;
+  double deltaCapital = -10;
+
+  final List<Structure> _builtItems = [];
+
+  void addBuiltItem(Structure item) {
+    world.add(item..priority);
+    capital -= item.capital;
+    resources -= item.resources;
+    deltaHealth += item.deltaHealth;
+    deltaMorale += item.deltaMorale;
+    deltaCarbon += item.deltaCarbon;
+    deltaResources += item.deltaResources;
+    deltaEnergy += item.deltaEnergy;
+    deltaCapital += item.deltaCapital;
+
+    _builtItems.add(item);
+  }
 
   @override
   Color backgroundColor() =>
@@ -55,6 +86,17 @@ class OurGame extends FlameGame with ScaleDetector, TapDetector {
     buildComponent = BuildComponent();
     evFactory = getObjectSprite(120, 0, 94, 84);
     windmill = getObjectSprite(712, 128, 52, 66);
+
+    interval = Timer(1, onTick: () {
+      elapsedSecs += 1;
+      health = math.max(0, health + deltaHealth);
+      energy = math.max(0, energy + deltaEnergy);
+      carbonEmission = math.max(0, carbonEmission + deltaCarbon);
+      resources = math.max(0, resources + deltaResources);
+      capital = math.max(0, capital + deltaCapital);
+      morale = math.max(0, morale + deltaMorale);
+    }, repeat: true);
+
     camera.viewport.add(buildComponent);
     camera.viewport.add(Hud());
   }
@@ -84,8 +126,16 @@ class OurGame extends FlameGame with ScaleDetector, TapDetector {
   }
 
   @override
-  Future<void> onTapUp(TapUpInfo info) async {
-    state.handleTap(this, info);
+  void onTapDown(TapDownEvent event) {
+    state.handleTap(this, event);
+  }
+
+  @override
+  void update(double dt) {
+    super.update(dt);
+    if (hasTimerStarted) {
+      interval.update(dt);
+    }
   }
 
   void _processDrag(ScaleUpdateInfo info) {
@@ -135,8 +185,8 @@ class OurGame extends FlameGame with ScaleDetector, TapDetector {
         currentPosition.translated(xTranslate, yTranslate);
   }
 
-  TileInfo getTappedCell(TapUpInfo info) {
-    final clickOnMapPoint = camera.globalToLocal(info.eventPosition.global);
+  TileInfo getTappedCell(TapDownEvent event) {
+    final clickOnMapPoint = camera.globalToLocal(event.localPosition);
 
     final rows = mapComponent.tileMap.map.width;
     final cols = mapComponent.tileMap.map.height;

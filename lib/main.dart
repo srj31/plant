@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flame/game.dart';
 import 'package:flutter/services.dart';
 import 'package:game_name/game/overlays/build.dart';
+import 'package:game_name/game/structures/structures.dart';
 
 import 'game/our_game.dart';
 
@@ -28,8 +29,9 @@ class MyApp extends StatelessWidget {
           game: OurGame(),
           overlayBuilderMap: {
             BuildMenu.id: (context, game) => BuildMenu(game: game),
+            StructureInfo.id: (context, game) => StructureInfo(game: game),
           },
-          initialActiveOverlays: [BuildMenu.id],
+          initialActiveOverlays: const [BuildMenu.id],
         ),
       ),
     );

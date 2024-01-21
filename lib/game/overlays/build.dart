@@ -4,6 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flame/events.dart';
 import 'package:game_name/game/our_game.dart';
 import 'package:game_name/game/state/place_item.dart';
+import 'package:game_name/game/structures/evFactory.dart';
+import 'package:game_name/game/structures/structures.dart';
+import 'package:game_name/game/structures/windmill.dart';
 
 class BuildComponent extends SpriteComponent
     with TapCallbacks, HasGameReference<OurGame> {
@@ -18,22 +21,9 @@ class BuildComponent extends SpriteComponent
 
   @override
   Future<void> onLoad() async {
-    sprite = await game.loadSprite(
-      'dead_heart.png',
-      srcSize: Vector2.all(300),
-    );
-    position = Vector2(100, 100);
+    sprite = game.getObjectSprite(690, 221, 20, 23);
+    position = Vector2(50, 50);
     size = Vector2.all(32);
-    add(TextComponent(
-      text: "BUILD",
-      textRenderer: TextPaint(
-        style: const TextStyle(
-          fontSize: 16,
-          color: Color.fromRGBO(255, 255, 255, 1),
-        ),
-      ),
-      anchor: Anchor.center,
-    ));
   }
 
   @override
@@ -64,6 +54,7 @@ class BuildMenu extends StatelessWidget {
                   ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.30, game.size.y * 0.40),
+                      EvFactory(),
                       game.evFactory,
                       "EV Factory",
                       "^Energy vCO2 ^Capital",
@@ -71,6 +62,7 @@ class BuildMenu extends StatelessWidget {
                   ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.30, game.size.y * 0.40),
+                      WindMill(),
                       game.windmill,
                       "Wind Energy",
                       "^Eneryg vCO2",
@@ -78,6 +70,7 @@ class BuildMenu extends StatelessWidget {
                   ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.30, game.size.y * 0.40),
+                      EvFactory(),
                       game.evFactory,
                       "EV Factory",
                       "^Energy vCO2 ^Capital",
@@ -87,13 +80,15 @@ class BuildMenu extends StatelessWidget {
                   ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.30, game.size.y * 0.40),
-                      game.evFactory,
+                      WindMill(),
+                      game.windmill,
                       "EV Factory",
                       "^Energy vCO2 ^Capital",
                       "Establish your Electric Vehicle (EV) factory, produce eco-friendly cars, and ride the wave of sustainability."),
                   ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.30, game.size.y * 0.40),
+                      EvFactory(),
                       game.evFactory,
                       "EV Factory",
                       "^Energy vCO2 ^Capital",
@@ -107,15 +102,16 @@ class BuildMenu extends StatelessWidget {
 }
 
 class ElevatedCard extends StatelessWidget {
-  const ElevatedCard(this.game, this.size,
-      [this.sprite, this.heading, this.subheading, this.description]);
+  const ElevatedCard(this.game, this.size, this.structure, this.spriteImage,
+      this.heading, this.subheading, this.description);
   final OurGame game;
-  final String? heading;
-  final String? subheading;
-  final String? description;
+  final String heading;
+  final String subheading;
+  final String description;
 
   final Vector2 size;
-  final Sprite? sprite;
+  final Sprite spriteImage;
+  final Structure structure;
 
   @override
   Widget build(BuildContext context) {
@@ -148,7 +144,7 @@ class ElevatedCard extends StatelessWidget {
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                         child: RawImage(
-                          image: sprite?.toImageSync(),
+                          image: spriteImage.toImageSync(),
                         ),
                       ),
                     )),
@@ -161,14 +157,14 @@ class ElevatedCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text((heading == null) ? "Heading" : heading!,
-                            style: TextStyle(
+                            style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold)),
                         Text((subheading == null) ? "Subheading" : subheading!,
                             style: TextStyle(fontSize: 12)),
                         Text(
                             (description == null)
                                 ? "This is the description of the item that you will be using so be careful of it "
-                                : description!,
+                                : description,
                             style: TextStyle(fontSize: 10)),
                         Container(
                             alignment: Alignment.center,
@@ -179,7 +175,7 @@ class ElevatedCard extends StatelessWidget {
                                     onPressed: () {
                                       game.overlays.remove(BuildMenu.id);
                                       game.state = PlaceItemState();
-                                      game.toAdd = sprite!;
+                                      game.toAdd = structure;
                                     },
                                     style: ButtonStyle(
                                       backgroundColor:

@@ -25,8 +25,6 @@ class Hud extends PositionComponent with HasGameReference<OurGame> {
 
   @override
   Future<void> onLoad() async {
-    print(game.size);
-
     double widthOfEach = game.size.x / 6;
     double height = game.size.y - 50;
     const double sizeOfSpirte = 32;
@@ -97,11 +95,11 @@ class Hud extends PositionComponent with HasGameReference<OurGame> {
 
   @override
   void update(double dt) {
-    _healthTextComponent.text = '${game.health}';
-    _moraleTextComponent.text = '${game.morale}';
-    _carbonEmissionTextComponent.text = '${game.carbonEmission}';
-    _resourcesTextComponent.text = '${game.resources}';
-    _energyTextComponent.text = '${game.energy}';
-    _capitalTextComponent.text = '${game.capital}';
+    _healthTextComponent.text = game.health.toStringAsFixed(2);
+    _moraleTextComponent.text = game.morale.toStringAsFixed(2);
+    _carbonEmissionTextComponent.text = game.carbonEmission.toStringAsFixed(2);
+    _resourcesTextComponent.text = game.resources.toStringAsFixed(2);
+    _energyTextComponent.text = game.energy.toStringAsFixed(2);
+    _capitalTextComponent.text = game.capital.toStringAsFixed(2);
   }
 }

@@ -5,20 +5,17 @@ import 'package:game_name/game/state/default.dart';
 
 class PlaceItemState extends AbstractState {
   @override
-  void handleTap(OurGame game, TapUpInfo info) {
+  void handleTap(OurGame game, TapDownEvent info) {
     final tappedCel = game.getTappedCell(info);
 
-    print('cell: ${tappedCel.row}; ${tappedCel.col}');
-    // final tappedCel = estimateCallTime<TileInfo>(() {
-    //     return _getTappedCell(info);
-    //   },
-    // );
 
-    final spriteComponent =
-        SpriteComponent(size: Vector2.all(64.0), sprite: game.toAdd)
-          ..anchor = Anchor.center
-          ..position = Vector2(tappedCel.center.dx, tappedCel.center.dy)
-          ..priority = 1;
-    game.mapComponent.add(spriteComponent);
+    final spriteComponent = game.toAdd
+      ..anchor = Anchor.center
+      ..position = Vector2(tappedCel.center.dx, tappedCel.center.dy)
+      ..priority = 1;
+
+    game.addBuiltItem(spriteComponent);
+
+    game.state = DefaultState();
   }
 }
