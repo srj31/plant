@@ -2,6 +2,11 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:game_name/game/our_game.dart';
+import 'package:game_name/game/research/biodegradable.dart';
+import 'package:game_name/game/research/carbon_technology.dart';
+import 'package:game_name/game/research/nano_technology.dart';
+import 'package:game_name/game/research/researh.dart';
+import 'package:game_name/game/research/smart_grid.dart';
 import 'package:game_name/game/structures/evFactory.dart';
 import 'package:game_name/game/structures/structures.dart';
 
@@ -51,8 +56,8 @@ class ResearchMenu extends StatelessWidget {
                     ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                      EvFactory(),
-                      game.evFactory,
+                      CarbonTechnology(),
+                      game.carbonTechnology,
                       "Advanced Carbon Capture Technology",
                       "^CO",
                       "Positive on Health and Carbon Emission",
@@ -60,8 +65,8 @@ class ResearchMenu extends StatelessWidget {
                     ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                      EvFactory(),
-                      game.evFactory,
+                      SmartGrid(),
+                      game.smartGrid,
                       "Smart Grid Implementation",
                       "^Energy vCO2 ^Capital",
                       "Positive on Energy and Capital.",
@@ -71,8 +76,8 @@ class ResearchMenu extends StatelessWidget {
                     ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                      EvFactory(),
-                      game.evFactory,
+                      Biodegradable(),
+                      game.biodegradable,
                       "Biodegradable Materials Research",
                       "^Resource",
                       "Positive on Resources and Health",
@@ -80,8 +85,8 @@ class ResearchMenu extends StatelessWidget {
                     ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                      EvFactory(),
-                      game.evFactory,
+                      NanoTechnology(),
+                      game.nanoTechnology,
                       "Nanotechnology for Air Filtration",
                       "^Resource ^Health",
                       "Positive on Health and Resources",
@@ -92,12 +97,12 @@ class ResearchMenu extends StatelessWidget {
 }
 
 class ElevatedCard extends StatelessWidget {
-  const ElevatedCard(this.game, this.size, this.structure, this.spriteImage,
+  const ElevatedCard(this.game, this.size, this.research, this.spriteImage,
       this.heading, this.subheading, this.description);
   final OurGame game;
   final String heading;
   final String subheading;
-  final Structure structure;
+  final Research research;
   final String description;
 
   final Vector2 size;

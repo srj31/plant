@@ -2,6 +2,11 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:game_name/game/our_game.dart';
+import 'package:game_name/game/policies/afforestation.dart';
+import 'package:game_name/game/policies/carbon_tax.dart';
+import 'package:game_name/game/policies/global_treaty.dart';
+import 'package:game_name/game/policies/policy.dart';
+import 'package:game_name/game/policies/public_transport.dart';
 import 'package:game_name/game/structures/evFactory.dart';
 import 'package:game_name/game/structures/structures.dart';
 
@@ -51,16 +56,16 @@ class PoliciesMenu extends StatelessWidget {
                     ElevatedCard(
                         game,
                         Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                        EvFactory(),
-                        game.evFactory,
+                        PublicTransport(),
+                        game.publicTransport,
                         "Public Transportation Expansion",
                         "^CO ^Morale",
-                        "Reduces Carbon Emission, improves Morale"),
+                        "Reduces Carbon Emission, improves Morale good for all"),
                     ElevatedCard(
                         game,
                         Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                        EvFactory(),
-                        game.evFactory,
+                        CarbonTax(),
+                        game.carbonTax,
                         "Carbon Tax Implementation",
                         "^Capital ^Co vMorale",
                         "Positive on Capital, negative on Morale")
@@ -69,8 +74,8 @@ class PoliciesMenu extends StatelessWidget {
                     ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                      EvFactory(),
-                      game.evFactory,
+                      Afforestation(),
+                      game.afforestation,
                       "Afforestation Program",
                       "^CO ^Resource",
                       "Positive on Health, Resources, and Morale",
@@ -78,8 +83,8 @@ class PoliciesMenu extends StatelessWidget {
                     ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                      EvFactory(),
-                      game.evFactory,
+                      GlobalTreaty(),
+                      game.globalTreaty,
                       "Global Collaboration Treaty",
                       "^Morale ^CO",
                       "Positive on Morale and globally on Carbon Emission",
@@ -90,12 +95,12 @@ class PoliciesMenu extends StatelessWidget {
 }
 
 class ElevatedCard extends StatelessWidget {
-  const ElevatedCard(this.game, this.size, this.structure, this.spriteImage,
+  const ElevatedCard(this.game, this.size, this.policy, this.spriteImage,
       this.heading, this.subheading, this.description);
   final OurGame game;
   final String heading;
   final String subheading;
-  final Structure structure;
+  final Policy policy;
   final String description;
 
   final Vector2 size;

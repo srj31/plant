@@ -1,7 +1,7 @@
-import 'package:game_name/game/structures/structures.dart';
+import 'package:game_name/game/research/researh.dart';
 
-class EvFactory extends Structure {
-  EvFactory(
+class Biodegradable extends Research {
+  Biodegradable(
       {super.position,
       super.size,
       super.scale,
@@ -19,11 +19,10 @@ class EvFactory extends Structure {
             deltaMorale: 0.1,
             timeToBuild: 1000);
 
-  static const name = 'ev_factory';
-
+  static const name = 'biodegradable';
   @override
   Future<void> onLoad() async {
-    sprite = game.evFactory;
+    sprite = game.biodegradable;
     await super.onLoad();
   }
 }

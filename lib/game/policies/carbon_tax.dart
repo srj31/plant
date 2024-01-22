@@ -1,7 +1,7 @@
-import 'package:game_name/game/structures/structures.dart';
+import 'package:game_name/game/policies/policy.dart';
 
-class EvFactory extends Structure {
-  EvFactory(
+class CarbonTax extends Policy {
+  CarbonTax(
       {super.position,
       super.size,
       super.scale,
@@ -19,11 +19,10 @@ class EvFactory extends Structure {
             deltaMorale: 0.1,
             timeToBuild: 1000);
 
-  static const name = 'ev_factory';
-
+  static const name = 'carbon_tax';
   @override
   Future<void> onLoad() async {
-    sprite = game.evFactory;
+    sprite = game.carbonTax;
     await super.onLoad();
   }
 }

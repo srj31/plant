@@ -1,7 +1,7 @@
 import 'package:game_name/game/structures/structures.dart';
 
-class EvFactory extends Structure {
-  EvFactory(
+class RecyclingFactory extends Structure {
+  RecyclingFactory(
       {super.position,
       super.size,
       super.scale,
@@ -9,8 +9,8 @@ class EvFactory extends Structure {
       super.anchor,
       super.priority})
       : super(
-            capital: 1000,
-            resources: 20,
+            capital: 3000,
+            resources: 300,
             deltaCapital: 0.1,
             deltaResources: 0.1,
             deltaCarbon: -0.1,
@@ -19,11 +19,11 @@ class EvFactory extends Structure {
             deltaMorale: 0.1,
             timeToBuild: 1000);
 
-  static const name = 'ev_factory';
+  static const name = 'recycling_factory';
 
   @override
   Future<void> onLoad() async {
-    sprite = game.evFactory;
+    sprite = game.recyclingFactory;
     await super.onLoad();
   }
 }

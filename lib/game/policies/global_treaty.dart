@@ -1,7 +1,8 @@
-import 'package:game_name/game/structures/structures.dart';
 
-class EvFactory extends Structure {
-  EvFactory(
+import 'package:game_name/game/policies/policy.dart';
+
+class GlobalTreaty extends Policy {
+  GlobalTreaty(
       {super.position,
       super.size,
       super.scale,
@@ -19,11 +20,10 @@ class EvFactory extends Structure {
             deltaMorale: 0.1,
             timeToBuild: 1000);
 
-  static const name = 'ev_factory';
-
+  static const name = 'global_treaty';
   @override
   Future<void> onLoad() async {
-    sprite = game.evFactory;
+    sprite = game.globalTreaty;
     await super.onLoad();
   }
 }

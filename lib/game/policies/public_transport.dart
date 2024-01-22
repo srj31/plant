@@ -1,7 +1,7 @@
-import 'package:game_name/game/structures/structures.dart';
+import 'package:game_name/game/policies/policy.dart';
 
-class EvFactory extends Structure {
-  EvFactory(
+class PublicTransport extends Policy {
+  PublicTransport(
       {super.position,
       super.size,
       super.scale,
@@ -19,8 +19,7 @@ class EvFactory extends Structure {
             deltaMorale: 0.1,
             timeToBuild: 1000);
 
-  static const name = 'ev_factory';
-
+  static const name = 'public_transport';
   @override
   Future<void> onLoad() async {
     sprite = game.evFactory;

@@ -20,8 +20,20 @@ import 'dart:developer';
 class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   late TiledComponent mapComponent;
   late BuildComponent buildComponent;
+
   late Sprite evFactory;
   late Sprite windmill;
+  late Sprite recyclingFactory;
+  late Sprite greenHydrogen;
+  late Sprite publicTransport;
+  late Sprite carbonTax;
+  late Sprite afforestation;
+  late Sprite globalTreaty;
+  late Sprite carbonTechnology;
+  late Sprite smartGrid;
+  late Sprite biodegradable;
+  late Sprite nanoTechnology;
+
   late Structure toAdd;
   late Timer interval;
   late Structure selectedStructure;
@@ -50,7 +62,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   final List<Structure> _builtItems = [];
 
   void addBuiltItem(Structure item) {
-    world.add(item..priority);
+    world.add(item);
     capital -= item.capital;
     resources -= item.resources;
     deltaHealth += item.deltaHealth;
@@ -88,6 +100,16 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     buildComponent = BuildComponent();
     evFactory = getObjectSprite(120, 0, 94, 84);
     windmill = getObjectSprite(712, 128, 52, 66);
+    recyclingFactory = getObjectSprite(532, 190, 66, 76);
+    greenHydrogen = getObjectSprite(600, 190, 56, 62);
+    publicTransport = getObjectSprite(216, 0, 86, 94);
+    carbonTax = getObjectSprite(970, 128, 18, 37);
+    afforestation = getObjectSprite(969, 343, 20, 46);
+    globalTreaty = getObjectSprite(386, 75, 74, 70);
+    carbonTechnology = getObjectSprite(908, 90, 30, 56);
+    smartGrid = getObjectSprite(532, 0, 68, 98);
+    biodegradable = getObjectSprite(601, 100, 56, 62);
+    nanoTechnology = getObjectSprite(712, 433, 50, 50);
 
     interval = Timer(1, onTick: () {
       elapsedSecs += 1;

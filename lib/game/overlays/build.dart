@@ -5,6 +5,8 @@ import 'package:flame/events.dart';
 import 'package:game_name/game/our_game.dart';
 import 'package:game_name/game/state/place_item.dart';
 import 'package:game_name/game/structures/evFactory.dart';
+import 'package:game_name/game/structures/greenHydrogen.dart';
+import 'package:game_name/game/structures/recyclingFactory.dart';
 import 'package:game_name/game/structures/structures.dart';
 import 'package:game_name/game/structures/windmill.dart';
 
@@ -53,7 +55,7 @@ class BuildMenu extends StatelessWidget {
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   ElevatedCard(
                       game,
-                      Vector2(game.size.x * 0.30, game.size.y * 0.40),
+                      Vector2(game.size.x * 0.40, game.size.y * 0.40),
                       EvFactory(),
                       game.evFactory,
                       "EV Factory",
@@ -61,38 +63,30 @@ class BuildMenu extends StatelessWidget {
                       "Establish your Electric Vehicle (EV) factory, produce eco-friendly cars, and ride the wave of sustainability."),
                   ElevatedCard(
                       game,
-                      Vector2(game.size.x * 0.30, game.size.y * 0.40),
+                      Vector2(game.size.x * 0.40, game.size.y * 0.40),
                       WindMill(),
                       game.windmill,
                       "Wind Energy",
                       "^Eneryg vCO2",
                       "Capitalize on the wind's force to boost your Energy production, reduce Carbon Emission, and strengthen Earth's health"),
-                  ElevatedCard(
-                      game,
-                      Vector2(game.size.x * 0.30, game.size.y * 0.40),
-                      EvFactory(),
-                      game.evFactory,
-                      "EV Factory",
-                      "^Energy vCO2 ^Capital",
-                      "Establish your Electric Vehicle (EV) factory, produce eco-friendly cars, and ride the wave of sustainability."),
                 ]),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   ElevatedCard(
                       game,
-                      Vector2(game.size.x * 0.30, game.size.y * 0.40),
-                      WindMill(),
-                      game.windmill,
-                      "EV Factory",
-                      "^Energy vCO2 ^Capital",
-                      "Establish your Electric Vehicle (EV) factory, produce eco-friendly cars, and ride the wave of sustainability."),
+                      Vector2(game.size.x * 0.40, game.size.y * 0.40),
+                      GreenHydrogen(),
+                      game.greenHydrogen,
+                      "Green Hydrogen",
+                      "vCO2 ^Resources",
+                      "A strategic, long-term investment for players aiming for advanced and low-carbon energy solutions"),
                   ElevatedCard(
                       game,
-                      Vector2(game.size.x * 0.30, game.size.y * 0.40),
-                      EvFactory(),
-                      game.evFactory,
-                      "EV Factory",
-                      "^Energy vCO2 ^Capital",
-                      "Establish your Electric Vehicle (EV) factory, produce eco-friendly cars, and ride the wave of sustainability."),
+                      Vector2(game.size.x * 0.40, game.size.y * 0.40),
+                      RecyclingFactory(),
+                      game.recyclingFactory,
+                      "Recycling",
+                      "^Resources ^Capital vEnergy",
+                      "Process and recycle waste materials, reducing overall pollution and promoting a circular economy"),
                 ])
               ],
             ),
@@ -149,44 +143,43 @@ class ElevatedCard extends StatelessWidget {
                       ),
                     )),
                 Positioned(
-                  top: 10,
-                  right: 0,
-                  width: size.x / 2 - 5,
-                  height: size.y,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text((heading == null) ? "Heading" : heading!,
-                            style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold)),
-                        Text((subheading == null) ? "Subheading" : subheading!,
-                            style: TextStyle(fontSize: 12)),
-                        Text(
-                            (description == null)
-                                ? "This is the description of the item that you will be using so be careful of it "
-                                : description,
-                            style: TextStyle(fontSize: 10)),
-                        Container(
-                            alignment: Alignment.center,
-                            margin: const EdgeInsets.only(top: 10),
-                            child: SizedBox(
-                                height: 25,
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      game.overlays.remove(BuildMenu.id);
-                                      game.state = PlaceItemState();
-                                      game.toAdd = structure;
-                                    },
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.blue),
-                                      fixedSize: MaterialStateProperty.all(
-                                          Size(size.x / 3, 20)),
-                                    ),
-                                    child: Text("Buy"))))
-                      ]),
-                )
+                    top: 10,
+                    right: 0,
+                    width: size.x / 2 - 5,
+                    height: size.y,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(heading,
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold)),
+                            Text(subheading,
+                                style: const TextStyle(fontSize: 12)),
+                            Text(description,
+                                style: const TextStyle(fontSize: 10)),
+                            Container(
+                                alignment: Alignment.center,
+                                margin: const EdgeInsets.only(top: 10),
+                                child: SizedBox(
+                                    height: 25,
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          game.overlays.remove(BuildMenu.id);
+                                          game.state = PlaceItemState();
+                                          game.toAdd = structure;
+                                        },
+                                        style: ButtonStyle(
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.blue),
+                                          fixedSize: MaterialStateProperty.all(
+                                              Size(size.x / 3, 20)),
+                                        ),
+                                        child: Text("Buy"))))
+                          ]),
+                    ))
               ]),
             )));
   }
