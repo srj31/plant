@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:game_name/game/overlays/build.dart';
+import 'package:game_name/game/overlays/policies.dart';
+import 'package:game_name/game/overlays/research.dart';
 import 'package:game_name/game/state/default.dart';
 import 'package:game_name/game/structures/structures.dart';
 import 'overlays/hud.dart';
@@ -98,6 +100,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     }, repeat: true);
 
     camera.viewport.add(buildComponent);
+    camera.viewport.add(ResearchComponent());
+    camera.viewport.add(PoliciesComponent());
     camera.viewport.add(Hud());
   }
 

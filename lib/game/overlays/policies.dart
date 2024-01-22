@@ -2,53 +2,38 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:game_name/game/our_game.dart';
+import 'package:game_name/game/structures/evFactory.dart';
+import 'package:game_name/game/structures/structures.dart';
 
-class Structure extends SpriteComponent
+class PoliciesComponent extends SpriteComponent
     with TapCallbacks, HasGameReference<OurGame> {
-  Structure({
+  PoliciesComponent({
     super.position,
     super.size,
     super.scale,
     super.angle,
     super.anchor,
     super.priority,
-    required this.capital,
-    required this.resources,
-    required this.deltaCapital,
-    required this.deltaResources,
-    required this.deltaCarbon,
-    required this.deltaEnergy,
-    required this.deltaHealth,
-    required this.deltaMorale,
-    required this.timeToBuild,
   });
 
-  final double capital;
-  final double resources;
-
-  final double deltaCapital;
-  final double deltaResources;
-  final double deltaCarbon;
-  final double deltaEnergy;
-  final double deltaHealth;
-  final double deltaMorale;
-  final double timeToBuild;
+  @override
+  Future<void> onLoad() async {
+    sprite = game.getObjectSprite(944, 343, 23, 37);
+    position = Vector2(50, 150);
+    size = Vector2.all(32);
+  }
 
   @override
-  void onTapUp(TapUpEvent event) {
-    game.selectedStructure = this;
-    game.overlays.add(StructureInfo.id);
+  void onTapDown(TapDownEvent event) {
+    game.overlays.add(PoliciesMenu.id);
   }
 }
 
-class StructureInfo extends StatelessWidget {
-  static const id = 'StructureInfo';
+class PoliciesMenu extends StatelessWidget {
+  static const id = 'PoliciesMenu';
   final OurGame game;
-  late final Structure structure;
 
-  StructureInfo({super.key, required this.game}) {
-    structure = game.selectedStructure;
-  }
+  const PoliciesMenu({super.key, required this.game});
 
   @override
   Widget build(BuildContext context) {
@@ -62,23 +47,55 @@ class StructureInfo extends StatelessWidget {
                 child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                  ElevatedCard(
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    ElevatedCard(
+                        game,
+                        Vector2(game.size.x * 0.40, game.size.y * 0.40),
+                        EvFactory(),
+                        game.evFactory,
+                        "Public Transportation Expansion",
+                        "^CO ^Morale",
+                        "Reduces Carbon Emission, improves Morale"),
+                    ElevatedCard(
+                        game,
+                        Vector2(game.size.x * 0.40, game.size.y * 0.40),
+                        EvFactory(),
+                        game.evFactory,
+                        "Carbon Tax Implementation",
+                        "^Capital ^Co vMorale",
+                        "Positive on Capital, negative on Morale")
+                  ]),
+                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                    ElevatedCard(
                       game,
-                      Vector2(game.size.x * 0.70, game.size.y * 0.80),
-                      structure.sprite!,
-                      "Structure Name",
-                      "Delta for all thigs",
-                      "Details about upgrading the structure"),
+                      Vector2(game.size.x * 0.40, game.size.y * 0.40),
+                      EvFactory(),
+                      game.evFactory,
+                      "Afforestation Program",
+                      "^CO ^Resource",
+                      "Positive on Health, Resources, and Morale",
+                    ),
+                    ElevatedCard(
+                      game,
+                      Vector2(game.size.x * 0.40, game.size.y * 0.40),
+                      EvFactory(),
+                      game.evFactory,
+                      "Global Collaboration Treaty",
+                      "^Morale ^CO",
+                      "Positive on Morale and globally on Carbon Emission",
+                    )
+                  ])
                 ]))));
   }
 }
 
 class ElevatedCard extends StatelessWidget {
-  const ElevatedCard(this.game, this.size, this.spriteImage, this.heading,
-      this.subheading, this.description);
+  const ElevatedCard(this.game, this.size, this.structure, this.spriteImage,
+      this.heading, this.subheading, this.description);
   final OurGame game;
   final String heading;
   final String subheading;
+  final Structure structure;
   final String description;
 
   final Vector2 size;
@@ -138,7 +155,9 @@ class ElevatedCard extends StatelessWidget {
                             child: SizedBox(
                                 height: 25,
                                 child: ElevatedButton(
-                                    onPressed: () {},
+                                    onPressed: () {
+                                      game.overlays.remove(PoliciesMenu.id);
+                                    },
                                     style: ButtonStyle(
                                       backgroundColor:
                                           MaterialStateProperty.all(
@@ -146,7 +165,7 @@ class ElevatedCard extends StatelessWidget {
                                       fixedSize: MaterialStateProperty.all(
                                           Size(size.x / 3, 20)),
                                     ),
-                                    child: const Text("Upgrade"))))
+                                    child: const Text("Buy"))))
                       ]),
                 )
               ]),

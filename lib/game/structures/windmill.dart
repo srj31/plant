@@ -1,9 +1,6 @@
-import 'package:flame/components.dart';
-import 'package:flame/events.dart';
-import 'package:game_name/game/our_game.dart';
 import 'package:game_name/game/structures/structures.dart';
 
-class WindMill extends Structure{
+class WindMill extends Structure {
   WindMill(
       {super.position,
       super.size,
@@ -29,5 +26,4 @@ class WindMill extends Structure{
     await super.onLoad();
     sprite = game.windmill;
   }
-
 }
