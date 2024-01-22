@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:math' as math;
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
@@ -10,12 +9,11 @@ import 'package:flame/game.dart';
 import 'package:game_name/game/overlays/build.dart';
 import 'package:game_name/game/overlays/policies.dart';
 import 'package:game_name/game/overlays/research.dart';
+import 'package:game_name/game/specializations/specialization.dart';
 import 'package:game_name/game/state/default.dart';
 import 'package:game_name/game/structures/structures.dart';
 import 'overlays/hud.dart';
 import 'tile_info.dart';
-
-import 'dart:developer';
 
 class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   late TiledComponent mapComponent;
@@ -33,6 +31,12 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   late Sprite smartGrid;
   late Sprite biodegradable;
   late Sprite nanoTechnology;
+
+  late Sprite technologySpecialization;
+  late Sprite policySpecialization;
+  late Sprite researchSpecialization;
+
+  late Specialization specialization;
 
   late Structure toAdd;
   late Timer interval;
@@ -110,6 +114,10 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     smartGrid = getObjectSprite(532, 0, 68, 98);
     biodegradable = getObjectSprite(601, 100, 56, 62);
     nanoTechnology = getObjectSprite(712, 433, 50, 50);
+
+    technologySpecialization = getObjectSprite(904, 437, 34, 41);
+    policySpecialization = getObjectSprite(382, 319, 76, 76);
+    researchSpecialization = getObjectSprite(594, 384, 58, 108);
 
     interval = Timer(1, onTick: () {
       elapsedSecs += 1;
