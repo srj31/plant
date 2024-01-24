@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flame/events.dart';
 import 'package:game_name/game/our_game.dart';
 import 'package:game_name/game/state/place_item.dart';
-import 'package:game_name/game/structures/evFactory.dart';
-import 'package:game_name/game/structures/greenHydrogen.dart';
-import 'package:game_name/game/structures/recyclingFactory.dart';
+import 'package:game_name/game/structures/ev_factory.dart';
+import 'package:game_name/game/structures/green_hydrogen.dart';
+import 'package:game_name/game/structures/recycling_factory.dart';
 import 'package:game_name/game/structures/structures.dart';
 import 'package:game_name/game/structures/windmill.dart';
 
@@ -59,7 +59,7 @@ class BuildMenu extends StatelessWidget {
                       EvFactory(),
                       game.evFactory,
                       "EV Factory",
-                      "^Energy vCO2 ^Capital",
+                      "⬆️Energy ⬆️CO2 ⬆️Capital",
                       "Establish your Electric Vehicle (EV) factory, produce eco-friendly cars, and ride the wave of sustainability."),
                   ElevatedCard(
                       game,
@@ -171,13 +171,45 @@ class ElevatedCard extends StatelessWidget {
                                           game.toAdd = structure;
                                         },
                                         style: ButtonStyle(
-                                          backgroundColor:
+                                          foregroundColor:
                                               MaterialStateProperty.all(
-                                                  Colors.blue),
+                                                  Colors.white),
+                                          backgroundColor: structure.capital <=
+                                                      game.capital &&
+                                                  structure.resources <=
+                                                      game.resources
+                                              ? MaterialStateProperty.all(
+                                                  Colors.green)
+                                              : MaterialStateProperty.all(
+                                                  Colors.grey),
                                           fixedSize: MaterialStateProperty.all(
-                                              Size(size.x / 3, 20)),
+                                              Size(size.x * 0.5, 20)),
                                         ),
-                                        child: Text("Buy"))))
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            RawImage(
+                                              image: game.capitalSprite
+                                                  .toImageSync(),
+                                            ),
+                                            Text(
+                                                structure.capital
+                                                    .toStringAsFixed(0),
+                                                style: const TextStyle(
+                                                    fontSize: 10)),
+                                            const Spacer(),
+                                            RawImage(
+                                              image: game.resourcesSprite
+                                                  .toImageSync(),
+                                            ),
+                                            Text(
+                                                structure.resources
+                                                    .toStringAsFixed(0),
+                                                style: const TextStyle(
+                                                    fontSize: 10)),
+                                          ],
+                                        ))))
                           ]),
                     ))
               ]),

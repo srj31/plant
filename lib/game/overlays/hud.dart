@@ -40,23 +40,31 @@ class Hud extends PositionComponent with HasGameReference<OurGame> {
       size: Vector2.all(sizeOfSpirte),
     ));
 
-    await add(HeartHealthComponent(
+    await add(SpriteComponent(
+      sprite: game.moraleSprite,
       position: Vector2(widthOfEach, height),
       size: Vector2.all(sizeOfSpirte),
     ));
-    await add(HeartHealthComponent(
+
+    await add(SpriteComponent(
+      sprite: game.carbonEmissionSprite,
       position: Vector2(widthOfEach * 2, height),
       size: Vector2.all(sizeOfSpirte),
     ));
-    await add(HeartHealthComponent(
+    await add(SpriteComponent(
+      sprite: game.resourcesSprite,
       position: Vector2(widthOfEach * 3, height),
       size: Vector2.all(sizeOfSpirte),
     ));
-    await add(HeartHealthComponent(
+
+    await add(SpriteComponent(
+      sprite: game.energySprite,
       position: Vector2(widthOfEach * 4, height),
       size: Vector2.all(sizeOfSpirte),
     ));
-    await add(HeartHealthComponent(
+
+    await add(SpriteComponent(
+      sprite: game.capitalSprite,
       position: Vector2(widthOfEach * 5, height),
       size: Vector2.all(sizeOfSpirte),
     ));

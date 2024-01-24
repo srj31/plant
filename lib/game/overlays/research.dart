@@ -7,8 +7,6 @@ import 'package:game_name/game/research/carbon_technology.dart';
 import 'package:game_name/game/research/nano_technology.dart';
 import 'package:game_name/game/research/researh.dart';
 import 'package:game_name/game/research/smart_grid.dart';
-import 'package:game_name/game/structures/evFactory.dart';
-import 'package:game_name/game/structures/structures.dart';
 
 class ResearchComponent extends SpriteComponent
     with TapCallbacks, HasGameReference<OurGame> {
@@ -133,15 +131,18 @@ class ElevatedCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                       child: Container(
-                        width: size.x / 2,
-                        height: size.y,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: RawImage(
-                          image: spriteImage.toImageSync(),
-                        ),
-                      ),
+                          width: size.x / 2,
+                          height: size.y,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: RawImage(
+                              image: spriteImage.toImageSync(),
+                              fit: BoxFit.fitHeight,
+                            ),
+                          )),
                     )),
                 Positioned(
                   top: 10,
@@ -166,13 +167,43 @@ class ElevatedCard extends StatelessWidget {
                                       game.overlays.remove(ResearchMenu.id);
                                     },
                                     style: ButtonStyle(
-                                      backgroundColor:
+                                      foregroundColor:
                                           MaterialStateProperty.all(
-                                              Colors.blue),
+                                              Colors.white),
+                                      backgroundColor: research.capital <=
+                                                  game.capital &&
+                                              research.resources <= game.resources
+                                          ? MaterialStateProperty.all(
+                                              Colors.green)
+                                          : MaterialStateProperty.all(
+                                              Colors.grey),
                                       fixedSize: MaterialStateProperty.all(
-                                          Size(size.x / 3, 20)),
+                                          Size(size.x * 0.45, 20)),
                                     ),
-                                    child: const Text("Buy"))))
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        RawImage(
+                                          image:
+                                              game.capitalSprite.toImageSync(),
+                                        ),
+                                        Text(
+                                            research.capital.toStringAsFixed(0),
+                                            style:
+                                                const TextStyle(fontSize: 10)),
+                                        const Spacer(),
+                                        RawImage(
+                                          image: game.resourcesSprite
+                                              .toImageSync(),
+                                        ),
+                                        Text(
+                                            research.resources
+                                                .toStringAsFixed(0),
+                                            style:
+                                                const TextStyle(fontSize: 10)),
+                                      ],
+                                    ))))
                       ]),
                 )
               ]),

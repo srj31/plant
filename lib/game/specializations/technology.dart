@@ -11,10 +11,10 @@ class TechnologySpecialization extends Specialization {
       : super(
           deltaCapital: 1.5,
           deltaResources: 1.5,
-          deltaCarbon: 1.0,
-          deltaEnergy: 1.0,
-          deltaHealth: 1.0,
-          deltaMorale: 1.0,
+          deltaCarbon: 0.9,
+          deltaEnergy: 0.9,
+          deltaHealth: 0.9,
+          deltaMorale: 0.9,
           timeToBuild: 1.5,
         );
   static const name = 'technology_specialization';

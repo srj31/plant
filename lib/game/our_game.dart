@@ -19,6 +19,12 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   late TiledComponent mapComponent;
   late BuildComponent buildComponent;
 
+  late Sprite capitalSprite;
+  late Sprite moraleSprite;
+  late Sprite carbonEmissionSprite;
+  late Sprite energySprite;
+  late Sprite resourcesSprite;
+
   late Sprite evFactory;
   late Sprite windmill;
   late Sprite recyclingFactory;
@@ -45,7 +51,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   int elapsedSecs = 0;
   AbstractState state = DefaultState();
 
-  bool hasTimerStarted = true;
+  bool hasTimerStarted = false;
   static const double _minZoom = 0.3;
   static const double _maxZoom = 2.0;
   double _startZoom = _minZoom;
@@ -101,6 +107,12 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   }
 
   void initializeGame() {
+    capitalSprite = getObjectSprite(58, 488, 22, 20);
+    carbonEmissionSprite = getObjectSprite(510, 485, 18, 24);
+    energySprite = getObjectSprite(990, 64, 18, 28);
+    resourcesSprite = getObjectSprite(0, 488, 28, 21);
+    moraleSprite = getObjectSprite(944, 0, 22, 30);
+
     buildComponent = BuildComponent();
     evFactory = getObjectSprite(120, 0, 94, 84);
     windmill = getObjectSprite(712, 128, 52, 66);

@@ -7,8 +7,6 @@ import 'package:game_name/game/policies/carbon_tax.dart';
 import 'package:game_name/game/policies/global_treaty.dart';
 import 'package:game_name/game/policies/policy.dart';
 import 'package:game_name/game/policies/public_transport.dart';
-import 'package:game_name/game/structures/evFactory.dart';
-import 'package:game_name/game/structures/structures.dart';
 
 class PoliciesComponent extends SpriteComponent
     with TapCallbacks, HasGameReference<OurGame> {
@@ -131,15 +129,17 @@ class ElevatedCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                       child: Container(
-                        width: size.x / 2,
-                        height: size.y,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: RawImage(
-                          image: spriteImage.toImageSync(),
-                        ),
-                      ),
+                          width: size.x / 2,
+                          height: size.y,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: RawImage(
+                              image: spriteImage.toImageSync(),
+                            ),
+                          )),
                     )),
                 Positioned(
                   top: 10,
@@ -164,13 +164,41 @@ class ElevatedCard extends StatelessWidget {
                                       game.overlays.remove(PoliciesMenu.id);
                                     },
                                     style: ButtonStyle(
-                                      backgroundColor:
+                                      foregroundColor:
                                           MaterialStateProperty.all(
-                                              Colors.blue),
+                                              Colors.white),
+                                      backgroundColor: policy.capital <=
+                                                  game.capital &&
+                                              policy.resources <= game.resources
+                                          ? MaterialStateProperty.all(
+                                              Colors.green)
+                                          : MaterialStateProperty.all(
+                                              Colors.grey),
                                       fixedSize: MaterialStateProperty.all(
-                                          Size(size.x / 3, 20)),
+                                          Size(size.x * 0.45, 20)),
                                     ),
-                                    child: const Text("Buy"))))
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        RawImage(
+                                          image:
+                                              game.capitalSprite.toImageSync(),
+                                        ),
+                                        Text(policy.capital.toStringAsFixed(0),
+                                            style:
+                                                const TextStyle(fontSize: 10)),
+                                        const Spacer(),
+                                        RawImage(
+                                          image: game.resourcesSprite
+                                              .toImageSync(),
+                                        ),
+                                        Text(
+                                            policy.resources.toStringAsFixed(0),
+                                            style:
+                                                const TextStyle(fontSize: 10)),
+                                      ],
+                                    ))))
                       ]),
                 )
               ]),

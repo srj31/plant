@@ -1,5 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:flame/game.dart';
 import 'package:flutter/material.dart';
 import 'package:game_name/game/our_game.dart';
 import 'package:game_name/game/specializations/policy.dart';
@@ -16,9 +15,7 @@ class SpecializationMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-        onTap: () {
-          game.overlays.remove(id);
-        },
+        onTap: () {},
         child: Scaffold(
             backgroundColor: Colors.black.withAlpha(100),
             body: Center(
@@ -80,6 +77,12 @@ class ElevatedCard extends StatelessWidget {
               child: Stack(clipBehavior: Clip.none, children: [
                 Positioned(
                     child: Card(
+                  surfaceTintColor: Colors.lightGreen,
+                  color: Colors.green,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                    side: const BorderSide(color: Colors.green, width: 5),
+                  ),
                   elevation: 10,
                   child: SizedBox(
                     width: size.x,
@@ -95,28 +98,40 @@ class ElevatedCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                       child: Container(
-                        width: size.x,
-                        height: size.y * 0.33,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(15.0),
-                        ),
-                        child: RawImage(
-                          image: spriteImage.toImageSync(),
-                        ),
-                      ),
+                          width: size.x,
+                          height: size.y * 0.4,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(15.0),
+                              color: Colors.lightGreen,
+                              boxShadow: const [
+                                BoxShadow(
+                                  color: Colors.green,
+                                )
+                              ]),
+                          child: Padding(
+                            padding: const EdgeInsets.all(10.0),
+                            child: RawImage(
+                              image: spriteImage.toImageSync(),
+                              fit: BoxFit.fitHeight,
+                            ),
+                          )),
                     )),
                 Positioned(
-                  top: size.y * 0.33,
+                  top: size.y * 0.4,
                   right: 0,
                   width: size.x,
-                  height: size.y * 0.66,
+                  height: size.y * 0.6,
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(heading,
                             style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold)),
-                        Text(advantages, style: const TextStyle(fontSize: 12)),
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.black87)),
+                        Text(advantages,
+                            style: const TextStyle(
+                                fontSize: 12, color: Colors.black54)),
                         Text(disadvantages,
                             style: const TextStyle(fontSize: 12)),
                         Container(
@@ -127,13 +142,17 @@ class ElevatedCard extends StatelessWidget {
                                 child: ElevatedButton(
                                     onPressed: () {
                                       game.specialization = specialization;
+                                      game.hasTimerStarted = true;
                                       game.overlays
                                           .remove(SpecializationMenu.id);
                                     },
                                     style: ButtonStyle(
+                                      foregroundColor:
+                                          MaterialStateProperty.all(
+                                              Colors.white),
                                       backgroundColor:
                                           MaterialStateProperty.all(
-                                              Colors.blue),
+                                              Colors.green),
                                     ),
                                     child: const Text("Choose"))))
                       ]),
