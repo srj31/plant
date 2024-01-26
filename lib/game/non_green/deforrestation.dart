@@ -23,7 +23,7 @@ class Deforrestation extends Structure {
 
   @override
   Future<void> onLoad() async {
-    sprite = game.evFactory;
+    sprite = game.deforestation;
     await super.onLoad();
   }
 }

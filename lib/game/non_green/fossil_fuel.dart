@@ -23,7 +23,7 @@ class FossilFuel extends NonGreenStructure {
 
   @override
   Future<void> onLoad() async {
-    sprite = game.evFactory;
+    sprite = game.fossilFuel;
     await super.onLoad();
   }
 }

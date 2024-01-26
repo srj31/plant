@@ -23,7 +23,7 @@ class PlasticPlants extends NonGreenStructure {
 
   @override
   Future<void> onLoad() async {
-    sprite = game.evFactory;
+    sprite = game.plastic;
     await super.onLoad();
   }
 }

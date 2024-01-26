@@ -23,7 +23,7 @@ class WasteIncineration extends NonGreenStructure {
 
   @override
   Future<void> onLoad() async {
-    sprite = game.evFactory;
+    sprite = game.wasteIncineration;
     await super.onLoad();
   }
 }

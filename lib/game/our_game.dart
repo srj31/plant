@@ -44,6 +44,10 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   late Sprite smartGrid;
   late Sprite biodegradable;
   late Sprite nanoTechnology;
+  late Sprite fossilFuel;
+  late Sprite deforestation;
+  late Sprite plastic;
+  late Sprite wasteIncineration;
 
   late Sprite technologySpecialization;
   late Sprite policySpecialization;
@@ -233,6 +237,10 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     smartGrid = getObjectSprite(532, 0, 68, 98);
     biodegradable = getObjectSprite(601, 100, 56, 62);
     nanoTechnology = getObjectSprite(712, 433, 50, 50);
+    fossilFuel = getObjectSprite(864, 58, 42, 53);
+    deforestation = getObjectSprite(862, 248, 36, 32);
+    plastic = getObjectSprite(766, 0, 48, 48);
+    wasteIncineration = getObjectSprite(970, 128, 18, 37);
 
     technologySpecialization = getObjectSprite(904, 437, 34, 41);
     policySpecialization = getObjectSprite(382, 319, 76, 76);
