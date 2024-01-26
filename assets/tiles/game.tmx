@@ -67,7 +67,7 @@
   </object>
   <object id="25" gid="258" x="900" y="962" width="122" height="142">
    <properties>
-    <property name="type" value="house"/>
+    <property name="type" value="windmill"/>
    </properties>
   </object>
   <object id="26" gid="265" x="479" y="962" width="122" height="142">

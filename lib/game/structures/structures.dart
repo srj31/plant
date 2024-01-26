@@ -1,7 +1,15 @@
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame_tiled/flame_tiled.dart' as flame_tiled;
 import 'package:flutter/material.dart';
+import 'package:game_name/game/non_green/fossil_fuel.dart';
+import 'package:game_name/game/non_green/plastic.dart';
+import 'package:game_name/game/non_green/waste_incineration.dart';
 import 'package:game_name/game/our_game.dart';
+import 'package:game_name/game/structures/ev_factory.dart';
+import 'package:game_name/game/structures/green_hydrogen.dart';
+import 'package:game_name/game/structures/recycling_factory.dart';
+import 'package:game_name/game/structures/windmill.dart';
 
 class Structure extends SpriteComponent
     with TapCallbacks, HasGameReference<OurGame> {
@@ -39,6 +47,55 @@ class Structure extends SpriteComponent
     game.selectedStructure = this;
     game.overlays.add(StructureInfo.id);
   }
+
+  factory Structure.factory(flame_tiled.TiledObject building) {
+    switch (building.properties["type"]?.value) {
+      case "fossil":
+        return FossilFuel(
+            position: Vector2(building.x, building.y),
+            priority: 1,
+            anchor: Anchor.topLeft);
+
+      case "plastic":
+        return PlasticPlants(
+            position: Vector2(building.x, building.y),
+            priority: 1,
+            anchor: Anchor.topLeft);
+      case "waste_incineration":
+        return WasteIncineration(
+            position: Vector2(building.x, building.y),
+            priority: 1,
+            anchor: Anchor.topLeft);
+      case "ev_factory":
+        return EvFactory(
+            position: Vector2(building.x, building.y),
+            priority: 1,
+            anchor: Anchor.topLeft);
+      case "green_hydrogen":
+        return GreenHydrogen(
+            position: Vector2(building.x, building.y),
+            priority: 1,
+            anchor: Anchor.topLeft);
+      case "recycling_factory":
+        return RecyclingFactory(
+            position: Vector2(building.x, building.y),
+            priority: 1,
+            anchor: Anchor.topLeft);
+      case "windmill":
+        return WindMill(
+            position: Vector2(building.x, building.y),
+            priority: 1,
+            anchor: Anchor.topLeft);
+      case "house":
+        return EvFactory(
+            position: Vector2(building.x, building.y),
+            priority: 1,
+            anchor: Anchor.topLeft);
+
+      default:
+        return throw Exception("Unknown type ${building.properties["type"]}");
+    }
+  }
 }
 
 class StructureInfo extends StatelessWidget {
@@ -75,7 +132,8 @@ class StructureInfo extends StatelessWidget {
 
 class ElevatedCard extends StatelessWidget {
   const ElevatedCard(this.game, this.size, this.spriteImage, this.heading,
-      this.subheading, this.description);
+      this.subheading, this.description,
+      {super.key});
   final OurGame game;
   final String heading;
   final String subheading;

@@ -141,17 +141,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     }
 
     for (final building in buildings.objects) {
-      if (building.properties["type"]!.value == "house") {
-        addBuiltItem(GreenHydrogen(
-            position: Vector2(building.x, building.y),
-            priority: 1,
-            anchor: Anchor.topLeft));
-      } else if (building.properties["type"]!.value == "fossil") {
-        addBuiltItem(FossilFuel(
-            position: Vector2(building.x, building.y),
-            priority: 1,
-            anchor: Anchor.topLeft));
-      }
+        final structure = Structure.factory(building);
+        addBuiltItem(structure);
     }
 
     interval = Timer(1, onTick: () {
