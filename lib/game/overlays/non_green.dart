@@ -1,12 +1,13 @@
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
+import 'package:game_name/game/non_green/fossil_fuel.dart';
+import 'package:game_name/game/non_green/deforrestation.dart';
+import 'package:game_name/game/non_green/plastic.dart';
+import 'package:game_name/game/non_green/waste_incineration.dart';
 import 'package:game_name/game/our_game.dart';
-import 'package:game_name/game/policies/afforestation.dart';
-import 'package:game_name/game/policies/carbon_tax.dart';
-import 'package:game_name/game/policies/global_treaty.dart';
-import 'package:game_name/game/policies/policy.dart';
-import 'package:game_name/game/policies/public_transport.dart';
+import 'package:game_name/game/state/place_item.dart';
+import 'package:game_name/game/structures/structures.dart';
 
 class NonGreenComponent extends SpriteComponent
     with TapCallbacks, HasGameReference<OurGame> {
@@ -54,7 +55,7 @@ class NonGreenMenu extends StatelessWidget {
                     ElevatedCard(
                         game,
                         Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                        PublicTransport(),
+                        FossilFuel(),
                         game.publicTransport,
                         "Fossil Fuel Energy",
                         "^CO ^Morale",
@@ -62,7 +63,7 @@ class NonGreenMenu extends StatelessWidget {
                     ElevatedCard(
                         game,
                         Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                        CarbonTax(),
+                        Deforrestation(),
                         game.carbonTax,
                         "Deforrestation",
                         "^Capital ^Co vMorale",
@@ -72,7 +73,7 @@ class NonGreenMenu extends StatelessWidget {
                     ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                      Afforestation(),
+                      PlasticPlants(),
                       game.afforestation,
                       "Plastic Manufacturing",
                       "^CO ^Resource",
@@ -81,7 +82,7 @@ class NonGreenMenu extends StatelessWidget {
                     ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                      GlobalTreaty(),
+                      WasteIncineration(),
                       game.globalTreaty,
                       "Waste Incineration",
                       "^Morale ^CO",
@@ -93,12 +94,12 @@ class NonGreenMenu extends StatelessWidget {
 }
 
 class ElevatedCard extends StatelessWidget {
-  const ElevatedCard(this.game, this.size, this.policy, this.spriteImage,
+  const ElevatedCard(this.game, this.size, this.structure, this.spriteImage,
       this.heading, this.subheading, this.description);
   final OurGame game;
   final String heading;
   final String subheading;
-  final Policy policy;
+  final Structure structure;
   final String description;
 
   final Vector2 size;
@@ -162,18 +163,21 @@ class ElevatedCard extends StatelessWidget {
                                 child: ElevatedButton(
                                     onPressed: () {
                                       game.overlays.remove(NonGreenMenu.id);
+                                      game.state = PlaceItemState();
+                                      game.toAdd = structure;
                                     },
                                     style: ButtonStyle(
                                       foregroundColor:
                                           MaterialStateProperty.all(
                                               Colors.white),
-                                      backgroundColor: policy.capital <=
-                                                  game.capital &&
-                                              policy.resources <= game.resources
-                                          ? MaterialStateProperty.all(
-                                              Colors.green)
-                                          : MaterialStateProperty.all(
-                                              Colors.grey),
+                                      backgroundColor:
+                                          structure.capital <= game.capital &&
+                                                  structure.resources <=
+                                                      game.resources
+                                              ? MaterialStateProperty.all(
+                                                  Colors.green)
+                                              : MaterialStateProperty.all(
+                                                  Colors.grey),
                                       fixedSize: MaterialStateProperty.all(
                                           Size(size.x * 0.45, 20)),
                                     ),
@@ -185,7 +189,9 @@ class ElevatedCard extends StatelessWidget {
                                           image:
                                               game.capitalSprite.toImageSync(),
                                         ),
-                                        Text(policy.capital.toStringAsFixed(0),
+                                        Text(
+                                            structure.capital
+                                                .toStringAsFixed(0),
                                             style:
                                                 const TextStyle(fontSize: 10)),
                                         const Spacer(),
@@ -194,7 +200,8 @@ class ElevatedCard extends StatelessWidget {
                                               .toImageSync(),
                                         ),
                                         Text(
-                                            policy.resources.toStringAsFixed(0),
+                                            structure.resources
+                                                .toStringAsFixed(0),
                                             style:
                                                 const TextStyle(fontSize: 10)),
                                       ],

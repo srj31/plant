@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:game_name/game/non_green/fossil_fuel.dart';
 import 'package:game_name/game/overlays/build.dart';
 import 'package:game_name/game/overlays/non_green.dart';
 import 'package:game_name/game/overlays/policies.dart';
@@ -15,6 +16,7 @@ import 'package:game_name/game/policies/policy.dart';
 import 'package:game_name/game/specializations/specialization.dart';
 import 'package:game_name/game/state/default.dart';
 import 'package:game_name/game/structures/ev_factory.dart';
+import 'package:game_name/game/structures/green_hydrogen.dart';
 import 'package:game_name/game/structures/recycling_factory.dart';
 import 'package:game_name/game/structures/structures.dart';
 import 'overlays/hud.dart';
@@ -135,13 +137,13 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     }
 
     for (final building in buildings.objects) {
-      if (building.type == "house") {
-        addBuiltItem(EvFactory(
+      if (building.properties["type"]!.value == "house") {
+        addBuiltItem(GreenHydrogen(
             position: Vector2(building.x, building.y),
             priority: 1,
             anchor: Anchor.topLeft));
-      } else {
-        addBuiltItem(RecyclingFactory(
+      } else if (building.properties["type"]!.value == "fossil") {
+        addBuiltItem(FossilFuel(
             position: Vector2(building.x, building.y),
             priority: 1,
             anchor: Anchor.topLeft));
