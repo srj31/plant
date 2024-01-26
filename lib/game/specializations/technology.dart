@@ -9,13 +9,17 @@ class TechnologySpecialization extends Specialization {
       super.anchor,
       super.priority})
       : super(
-          deltaCapital: 1.5,
-          deltaResources: 1.5,
-          deltaCarbon: 0.9,
-          deltaEnergy: 0.9,
-          deltaHealth: 0.9,
-          deltaMorale: 0.9,
-          timeToBuild: 1.5,
+          factorCapital: 1.1,
+          factorResources: 0.95,
+          factorCarbon: 1.0,
+          factorEnergy: 1.05,
+          factorMorale: 0.9,
+          factorTechTime: 0.9,
+          factorPolicyTime: 1.15,
+          factorResearchTime: 0.95,
+          factorTechCost: 0.9,
+          factorPolicyCost: 1.15,
+          factorResearchCost: 1.0,
         );
   static const name = 'technology_specialization';
   @override

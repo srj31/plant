@@ -1,4 +1,3 @@
-
 import 'package:game_name/game/policies/policy.dart';
 
 class Afforestation extends Policy {

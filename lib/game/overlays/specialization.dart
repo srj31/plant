@@ -141,7 +141,7 @@ class ElevatedCard extends StatelessWidget {
                                 height: 25,
                                 child: ElevatedButton(
                                     onPressed: () {
-                                      game.specialization = specialization;
+                                        game.setSpecialization(specialization);
                                       game.hasTimerStarted = true;
                                       game.overlays
                                           .remove(SpecializationMenu.id);

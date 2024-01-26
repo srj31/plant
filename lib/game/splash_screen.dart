@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flame_splash_screen/flame_splash_screen.dart';
+import 'package:game_name/game/main_menu.dart';
 import 'package:game_name/main.dart';
 
 class SplashScreenGame extends StatefulWidget {
@@ -23,7 +24,7 @@ class SplashScreenGameState extends State<SplashScreenGame> {
         theme: FlameSplashTheme.dark,
         onFinish: (context) => Navigator.pushReplacement<void, void>(
           context,
-          MaterialPageRoute(builder: (context) => const OtherScreen()),
+          MaterialPageRoute(builder: (context) => const MainMenu()),
         ),
       ),
     );

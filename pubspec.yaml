@@ -65,6 +65,7 @@ flutter:
   assets:
     - assets/images/hexagonAll_sheet.png
     - assets/images/hexagonObjects_sheet.png
+    - assets/images/hexagonBuildings_sheet.png
     - assets/tiles/game.tmx
     - assets/images/healthy_heart.png
     - assets/images/unhealthy_heart.png

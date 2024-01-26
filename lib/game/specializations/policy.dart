@@ -9,13 +9,17 @@ class PolicySpecialization extends Specialization {
       super.anchor,
       super.priority})
       : super(
-          deltaCapital: 1.5,
-          deltaResources: 1.5,
-          deltaCarbon: 1.0,
-          deltaEnergy: 1.0,
-          deltaHealth: 1.0,
-          deltaMorale: 1.0,
-          timeToBuild: 1.5,
+          factorCapital: 0.9,
+          factorResources: 0.95,
+          factorCarbon: 1.05,
+          factorEnergy: 1.0,
+          factorMorale: 1.1,
+          factorTechTime: 1.15,
+          factorPolicyTime: 0.9,
+          factorResearchTime: 0.95,
+          factorTechCost: 1.15,
+          factorPolicyCost: 0.9,
+          factorResearchCost: 1.0,
         );
   static const name = 'policy_specialization';
   @override

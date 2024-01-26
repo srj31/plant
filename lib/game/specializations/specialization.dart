@@ -9,20 +9,28 @@ class Specialization extends SpriteComponent with HasGameReference<OurGame> {
     super.angle,
     super.anchor,
     super.priority,
-    required this.deltaCapital,
-    required this.deltaResources,
-    required this.deltaCarbon,
-    required this.deltaEnergy,
-    required this.deltaHealth,
-    required this.deltaMorale,
-    required this.timeToBuild,
+    required this.factorCapital,
+    required this.factorResources,
+    required this.factorCarbon,
+    required this.factorEnergy,
+    required this.factorMorale,
+    required this.factorTechTime,
+    required this.factorPolicyTime,
+    required this.factorResearchTime,
+    required this.factorTechCost,
+    required this.factorPolicyCost,
+    required this.factorResearchCost,
   });
 
-  final double deltaCapital;
-  final double deltaResources;
-  final double deltaCarbon;
-  final double deltaEnergy;
-  final double deltaHealth;
-  final double deltaMorale;
-  final double timeToBuild;
+  final double factorCapital;
+  final double factorResources;
+  final double factorCarbon;
+  final double factorEnergy;
+  final double factorMorale;
+  final double factorTechTime;
+  final double factorPolicyTime;
+  final double factorResearchTime;
+  final double factorTechCost;
+  final double factorPolicyCost;
+  final double factorResearchCost;
 }

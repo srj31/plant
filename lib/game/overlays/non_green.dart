@@ -2,15 +2,15 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:game_name/game/our_game.dart';
-import 'package:game_name/game/research/biodegradable.dart';
-import 'package:game_name/game/research/carbon_technology.dart';
-import 'package:game_name/game/research/nano_technology.dart';
-import 'package:game_name/game/research/researh.dart';
-import 'package:game_name/game/research/smart_grid.dart';
+import 'package:game_name/game/policies/afforestation.dart';
+import 'package:game_name/game/policies/carbon_tax.dart';
+import 'package:game_name/game/policies/global_treaty.dart';
+import 'package:game_name/game/policies/policy.dart';
+import 'package:game_name/game/policies/public_transport.dart';
 
-class ResearchComponent extends SpriteComponent
+class NonGreenComponent extends SpriteComponent
     with TapCallbacks, HasGameReference<OurGame> {
-  ResearchComponent({
+  NonGreenComponent({
     super.position,
     super.size,
     super.scale,
@@ -21,22 +21,22 @@ class ResearchComponent extends SpriteComponent
 
   @override
   Future<void> onLoad() async {
-    sprite = game.getObjectSprite(940, 393, 28, 29);
-    position = Vector2(50, 100);
+    sprite = game.getObjectSprite(282, 484, 32, 26);
+    position = Vector2(50, 200);
     size = Vector2.all(32);
   }
 
   @override
   void onTapDown(TapDownEvent event) {
-    game.overlays.add(ResearchMenu.id);
+    game.overlays.add(NonGreenMenu.id);
   }
 }
 
-class ResearchMenu extends StatelessWidget {
-  static const id = 'ResearchMenu';
+class NonGreenMenu extends StatelessWidget {
+  static const id = 'NonGreenMenu';
   final OurGame game;
 
-  const ResearchMenu({super.key, required this.game});
+  const NonGreenMenu({super.key, required this.game});
 
   @override
   Widget build(BuildContext context) {
@@ -52,42 +52,40 @@ class ResearchMenu extends StatelessWidget {
                     children: [
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     ElevatedCard(
-                      game,
-                      Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                      CarbonTechnology(),
-                      game.carbonTechnology,
-                      "Advanced Carbon Capture Technology",
-                      "^CO",
-                      "Positive on Health and Carbon Emission",
-                    ),
+                        game,
+                        Vector2(game.size.x * 0.40, game.size.y * 0.40),
+                        PublicTransport(),
+                        game.publicTransport,
+                        "Fossil Fuel Energy",
+                        "^CO ^Morale",
+                        "Effect: Provides immediate and cheap energy. Negative Effects: High carbon emissions, air pollution, health risks, and ecosystem degradation"),
                     ElevatedCard(
-                      game,
-                      Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                      SmartGrid(),
-                      game.smartGrid,
-                      "Smart Grid Implementation",
-                      "^Energy vCO2 ^Capital",
-                      "Positive on Energy and Capital.",
-                    ),
+                        game,
+                        Vector2(game.size.x * 0.40, game.size.y * 0.40),
+                        CarbonTax(),
+                        game.carbonTax,
+                        "Deforrestation",
+                        "^Capital ^Co vMorale",
+                        "Effect: Clearing land for agricultural purposes. Negative Effects: Loss of biodiversity, habitat destruction, soil erosion, increased carbon emissions, and loss of ecosystem services.")
                   ]),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                      Biodegradable(),
-                      game.biodegradable,
-                      "Biodegradable Materials Research",
-                      "^Resource",
-                      "Positive on Resources and Health",
+                      Afforestation(),
+                      game.afforestation,
+                      "Plastic Manufacturing",
+                      "^CO ^Resource",
+                      "Effect: Low production costs for disposable items. Negative Effects: Plastic pollution in oceans and ecosystems, harm to marine life, and long-lasting environmental impact.",
                     ),
                     ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                      NanoTechnology(),
-                      game.nanoTechnology,
-                      "Nanotechnology for Air Filtration",
-                      "^Resource ^Health",
-                      "Positive on Health and Resources",
+                      GlobalTreaty(),
+                      game.globalTreaty,
+                      "Waste Incineration",
+                      "^Morale ^CO",
+                      "Effect: Quick disposal of waste. Negative Effects: Air pollution, release of toxic chemicals, contribution to climate change, and potential health hazards.",
                     )
                   ])
                 ]))));
@@ -95,12 +93,12 @@ class ResearchMenu extends StatelessWidget {
 }
 
 class ElevatedCard extends StatelessWidget {
-  const ElevatedCard(this.game, this.size, this.research, this.spriteImage,
+  const ElevatedCard(this.game, this.size, this.policy, this.spriteImage,
       this.heading, this.subheading, this.description);
   final OurGame game;
   final String heading;
   final String subheading;
-  final Research research;
+  final Policy policy;
   final String description;
 
   final Vector2 size;
@@ -140,7 +138,6 @@ class ElevatedCard extends StatelessWidget {
                             padding: const EdgeInsets.all(10.0),
                             child: RawImage(
                               image: spriteImage.toImageSync(),
-                              fit: BoxFit.fitHeight,
                             ),
                           )),
                     )),
@@ -164,20 +161,19 @@ class ElevatedCard extends StatelessWidget {
                                 height: 25,
                                 child: ElevatedButton(
                                     onPressed: () {
-                                      game.overlays.remove(ResearchMenu.id);
+                                      game.overlays.remove(NonGreenMenu.id);
                                     },
                                     style: ButtonStyle(
                                       foregroundColor:
                                           MaterialStateProperty.all(
                                               Colors.white),
-                                      backgroundColor:
-                                          research.capital <= game.capital &&
-                                                  research.resources <=
-                                                      game.resources
-                                              ? MaterialStateProperty.all(
-                                                  Colors.green)
-                                              : MaterialStateProperty.all(
-                                                  Colors.grey),
+                                      backgroundColor: policy.capital <=
+                                                  game.capital &&
+                                              policy.resources <= game.resources
+                                          ? MaterialStateProperty.all(
+                                              Colors.green)
+                                          : MaterialStateProperty.all(
+                                              Colors.grey),
                                       fixedSize: MaterialStateProperty.all(
                                           Size(size.x * 0.45, 20)),
                                     ),
@@ -189,8 +185,7 @@ class ElevatedCard extends StatelessWidget {
                                           image:
                                               game.capitalSprite.toImageSync(),
                                         ),
-                                        Text(
-                                            research.capital.toStringAsFixed(0),
+                                        Text(policy.capital.toStringAsFixed(0),
                                             style:
                                                 const TextStyle(fontSize: 10)),
                                         const Spacer(),
@@ -199,8 +194,7 @@ class ElevatedCard extends StatelessWidget {
                                               .toImageSync(),
                                         ),
                                         Text(
-                                            research.resources
-                                                .toStringAsFixed(0),
+                                            policy.resources.toStringAsFixed(0),
                                             style:
                                                 const TextStyle(fontSize: 10)),
                                       ],

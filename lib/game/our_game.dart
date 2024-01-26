@@ -7,10 +7,15 @@ import 'package:flutter/material.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:game_name/game/overlays/build.dart';
+import 'package:game_name/game/overlays/non_green.dart';
 import 'package:game_name/game/overlays/policies.dart';
 import 'package:game_name/game/overlays/research.dart';
+import 'package:game_name/game/policies/afforestation.dart';
+import 'package:game_name/game/policies/policy.dart';
 import 'package:game_name/game/specializations/specialization.dart';
 import 'package:game_name/game/state/default.dart';
+import 'package:game_name/game/structures/ev_factory.dart';
+import 'package:game_name/game/structures/recycling_factory.dart';
 import 'package:game_name/game/structures/structures.dart';
 import 'overlays/hud.dart';
 import 'tile_info.dart';
@@ -58,9 +63,9 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   double health = 20;
   double morale = 75;
   double carbonEmission = 20;
-  double resources = 10;
+  double resources = 10000;
   double energy = 70;
-  double capital = 10000;
+  double capital = 1000000;
 
   double deltaHealth = -0.5;
   double deltaMorale = -0.5;
@@ -85,6 +90,16 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     _builtItems.add(item);
   }
 
+  void populateTrees(Policy item) {
+    world.add(item);
+    deltaHealth += item.deltaHealth;
+    deltaMorale += item.deltaMorale;
+    deltaCarbon += item.deltaCarbon;
+    deltaResources += item.deltaResources;
+    deltaEnergy += item.deltaEnergy;
+    deltaCapital += item.deltaCapital;
+  }
+
   @override
   Color backgroundColor() =>
       const Color(0x00000000); // Must be transparent to show the background
@@ -107,29 +122,31 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   }
 
   void initializeGame() {
-    capitalSprite = getObjectSprite(58, 488, 22, 20);
-    carbonEmissionSprite = getObjectSprite(510, 485, 18, 24);
-    energySprite = getObjectSprite(990, 64, 18, 28);
-    resourcesSprite = getObjectSprite(0, 488, 28, 21);
-    moraleSprite = getObjectSprite(944, 0, 22, 30);
+    _loadSprites();
 
-    buildComponent = BuildComponent();
-    evFactory = getObjectSprite(120, 0, 94, 84);
-    windmill = getObjectSprite(712, 128, 52, 66);
-    recyclingFactory = getObjectSprite(532, 190, 66, 76);
-    greenHydrogen = getObjectSprite(600, 190, 56, 62);
-    publicTransport = getObjectSprite(216, 0, 86, 94);
-    carbonTax = getObjectSprite(970, 128, 18, 37);
-    afforestation = getObjectSprite(969, 343, 20, 46);
-    globalTreaty = getObjectSprite(386, 75, 74, 70);
-    carbonTechnology = getObjectSprite(908, 90, 30, 56);
-    smartGrid = getObjectSprite(532, 0, 68, 98);
-    biodegradable = getObjectSprite(601, 100, 56, 62);
-    nanoTechnology = getObjectSprite(712, 433, 50, 50);
+    final trees = mapComponent.tileMap.getLayer<ObjectGroup>("trees")!;
+    final buildings = mapComponent.tileMap.getLayer<ObjectGroup>("buildings")!;
 
-    technologySpecialization = getObjectSprite(904, 437, 34, 41);
-    policySpecialization = getObjectSprite(382, 319, 76, 76);
-    researchSpecialization = getObjectSprite(594, 384, 58, 108);
+    for (final tree in trees.objects) {
+      populateTrees(Afforestation(
+          position: Vector2(tree.x, tree.y),
+          priority: 1,
+          anchor: Anchor.topLeft));
+    }
+
+    for (final building in buildings.objects) {
+      if (building.type == "house") {
+        addBuiltItem(EvFactory(
+            position: Vector2(building.x, building.y),
+            priority: 1,
+            anchor: Anchor.topLeft));
+      } else {
+        addBuiltItem(RecyclingFactory(
+            position: Vector2(building.x, building.y),
+            priority: 1,
+            anchor: Anchor.topLeft));
+      }
+    }
 
     interval = Timer(1, onTick: () {
       elapsedSecs += 1;
@@ -144,6 +161,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     camera.viewport.add(buildComponent);
     camera.viewport.add(ResearchComponent());
     camera.viewport.add(PoliciesComponent());
+    camera.viewport.add(NonGreenComponent());
     camera.viewport.add(Hud());
   }
 
@@ -182,6 +200,41 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     if (hasTimerStarted) {
       interval.update(dt);
     }
+  }
+
+  void setSpecialization(Specialization specialization) {
+    this.specialization = specialization;
+    capital *= specialization.factorCapital;
+    resources *= specialization.factorResources;
+    energy *= specialization.factorEnergy;
+    carbonEmission *= specialization.factorCarbon;
+    morale *= specialization.factorMorale;
+  }
+
+  void _loadSprites() {
+    capitalSprite = getObjectSprite(58, 488, 22, 20);
+    carbonEmissionSprite = getObjectSprite(510, 485, 18, 24);
+    energySprite = getObjectSprite(990, 64, 18, 28);
+    resourcesSprite = getObjectSprite(0, 488, 28, 21);
+    moraleSprite = getObjectSprite(944, 0, 22, 30);
+
+    buildComponent = BuildComponent();
+    evFactory = getObjectSprite(120, 0, 94, 84);
+    windmill = getObjectSprite(712, 128, 52, 66);
+    recyclingFactory = getObjectSprite(532, 190, 66, 76);
+    greenHydrogen = getObjectSprite(600, 190, 56, 62);
+    publicTransport = getObjectSprite(216, 0, 86, 94);
+    carbonTax = getObjectSprite(970, 128, 18, 37);
+    afforestation = getObjectSprite(969, 343, 20, 46);
+    globalTreaty = getObjectSprite(386, 75, 74, 70);
+    carbonTechnology = getObjectSprite(908, 90, 30, 56);
+    smartGrid = getObjectSprite(532, 0, 68, 98);
+    biodegradable = getObjectSprite(601, 100, 56, 62);
+    nanoTechnology = getObjectSprite(712, 433, 50, 50);
+
+    technologySpecialization = getObjectSprite(904, 437, 34, 41);
+    policySpecialization = getObjectSprite(382, 319, 76, 76);
+    researchSpecialization = getObjectSprite(594, 384, 58, 108);
   }
 
   void _processDrag(ScaleUpdateInfo info) {
