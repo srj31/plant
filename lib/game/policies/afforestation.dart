@@ -9,13 +9,13 @@ class Afforestation extends Policy {
       super.anchor,
       super.priority})
       : super(
-            capital: 1000,
+            capital: 2000,
             resources: 20,
-            deltaCapital: 0.1,
-            deltaResources: 0.1,
+            deltaCapital: 0.0,
+            deltaResources: 0.002,
             deltaCarbon: -0.1,
-            deltaEnergy: 0.1,
-            deltaHealth: 0.1,
+            deltaEnergy: 0.0,
+            deltaHealth: 0.0,
             deltaMorale: 0.1,
             timeToBuild: 1000);
 

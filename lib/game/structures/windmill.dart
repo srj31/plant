@@ -15,7 +15,7 @@ class WindMill extends Structure {
             deltaResources: 0.1,
             deltaCarbon: -0.3,
             deltaEnergy: 0.1,
-            deltaHealth: 0.1,
+            deltaHealth: 0.005,
             deltaMorale: 0.1,
             timeToBuild: 1000);
 

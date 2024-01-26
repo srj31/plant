@@ -15,7 +15,7 @@ class FossilFuel extends NonGreenStructure {
             deltaResources: -0.1,
             deltaCarbon: -0.1,
             deltaEnergy: 0.1,
-            deltaHealth: 0.1,
+            deltaHealth: -0.01,
             deltaMorale: 0.1,
             timeToBuild: 500);
 

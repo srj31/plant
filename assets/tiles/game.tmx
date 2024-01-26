@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.5" orientation="hexagonal" renderorder="right-down" width="40" height="25" tilewidth="120" tileheight="139" infinite="0" hexsidelength="69" staggeraxis="y" staggerindex="odd" backgroundcolor="#49a6ac" nextlayerid="11" nextobjectid="27">
+<map version="1.8" tiledversion="1.8.5" orientation="hexagonal" renderorder="right-down" width="40" height="25" tilewidth="120" tileheight="139" infinite="0" hexsidelength="69" staggeraxis="y" staggerindex="odd" backgroundcolor="#49a6ac" nextlayerid="11" nextobjectid="51">
  <tileset firstgid="1" name="hexagonAll_sheet" tilewidth="122" tileheight="142" tilecount="224" columns="16">
   <image source="hexagonAll_sheet.png" width="2048" height="2048"/>
  </tileset>
@@ -21,11 +21,11 @@
 0,0,0,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,22,22,22,22,22,22,22,22,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,22,22,22,22,22,22,22,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,22,22,22,22,22,22,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,22,22,22,22,22,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,22,22,22,22,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,22,22,22,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,22,22,22,22,22,22,22,22,22,6,6,87,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,22,22,22,22,22,22,22,6,6,22,151,87,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,22,22,22,22,22,22,6,22,22,22,151,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,22,22,22,22,22,87,151,151,22,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,22,22,22,22,87,87,87,6,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -67,12 +67,92 @@
   </object>
   <object id="25" gid="258" x="900" y="962" width="122" height="142">
    <properties>
-    <property name="type" value="windmill"/>
+    <property name="type" value="house"/>
    </properties>
   </object>
   <object id="26" gid="265" x="479" y="962" width="122" height="142">
    <properties>
     <property name="type" value="fossil"/>
+   </properties>
+  </object>
+  <object id="27" gid="265" x="598.473" y="962.381" width="122" height="142">
+   <properties>
+    <property name="type" value="fossil"/>
+   </properties>
+  </object>
+  <object id="28" gid="265" x="419.473" y="1065.38" width="122" height="142">
+   <properties>
+    <property name="type" value="fossil"/>
+   </properties>
+  </object>
+  <object id="29" gid="72" x="1978.62" y="1070.55" width="122" height="142">
+   <properties>
+    <property name="type" value="windmill"/>
+   </properties>
+  </object>
+  <object id="31" gid="72" x="1859.8" y="1068.3" width="122" height="142">
+   <properties>
+    <property name="type" value="windmill"/>
+   </properties>
+  </object>
+  <object id="32" gid="72" x="2040.22" y="964.498" width="122" height="142">
+   <properties>
+    <property name="type" value="windmill"/>
+   </properties>
+  </object>
+  <object id="33" gid="72" x="1920.32" y="964.283" width="122" height="142">
+   <properties>
+    <property name="type" value="windmill"/>
+   </properties>
+  </object>
+  <object id="36" gid="102" x="897.972" y="1479.8" width="122" height="142">
+   <properties>
+    <property name="type" value="waste_incineration"/>
+   </properties>
+  </object>
+  <object id="42" gid="102" x="838.5" y="1582.69" width="122" height="142">
+   <properties>
+    <property name="type" value="waste_incineration"/>
+   </properties>
+  </object>
+  <object id="43" gid="102" x="1019.02" y="1482.32" width="122" height="142">
+   <properties>
+    <property name="type" value="waste_incineration"/>
+   </properties>
+  </object>
+  <object id="44" gid="102" x="958.855" y="1582.93" width="122" height="142">
+   <properties>
+    <property name="type" value="waste_incineration"/>
+   </properties>
+  </object>
+  <object id="45" gid="102" x="1079.85" y="1582.93" width="122" height="142">
+   <properties>
+    <property name="type" value="waste_incineration"/>
+   </properties>
+  </object>
+  <object id="46" gid="41" x="1619.36" y="1684.41" width="122" height="142">
+   <properties>
+    <property name="type" value="plastic"/>
+   </properties>
+  </object>
+  <object id="47" gid="41" x="1739.82" y="1683.91" width="122" height="142">
+   <properties>
+    <property name="type" value="plastic"/>
+   </properties>
+  </object>
+  <object id="48" gid="41" x="1499.82" y="1684.91" width="122" height="142">
+   <properties>
+    <property name="type" value="plastic"/>
+   </properties>
+  </object>
+  <object id="49" gid="41" x="1678.82" y="1787.91" width="122" height="142">
+   <properties>
+    <property name="type" value="plastic"/>
+   </properties>
+  </object>
+  <object id="50" gid="41" x="1678.82" y="1581.91" width="122" height="142">
+   <properties>
+    <property name="type" value="plastic"/>
    </properties>
   </object>
  </objectgroup>

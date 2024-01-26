@@ -73,7 +73,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   double energy = 70;
   double capital = 1000000;
 
-  double deltaHealth = -0.5;
+  double deltaHealth = -0.05;
   double deltaMorale = -0.5;
   double deltaCarbon = -0.5;
   double deltaResources = -0.5;

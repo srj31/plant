@@ -14,8 +14,8 @@ class EvFactory extends Structure {
             deltaCapital: 0.1,
             deltaResources: 0.1,
             deltaCarbon: -0.1,
-            deltaEnergy: 0.1,
-            deltaHealth: 0.1,
+            deltaEnergy: 0.005,
+            deltaHealth: 0.002,
             deltaMorale: 0.1,
             timeToBuild: 1000);
 
