@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.5" orientation="hexagonal" renderorder="right-down" width="40" height="25" tilewidth="120" tileheight="139" infinite="0" hexsidelength="69" staggeraxis="y" staggerindex="odd" backgroundcolor="#49a6ac" nextlayerid="11" nextobjectid="58">
+<map version="1.8" tiledversion="1.8.5" orientation="hexagonal" renderorder="right-down" width="40" height="25" tilewidth="120" tileheight="139" infinite="0" hexsidelength="69" staggeraxis="y" staggerindex="odd" backgroundcolor="#49a6ac" nextlayerid="11" nextobjectid="81">
  <tileset firstgid="1" name="hexagonAll_sheet" tilewidth="122" tileheight="142" tilecount="224" columns="16" objectalignment="top">
+  <tileoffset x="1" y="1"/>
   <image source="hexagonAll_sheet.png" width="2048" height="2048"/>
  </tileset>
  <tileset firstgid="225" name="hexagonBuildings_sheet" tilewidth="122" tileheight="142" tilecount="112" columns="8" objectalignment="top">
@@ -36,36 +37,36 @@
 </data>
  </layer>
  <objectgroup id="9" name="trees">
-  <object id="2" gid="117" x="780" y="447" width="122" height="142"/>
-  <object id="3" gid="117" x="900" y="447" width="122" height="142"/>
-  <object id="4" gid="117" x="720" y="549" width="122" height="142"/>
-  <object id="5" gid="117" x="840" y="549" width="122" height="142"/>
-  <object id="6" gid="117" x="960" y="549" width="122" height="142"/>
-  <object id="7" gid="117" x="660" y="652" width="122" height="142"/>
-  <object id="8" gid="117" x="780" y="652" width="122" height="142"/>
-  <object id="9" gid="117" x="900" y="652" width="122" height="142"/>
-  <object id="10" gid="117" x="1020" y="652" width="122" height="142"/>
-  <object id="11" gid="117" x="1080" y="549" width="122" height="142"/>
-  <object id="12" gid="117" x="1020" y="446" width="122" height="142"/>
-  <object id="13" gid="117" x="1140" y="446" width="122" height="142"/>
-  <object id="14" gid="117" x="600" y="755" width="122" height="142"/>
-  <object id="15" gid="117" x="720" y="755" width="122" height="142"/>
-  <object id="16" gid="117" x="840" y="755" width="122" height="142"/>
-  <object id="17" gid="117" x="540" y="858" width="122" height="142"/>
-  <object id="18" gid="117" x="660" y="858" width="122" height="142"/>
-  <object id="19" gid="149" x="780" y="858" width="122" height="142"/>
-  <object id="20" gid="149" x="900" y="858" width="122" height="142"/>
-  <object id="21" gid="149" x="1140" y="652" width="122" height="142"/>
-  <object id="22" gid="149" x="1080" y="756" width="122" height="142"/>
-  <object id="23" gid="149" x="1020" y="859" width="122" height="142"/>
+  <object id="2" gid="117" x="841" y="377" width="122" height="142"/>
+  <object id="3" gid="117" x="961" y="377" width="122" height="142"/>
+  <object id="4" gid="117" x="781" y="479" width="122" height="142"/>
+  <object id="5" gid="117" x="901" y="479" width="122" height="142"/>
+  <object id="6" gid="117" x="1021" y="479" width="122" height="142"/>
+  <object id="7" gid="117" x="721" y="582" width="122" height="142"/>
+  <object id="8" gid="117" x="841" y="582" width="122" height="142"/>
+  <object id="9" gid="117" x="961" y="582" width="122" height="142"/>
+  <object id="10" gid="117" x="1081" y="582" width="122" height="142"/>
+  <object id="11" gid="117" x="1141" y="479" width="122" height="142"/>
+  <object id="12" gid="117" x="1081" y="376" width="122" height="142"/>
+  <object id="13" gid="117" x="1201" y="376" width="122" height="142"/>
+  <object id="14" gid="117" x="661" y="685" width="122" height="142"/>
+  <object id="15" gid="117" x="781" y="685" width="122" height="142"/>
+  <object id="16" gid="117" x="901" y="685" width="122" height="142"/>
+  <object id="17" gid="117" x="601" y="788" width="122" height="142"/>
+  <object id="18" gid="117" x="721" y="788" width="122" height="142"/>
+  <object id="19" gid="149" x="841" y="788" width="122" height="142"/>
+  <object id="20" gid="149" x="961" y="788" width="122" height="142"/>
+  <object id="21" gid="149" x="1201" y="582" width="122" height="142"/>
+  <object id="22" gid="149" x="1141" y="686" width="122" height="142"/>
+  <object id="23" gid="149" x="1081" y="789" width="122" height="142"/>
  </objectgroup>
  <objectgroup id="10" name="buildings">
-  <object id="24" gid="258" x="1142.68" y="858.116" width="122" height="142">
+  <object id="24" gid="258" x="1203.68" y="788.116" width="122" height="142">
    <properties>
     <property name="type" value="house"/>
    </properties>
   </object>
-  <object id="25" gid="258" x="900" y="962" width="122" height="142">
+  <object id="25" gid="258" x="897.763" y="889.568" width="122" height="142">
    <properties>
     <property name="type" value="house"/>
    </properties>
@@ -75,94 +76,89 @@
     <property name="type" value="fossil"/>
    </properties>
   </object>
-  <object id="29" gid="72" x="1978.62" y="1070.55" width="122" height="142">
+  <object id="29" gid="72" x="2220" y="1031" width="122" height="142">
    <properties>
     <property name="type" value="windmill"/>
    </properties>
   </object>
-  <object id="31" gid="72" x="1859.8" y="1068.3" width="122" height="142">
+  <object id="31" gid="72" x="2100" y="1031" width="122" height="142">
    <properties>
     <property name="type" value="windmill"/>
    </properties>
   </object>
-  <object id="32" gid="72" x="2040.22" y="964.498" width="122" height="142">
+  <object id="32" gid="72" x="2160" y="928" width="122" height="142">
    <properties>
     <property name="type" value="windmill"/>
    </properties>
   </object>
-  <object id="33" gid="72" x="1920.32" y="964.283" width="122" height="142">
+  <object id="33" gid="72" x="2040" y="928" width="122" height="142">
    <properties>
     <property name="type" value="windmill"/>
    </properties>
   </object>
-  <object id="36" gid="102" x="897.972" y="1479.8" width="122" height="142">
+  <object id="36" gid="102" x="958.972" y="1342.8" width="122" height="142">
    <properties>
     <property name="type" value="waste_incineration"/>
    </properties>
   </object>
-  <object id="42" gid="102" x="838.5" y="1582.69" width="122" height="142">
+  <object id="42" gid="102" x="899.5" y="1445.69" width="122" height="142">
    <properties>
     <property name="type" value="waste_incineration"/>
    </properties>
   </object>
-  <object id="43" gid="102" x="1019.02" y="1482.32" width="122" height="142">
+  <object id="43" gid="102" x="1080.02" y="1345.32" width="122" height="142">
    <properties>
     <property name="type" value="waste_incineration"/>
    </properties>
   </object>
-  <object id="44" gid="102" x="958.855" y="1582.93" width="122" height="142">
+  <object id="44" gid="102" x="1019.86" y="1445.93" width="122" height="142">
    <properties>
     <property name="type" value="waste_incineration"/>
    </properties>
   </object>
-  <object id="45" gid="102" x="1079.85" y="1582.93" width="122" height="142">
+  <object id="45" gid="102" x="1140.85" y="1445.93" width="122" height="142">
    <properties>
     <property name="type" value="waste_incineration"/>
    </properties>
   </object>
-  <object id="46" gid="41" x="1619.36" y="1684.41" width="122" height="142">
+  <object id="46" gid="41" x="1680" y="1545" width="122" height="142">
    <properties>
     <property name="type" value="plastic"/>
    </properties>
   </object>
-  <object id="47" gid="41" x="1739.82" y="1683.91" width="122" height="142">
+  <object id="47" gid="41" x="1800" y="1546" width="122" height="142">
    <properties>
     <property name="type" value="plastic"/>
    </properties>
   </object>
-  <object id="48" gid="41" x="1499.82" y="1684.91" width="122" height="142">
+  <object id="48" gid="41" x="1560" y="1546" width="122" height="142">
    <properties>
     <property name="type" value="plastic"/>
    </properties>
   </object>
-  <object id="49" gid="41" x="1678.82" y="1787.91" width="122" height="142">
+  <object id="49" gid="41" x="1740" y="1649" width="122" height="142">
    <properties>
     <property name="type" value="plastic"/>
    </properties>
   </object>
-  <object id="50" gid="41" x="1678.82" y="1581.91" width="122" height="142">
+  <object id="50" gid="41" x="1740" y="1443" width="122" height="142">
    <properties>
     <property name="type" value="plastic"/>
    </properties>
   </object>
-  <object id="52" gid="265" x="480" y="1134" width="122" height="142">
+  <object id="65" gid="21" x="1380" y="206" width="122" height="142">
    <properties>
-    <property name="type" value="fossil"/>
+    <property name="type" value="windmill"/>
    </properties>
   </object>
-  <object id="55" gid="265" x="420" y="1030" width="122" height="142">
+  <object id="72" gid="21" x="1500" y="207" width="122" height="142">
    <properties>
-    <property name="type" value="fossil"/>
+    <property name="type" value="windmill"/>
    </properties>
   </object>
-  <object id="56" gid="265" x="540" y="1031" width="122" height="142">
+  <object id="73" gid="21" x="1260" y="207" width="122" height="142">
    <properties>
-    <property name="type" value="fossil"/>
-   </properties>
-  </object>
-  <object id="57" gid="265" x="480" y="927" width="122" height="142">
-   <properties>
-    <property name="type" value="fossil"/>
+    <property name="type" value="windmill"/>
    </properties>
   </object>
  </objectgroup>

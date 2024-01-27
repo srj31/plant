@@ -49,48 +49,33 @@ class Structure extends SpriteComponent
   }
 
   factory Structure.factory(flame_tiled.TiledObject building) {
+    final (x, y) = (building.x, building.y + 142 / 2);
     switch (building.properties["type"]?.value) {
       case "fossil":
         return FossilFuel(
-            position: Vector2(building.x, building.y),
-            priority: 1,
-            anchor: Anchor.topLeft);
+            position: Vector2(x, y), priority: 1, anchor: Anchor.topCenter);
 
       case "plastic":
         return PlasticPlants(
-            position: Vector2(building.x, building.y),
-            priority: 1,
-            anchor: Anchor.topLeft);
+            position: Vector2(x, y), priority: 1, anchor: Anchor.topCenter);
       case "waste_incineration":
         return WasteIncineration(
-            position: Vector2(building.x, building.y),
-            priority: 1,
-            anchor: Anchor.topLeft);
+            position: Vector2(x, y), priority: 1, anchor: Anchor.topCenter);
       case "ev_factory":
         return EvFactory(
-            position: Vector2(building.x, building.y),
-            priority: 1,
-            anchor: Anchor.topLeft);
+            position: Vector2(x, y), priority: 1, anchor: Anchor.topCenter);
       case "green_hydrogen":
         return GreenHydrogen(
-            position: Vector2(building.x, building.y),
-            priority: 1,
-            anchor: Anchor.topLeft);
+            position: Vector2(x, y), priority: 1, anchor: Anchor.topCenter);
       case "recycling_factory":
         return RecyclingFactory(
-            position: Vector2(building.x, building.y),
-            priority: 1,
-            anchor: Anchor.topLeft);
+            position: Vector2(x, y), priority: 1, anchor: Anchor.topCenter);
       case "windmill":
         return WindMill(
-            position: Vector2(building.x, building.y),
-            priority: 1,
-            anchor: Anchor.topLeft);
+            position: Vector2(x, y), priority: 1, anchor: Anchor.center);
       case "house":
         return EvFactory(
-            position: Vector2(building.x, building.y),
-            priority: 1,
-            anchor: Anchor.topLeft);
+            position: Vector2(x, y), priority: 1, anchor: Anchor.topCenter);
 
       default:
         return throw Exception("Unknown type ${building.properties["type"]}");

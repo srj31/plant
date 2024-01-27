@@ -132,7 +132,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
     for (final tree in trees.objects) {
       populateTrees(Afforestation(
-          position: Vector2(tree.x, tree.y),
+          position: Vector2(tree.x, tree.y + tree.height / 2),
           priority: 1,
           anchor: Anchor.topLeft));
     }
@@ -151,7 +151,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       capital = math.max(0, capital + deltaCapital);
       morale = math.max(0, morale + deltaMorale);
       if (health <= 0) {
-        overlays.add(GameOverMenu.id);
+        // overlays.add(GameOverMenu.id);
         hasTimerStarted = false;
       }
     }, repeat: true);
