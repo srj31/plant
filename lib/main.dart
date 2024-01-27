@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
     ]);
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        title: 'Simple Platformer',
+        title: 'Our Game',
         theme: ThemeData.dark(),
         home: const MainMenu());
   }
@@ -53,7 +53,7 @@ class OtherScreen extends StatelessWidget {
               SpecializationMenu(game: game),
           GameOverMenu.id: (context, game) => GameOverMenu(game: game),
         },
-        initialActiveOverlays: const [GameOverMenu.id],
+        initialActiveOverlays: const [SpecializationMenu.id],
       ),
     );
   }

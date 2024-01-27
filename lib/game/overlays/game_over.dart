@@ -18,12 +18,29 @@ class GameOverMenu extends StatelessWidget {
             children: [
               // Pause menu title.
               const Padding(
-                padding: EdgeInsets.symmetric(vertical: 50.0),
+                padding: EdgeInsets.only(bottom: 10.0),
                 child: Text(
                   'Game Over',
                   style: TextStyle(
                     fontSize: 50.0,
                     color: Colors.black87,
+                    shadows: [
+                      Shadow(
+                        blurRadius: 20.0,
+                        color: Colors.grey,
+                        offset: Offset(0, 0),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(bottom: 10.0),
+                child: Text(
+                  'You could not save us all...',
+                  style: TextStyle(
+                    fontSize: 25.0,
+                    color: Colors.white70,
                     shadows: [
                       Shadow(
                         blurRadius: 20.0,

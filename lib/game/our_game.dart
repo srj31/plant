@@ -6,8 +6,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
-import 'package:game_name/game/non_green/fossil_fuel.dart';
 import 'package:game_name/game/overlays/build.dart';
+import 'package:game_name/game/overlays/game_over.dart';
 import 'package:game_name/game/overlays/non_green.dart';
 import 'package:game_name/game/overlays/policies.dart';
 import 'package:game_name/game/overlays/research.dart';
@@ -15,9 +15,6 @@ import 'package:game_name/game/policies/afforestation.dart';
 import 'package:game_name/game/policies/policy.dart';
 import 'package:game_name/game/specializations/specialization.dart';
 import 'package:game_name/game/state/default.dart';
-import 'package:game_name/game/structures/ev_factory.dart';
-import 'package:game_name/game/structures/green_hydrogen.dart';
-import 'package:game_name/game/structures/recycling_factory.dart';
 import 'package:game_name/game/structures/structures.dart';
 import 'overlays/hud.dart';
 import 'tile_info.dart';
@@ -66,7 +63,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   static const double _minZoom = 0.3;
   static const double _maxZoom = 2.0;
   double _startZoom = _minZoom;
-  double health = 20;
+  double health = 2;
   double morale = 75;
   double carbonEmission = 20;
   double resources = 10000;
@@ -141,11 +138,11 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     }
 
     for (final building in buildings.objects) {
-        final structure = Structure.factory(building);
-        addBuiltItem(structure);
+      final structure = Structure.factory(building);
+      addBuiltItem(structure);
     }
 
-    interval = Timer(1, onTick: () {
+    interval = Timer(2, onTick: () {
       elapsedSecs += 1;
       health = math.max(0, health + deltaHealth);
       energy = math.max(0, energy + deltaEnergy);
@@ -153,6 +150,10 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       resources = math.max(0, resources + deltaResources);
       capital = math.max(0, capital + deltaCapital);
       morale = math.max(0, morale + deltaMorale);
+      if (health <= 0) {
+        overlays.add(GameOverMenu.id);
+        hasTimerStarted = false;
+      }
     }, repeat: true);
 
     camera.viewport.add(buildComponent);
