@@ -4,6 +4,7 @@ import 'package:flame/game.dart';
 import 'package:flutter/services.dart';
 import 'package:game_name/game/main_menu.dart';
 import 'package:game_name/game/overlays/build.dart';
+import 'package:game_name/game/overlays/game_over.dart';
 import 'package:game_name/game/overlays/non_green.dart';
 import 'package:game_name/game/overlays/policies.dart';
 import 'package:game_name/game/overlays/research.dart';
@@ -50,8 +51,9 @@ class OtherScreen extends StatelessWidget {
           NonGreenMenu.id: (context, game) => NonGreenMenu(game: game),
           SpecializationMenu.id: (context, game) =>
               SpecializationMenu(game: game),
+          GameOverMenu.id: (context, game) => GameOverMenu(game: game),
         },
-        initialActiveOverlays: const [SpecializationMenu.id],
+        initialActiveOverlays: const [GameOverMenu.id],
       ),
     );
   }

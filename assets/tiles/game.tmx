@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.5" orientation="hexagonal" renderorder="right-down" width="40" height="25" tilewidth="120" tileheight="139" infinite="0" hexsidelength="69" staggeraxis="y" staggerindex="odd" backgroundcolor="#49a6ac" nextlayerid="11" nextobjectid="51">
- <tileset firstgid="1" name="hexagonAll_sheet" tilewidth="122" tileheight="142" tilecount="224" columns="16">
+<map version="1.8" tiledversion="1.8.5" orientation="hexagonal" renderorder="right-down" width="40" height="25" tilewidth="120" tileheight="139" infinite="0" hexsidelength="69" staggeraxis="y" staggerindex="odd" backgroundcolor="#49a6ac" nextlayerid="11" nextobjectid="58">
+ <tileset firstgid="1" name="hexagonAll_sheet" tilewidth="122" tileheight="142" tilecount="224" columns="16" objectalignment="top">
   <image source="hexagonAll_sheet.png" width="2048" height="2048"/>
  </tileset>
- <tileset firstgid="225" name="hexagonBuildings_sheet" tilewidth="122" tileheight="142" tilecount="112" columns="8">
+ <tileset firstgid="225" name="hexagonBuildings_sheet" tilewidth="122" tileheight="142" tilecount="112" columns="8" objectalignment="top">
   <image source="hexagonBuildings_sheet.png" width="1024" height="2048"/>
  </tileset>
  <layer id="2" name="Map" width="40" height="25">
@@ -21,7 +21,7 @@
 0,0,0,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,22,22,22,22,22,22,22,22,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,22,22,22,22,22,22,22,22,22,6,6,87,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,22,22,22,22,22,22,22,22,22,6,6,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,22,22,22,22,22,22,22,6,6,22,151,87,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,22,22,22,22,22,22,6,22,22,22,151,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,22,22,22,22,22,87,151,151,22,6,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -70,17 +70,7 @@
     <property name="type" value="house"/>
    </properties>
   </object>
-  <object id="26" gid="265" x="479" y="962" width="122" height="142">
-   <properties>
-    <property name="type" value="fossil"/>
-   </properties>
-  </object>
-  <object id="27" gid="265" x="598.473" y="962.381" width="122" height="142">
-   <properties>
-    <property name="type" value="fossil"/>
-   </properties>
-  </object>
-  <object id="28" gid="265" x="419.473" y="1065.38" width="122" height="142">
+  <object id="28" gid="265" x="419.473" y="1065.38" width="122" height="142" visible="0">
    <properties>
     <property name="type" value="fossil"/>
    </properties>
@@ -153,6 +143,26 @@
   <object id="50" gid="41" x="1678.82" y="1581.91" width="122" height="142">
    <properties>
     <property name="type" value="plastic"/>
+   </properties>
+  </object>
+  <object id="52" gid="265" x="480" y="1134" width="122" height="142">
+   <properties>
+    <property name="type" value="fossil"/>
+   </properties>
+  </object>
+  <object id="55" gid="265" x="420" y="1030" width="122" height="142">
+   <properties>
+    <property name="type" value="fossil"/>
+   </properties>
+  </object>
+  <object id="56" gid="265" x="540" y="1031" width="122" height="142">
+   <properties>
+    <property name="type" value="fossil"/>
+   </properties>
+  </object>
+  <object id="57" gid="265" x="480" y="927" width="122" height="142">
+   <properties>
+    <property name="type" value="fossil"/>
    </properties>
   </object>
  </objectgroup>
