@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flame/game.dart';
 import 'package:flutter/services.dart';
-import 'package:game_name/game/main_menu.dart';
 import 'package:game_name/game/overlays/build.dart';
 import 'package:game_name/game/overlays/game_over.dart';
 import 'package:game_name/game/overlays/next_level.dart';
