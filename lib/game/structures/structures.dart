@@ -49,33 +49,33 @@ class Structure extends SpriteComponent
   }
 
   factory Structure.factory(flame_tiled.TiledObject building) {
-    final (x, y) = (building.x, building.y + 142 / 2);
+    final (x, y) = (building.x, building.y + building.height * 0.63);
     switch (building.properties["type"]?.value) {
       case "fossil":
         return FossilFuel(
-            position: Vector2(x, y), priority: 1, anchor: Anchor.topCenter);
+            position: Vector2(x, y), priority: 1, anchor: Anchor.center);
 
       case "plastic":
         return PlasticPlants(
-            position: Vector2(x, y), priority: 1, anchor: Anchor.topCenter);
+            position: Vector2(x, y), priority: 1, anchor: Anchor.center);
       case "waste_incineration":
         return WasteIncineration(
-            position: Vector2(x, y), priority: 1, anchor: Anchor.topCenter);
+            position: Vector2(x, y), priority: 1, anchor: Anchor.center);
       case "ev_factory":
         return EvFactory(
-            position: Vector2(x, y), priority: 1, anchor: Anchor.topCenter);
+            position: Vector2(x, y), priority: 1, anchor: Anchor.center);
       case "green_hydrogen":
         return GreenHydrogen(
-            position: Vector2(x, y), priority: 1, anchor: Anchor.topCenter);
+            position: Vector2(x, y), priority: 1, anchor: Anchor.center);
       case "recycling_factory":
         return RecyclingFactory(
-            position: Vector2(x, y), priority: 1, anchor: Anchor.topCenter);
+            position: Vector2(x, y), priority: 1, anchor: Anchor.center);
       case "windmill":
         return WindMill(
             position: Vector2(x, y), priority: 1, anchor: Anchor.center);
       case "house":
         return EvFactory(
-            position: Vector2(x, y), priority: 1, anchor: Anchor.topCenter);
+            position: Vector2(x, y), priority: 1, anchor: Anchor.center);
 
       default:
         return throw Exception("Unknown type ${building.properties["type"]}");

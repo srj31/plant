@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame/experimental.dart';
 import 'package:flutter/material.dart';
 import 'package:game_name/game/our_game.dart';
 import 'package:game_name/game/specializations/policy.dart';
@@ -57,12 +58,12 @@ class SpecializationMenu extends StatelessWidget {
 
 class ElevatedCard extends StatelessWidget {
   const ElevatedCard(this.game, this.size, this.specialization,
-      this.spriteImage, this.heading, this.advantages, this.disadvantages);
+      this.spriteImage, this.heading, this.advantages, this.description);
   final OurGame game;
   final String heading;
   final String advantages;
   final Specialization specialization;
-  final String disadvantages;
+  final String description;
 
   final Vector2 size;
   final Sprite spriteImage;
@@ -81,7 +82,8 @@ class ElevatedCard extends StatelessWidget {
                   color: Colors.green,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
-                    side: const BorderSide(color: Colors.green, width: 5),
+                    side:
+                        const BorderSide(color: Colors.orangeAccent, width: 5),
                   ),
                   elevation: 10,
                   child: SizedBox(
@@ -91,57 +93,257 @@ class ElevatedCard extends StatelessWidget {
                 )),
                 Positioned(
                     top: -10,
-                    left: 5,
+                    left: size.x * 0.1,
                     child: Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: Container(
-                          width: size.x,
-                          height: size.y * 0.4,
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(15.0),
-                              color: Colors.lightGreen,
-                              boxShadow: const [
-                                BoxShadow(
-                                  color: Colors.green,
-                                )
-                              ]),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: RawImage(
-                              image: spriteImage.toImageSync(),
-                              fit: BoxFit.fitHeight,
-                            ),
-                          )),
-                    )),
+                        elevation: 10,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Stack(clipBehavior: Clip.none, children: [
+                              Container(
+                                  width: size.x * 0.8,
+                                  height: size.y * 0.5,
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.0),
+                                      color: Colors.lightGreen,
+                                      boxShadow: const [
+                                        BoxShadow(
+                                          color: Colors.green,
+                                        )
+                                      ]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(10.0),
+                                    child: RawImage(
+                                      image: spriteImage.toImageSync(),
+                                      fit: BoxFit.contain,
+                                    ),
+                                  )),
+                              Positioned(
+                                  top: size.y * 0.1,
+                                  left: -size.x * 0.05,
+                                  child: Column(
+                                    children: [
+                                      Stack(clipBehavior: Clip.none, children: [
+                                        SizedBox(
+                                            width: size.x * 0.2,
+                                            height: size.y * 0.1,
+                                            child: const Card(
+                                              color: Colors.lightGreenAccent,
+                                            )),
+                                        Positioned(
+                                            top: size.y * 0.01,
+                                            left: size.x * 0.02,
+                                            child: RawImage(
+                                                image: game.moraleSprite
+                                                    .toImageSync())),
+                                        Positioned(
+                                          bottom: size.y * 0.02,
+                                          right: 0,
+                                          child: Text(
+                                            'x${specialization.factorMorale.toStringAsFixed(2)}',
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10),
+                                          ),
+                                        ),
+                                      ]),
+                                      Stack(children: [
+                                        SizedBox(
+                                            width: size.x * 0.2,
+                                            height: size.y * 0.1,
+                                            child: const Card(
+                                              color: Colors.lightGreenAccent,
+                                            )),
+                                        Positioned(
+                                            top: size.y * 0.01,
+                                            left: size.x * 0.02,
+                                            child: RawImage(
+                                                image: game.carbonEmissionSprite
+                                                    .toImageSync())),
+                                        Positioned(
+                                            bottom: size.y * 0.02,
+                                            right: size.x * 0.02,
+                                            child: Text(
+                                              "x${specialization.factorCarbon.toStringAsFixed(2)}",
+                                              style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 10),
+                                            )),
+                                      ]),
+                                      Stack(children: [
+                                        SizedBox(
+                                            width: size.x * 0.2,
+                                            height: size.y * 0.1,
+                                            child: const Card(
+                                              color: Colors.lightGreenAccent,
+                                            )),
+                                        Positioned(
+                                            top: size.y * 0.01,
+                                            left: 0,
+                                            child: RawImage(
+                                                image: game.resourcesSprite
+                                                    .toImageSync())),
+                                        Positioned(
+                                            bottom: size.y * 0.02,
+                                            right: size.x * 0.02,
+                                            child: Text(
+                                              "x${specialization.factorCarbon.toStringAsFixed(2)}",
+                                              style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 10),
+                                            )),
+                                      ]),
+                                    ],
+                                  )),
+                              Positioned(
+                                  top: size.y * 0.15,
+                                  right: -size.x * 0.05,
+                                  child: Column(
+                                    children: [
+                                      Stack(children: [
+                                        SizedBox(
+                                            width: size.x * 0.2,
+                                            height: size.y * 0.1,
+                                            child: const Card(
+                                              color: Colors.lightGreenAccent,
+                                            )),
+                                        Positioned(
+                                            top: size.y * 0.01,
+                                            left: 0,
+                                            child: RawImage(
+                                                image: game.energySprite
+                                                    .toImageSync())),
+                                        Positioned(
+                                            bottom: size.y * 0.02,
+                                            right: size.x * 0.02,
+                                            child: Text(
+                                              "x${specialization.factorEnergy.toStringAsFixed(2)}",
+                                              style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 10),
+                                            )),
+                                      ]),
+                                      Stack(children: [
+                                        SizedBox(
+                                            width: size.x * 0.2,
+                                            height: size.y * 0.1,
+                                            child: const Card(
+                                              color: Colors.lightGreenAccent,
+                                            )),
+                                        Positioned(
+                                            top: size.y * 0.01,
+                                            left: 0,
+                                            child: RawImage(
+                                                image: game.capitalSprite
+                                                    .toImageSync())),
+                                        Positioned(
+                                            bottom: size.y * 0.02,
+                                            right: size.x * 0.02,
+                                            child: Text(
+                                              "x${specialization.factorCapital.toStringAsFixed(2)}",
+                                              style: const TextStyle(
+                                                  color: Colors.black,
+                                                  fontSize: 10),
+                                            )),
+                                      ]),
+                                    ],
+                                  ))
+                            ])
+                          ],
+                        ))),
                 Positioned(
-                  top: size.y * 0.4,
+                  top: size.y * 0.5,
                   right: 0,
                   width: size.x,
-                  height: size.y * 0.6,
+                  height: size.y * 0.5,
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(heading,
-                            style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87)),
-                        Text(advantages,
-                            style: const TextStyle(
-                                fontSize: 12, color: Colors.black54)),
-                        Text(disadvantages,
-                            style: const TextStyle(fontSize: 12)),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Stack(
+                                  children: [
+                                    SizedBox(
+                                        width: size.x *
+                                            0.2 *
+                                            specialization.factorTechTime,
+                                        height: size.y * 0.05,
+                                        child: const Card(
+                                          color: Colors.lightGreenAccent,
+                                        )),
+                                  ],
+                                ),
+                                SizedBox(
+                                    width: size.x *
+                                        0.2 *
+                                        specialization.factorPolicyTime,
+                                    height: size.y * 0.05,
+                                    child: const Card(
+                                      color: Colors.lightGreenAccent,
+                                    )),
+                                SizedBox(
+                                    width: size.x *
+                                        0.2 *
+                                        specialization.factorResearchTime,
+                                    height: size.y * 0.05,
+                                    child: const Card(
+                                      color: Colors.lightGreenAccent,
+                                    )),
+                              ],
+                            ),
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Stack(
+                                  children: [
+                                    SizedBox(
+                                        width: size.x *
+                                            0.2 *
+                                            specialization.factorTechCost,
+                                        height: size.y * 0.05,
+                                        child: const Card(
+                                          color: Colors.lightGreenAccent,
+                                        )),
+                                  ],
+                                ),
+                                SizedBox(
+                                    width: size.x *
+                                        0.2 *
+                                        specialization.factorPolicyCost,
+                                    height: size.y * 0.05,
+                                    child: const Card(
+                                      color: Colors.lightGreenAccent,
+                                    )),
+                                SizedBox(
+                                    width: size.x *
+                                        0.2 *
+                                        specialization.factorResearchCost,
+                                    height: size.y * 0.05,
+                                    child: const Card(
+                                      color: Colors.lightGreenAccent,
+                                    )),
+                              ],
+                            )
+                          ],
+                        ),
+                        const Divider(
+                          color: Colors.orangeAccent,
+                        ),
                         Container(
                             alignment: Alignment.center,
-                            margin: const EdgeInsets.only(top: 10),
                             child: SizedBox(
                                 height: 25,
                                 child: ElevatedButton(
                                     onPressed: () {
-                                        game.setSpecialization(specialization);
+                                      game.setSpecialization(specialization);
                                       game.hasTimerStarted = true;
                                       game.overlays
                                           .remove(SpecializationMenu.id);
@@ -152,9 +354,15 @@ class ElevatedCard extends StatelessWidget {
                                               Colors.white),
                                       backgroundColor:
                                           MaterialStateProperty.all(
-                                              Colors.green),
+                                              Colors.blue),
                                     ),
-                                    child: const Text("Choose"))))
+                                    child: const Text("Choose")))),
+                        const Divider(
+                          color: Colors.orangeAccent,
+                        ),
+                        Text(description,
+                            style: const TextStyle(
+                                fontSize: 11, color: Colors.black))
                       ]),
                 )
               ]),

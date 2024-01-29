@@ -8,9 +8,11 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:game_name/game/overlays/build.dart';
 import 'package:game_name/game/overlays/game_over.dart';
+import 'package:game_name/game/overlays/next_level.dart';
 import 'package:game_name/game/overlays/non_green.dart';
 import 'package:game_name/game/overlays/policies.dart';
 import 'package:game_name/game/overlays/research.dart';
+import 'package:game_name/game/overlays/specialization.dart';
 import 'package:game_name/game/policies/afforestation.dart';
 import 'package:game_name/game/policies/policy.dart';
 import 'package:game_name/game/specializations/specialization.dart';
@@ -70,14 +72,15 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   double energy = 70;
   double capital = 1000000;
 
-  double deltaHealth = -0.05;
+  double deltaHealth = 10.0;
   double deltaMorale = -0.5;
   double deltaCarbon = -0.5;
   double deltaResources = -0.5;
   double deltaEnergy = -0.5;
   double deltaCapital = -10;
 
-  final List<Structure> _builtItems = [];
+  List<Structure> _builtItems = [];
+  List<Policy> _trees = [];
 
   void addBuiltItem(Structure item) {
     world.add(item);
@@ -101,6 +104,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     deltaResources += item.deltaResources;
     deltaEnergy += item.deltaEnergy;
     deltaCapital += item.deltaCapital;
+
+    _trees.add(item);
   }
 
   @override
@@ -151,7 +156,11 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       capital = math.max(0, capital + deltaCapital);
       morale = math.max(0, morale + deltaMorale);
       if (health <= 0) {
-        // overlays.add(GameOverMenu.id);
+        overlays.add(GameOverMenu.id);
+        hasTimerStarted = false;
+      }
+      if (health >= 100) {
+        overlays.add(NextLevelMenu.id);
         hasTimerStarted = false;
       }
     }, repeat: true);
@@ -198,6 +207,32 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     if (hasTimerStarted) {
       interval.update(dt);
     }
+  }
+
+  void nextLevel() {
+    overlays.add(SpecializationMenu.id);
+    elapsedSecs = 0;
+    state = DefaultState();
+
+    hasTimerStarted = false;
+    _startZoom = _minZoom;
+    health = 2;
+    morale = 75;
+    carbonEmission = 20;
+    resources = 10000;
+    energy = 70;
+    capital = 1000000;
+
+    deltaHealth = 20;
+    deltaMorale = -0.5;
+    deltaCarbon = -0.5;
+    deltaResources = -0.5;
+    deltaEnergy = -0.5;
+    deltaCapital = -10;
+
+    world.removeAll(_builtItems);
+    world.removeAll(_trees);
+    _builtItems = [];
   }
 
   void setSpecialization(Specialization specialization) {
