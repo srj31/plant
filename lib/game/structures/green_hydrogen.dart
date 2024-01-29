@@ -17,13 +17,17 @@ class GreenHydrogen extends Structure {
             deltaEnergy: 0.1,
             deltaHealth: 0.1,
             deltaMorale: 0.1,
-            timeToBuild: 1000);
+            timeToBuild: 5);
 
   static const name = 'green_hydrogen';
-
+  
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    sprite = game.greenHydrogen;
+    sprites = {
+      BuildingState.start: game.evFactory,
+      BuildingState.done: game.greenHydrogen,
+    };
+    current = BuildingState.start;
   }
 }

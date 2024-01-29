@@ -17,13 +17,17 @@ class RecyclingFactory extends Structure {
             deltaEnergy: 0.1,
             deltaHealth: 0.1,
             deltaMorale: 0.1,
-            timeToBuild: 1000);
+            timeToBuild: 5);
 
   static const name = 'recycling_factory';
 
   @override
   Future<void> onLoad() async {
-    sprite = game.recyclingFactory;
     await super.onLoad();
+    sprites = {
+      BuildingState.start: game.evFactory,
+      BuildingState.done: game.recyclingFactory,
+    };
+    current = BuildingState.start;
   }
 }

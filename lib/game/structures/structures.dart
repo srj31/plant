@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame_tiled/flame_tiled.dart' as flame_tiled;
@@ -11,7 +13,13 @@ import 'package:game_name/game/structures/green_hydrogen.dart';
 import 'package:game_name/game/structures/recycling_factory.dart';
 import 'package:game_name/game/structures/windmill.dart';
 
-class Structure extends SpriteComponent
+enum BuildingState {
+  start,
+  building,
+  done,
+}
+
+class Structure extends SpriteGroupComponent<BuildingState>
     with TapCallbacks, HasGameReference<OurGame> {
   Structure({
     super.position,
@@ -29,7 +37,9 @@ class Structure extends SpriteComponent
     required this.deltaHealth,
     required this.deltaMorale,
     required this.timeToBuild,
-  });
+  }) {
+    timeLeft = timeToBuild;
+  }
 
   final double capital;
   final double resources;
@@ -41,11 +51,20 @@ class Structure extends SpriteComponent
   final double deltaHealth;
   final double deltaMorale;
   final double timeToBuild;
+  late double timeLeft;
 
   @override
   void onTapUp(TapUpEvent event) {
     game.selectedStructure = this;
     game.overlays.add(StructureInfo.id);
+  }
+
+  @override
+  void update(double dt) {
+    timeLeft = max(0, timeLeft - dt);
+    if (timeLeft == 0) {
+      current = BuildingState.done;
+    }
   }
 
   factory Structure.factory(flame_tiled.TiledObject building) {

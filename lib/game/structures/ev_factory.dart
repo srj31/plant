@@ -17,13 +17,17 @@ class EvFactory extends Structure {
             deltaEnergy: 0.005,
             deltaHealth: 0.002,
             deltaMorale: 0.1,
-            timeToBuild: 1000);
+            timeToBuild: 5);
 
   static const name = 'ev_factory';
 
   @override
   Future<void> onLoad() async {
-    sprite = game.evFactory;
+    sprites = {
+      BuildingState.start: game.evFactory,
+      BuildingState.done: game.evFactory,
+    };
+    current = BuildingState.start;
     await super.onLoad();
   }
 }

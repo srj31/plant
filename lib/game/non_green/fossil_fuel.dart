@@ -1,5 +1,6 @@
-
 import 'package:game_name/game/non_green/non_green.dart';
+import 'package:game_name/game/structures/structures.dart';
+
 class FossilFuel extends NonGreenStructure {
   FossilFuel(
       {super.position,
@@ -17,13 +18,17 @@ class FossilFuel extends NonGreenStructure {
             deltaEnergy: 0.1,
             deltaHealth: -0.01,
             deltaMorale: 0.1,
-            timeToBuild: 500);
+            timeToBuild: 5);
 
   static const name = 'fossil_fuel';
 
   @override
   Future<void> onLoad() async {
-    sprite = game.fossilFuel;
     await super.onLoad();
+    sprites = {
+      BuildingState.start: game.evFactory,
+      BuildingState.done: game.fossilFuel,
+    };
+    current = BuildingState.start;
   }
 }

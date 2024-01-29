@@ -144,7 +144,9 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
     for (final building in buildings.objects) {
       final structure = Structure.factory(building);
-      addBuiltItem(structure);
+      addBuiltItem(structure
+        ..current = BuildingState.done
+        ..timeLeft = 0);
     }
 
     interval = Timer(2, onTick: () {
@@ -233,6 +235,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     world.removeAll(_builtItems);
     world.removeAll(_trees);
     _builtItems = [];
+    _trees = [];
   }
 
   void setSpecialization(Specialization specialization) {

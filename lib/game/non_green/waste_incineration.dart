@@ -1,4 +1,5 @@
 import 'package:game_name/game/non_green/non_green.dart';
+import 'package:game_name/game/structures/structures.dart';
 
 class WasteIncineration extends NonGreenStructure {
   WasteIncineration(
@@ -17,13 +18,17 @@ class WasteIncineration extends NonGreenStructure {
             deltaEnergy: -0.1,
             deltaHealth: -0.1,
             deltaMorale: 0.1,
-            timeToBuild: 500);
+            timeToBuild: 5);
 
   static const name = 'waste_incineration';
 
   @override
   Future<void> onLoad() async {
-    sprite = game.wasteIncineration;
     await super.onLoad();
+    sprites = {
+      BuildingState.start: game.evFactory,
+      BuildingState.done: game.wasteIncineration,
+    };
+    current = BuildingState.start;
   }
 }

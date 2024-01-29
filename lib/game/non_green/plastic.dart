@@ -1,4 +1,5 @@
 import 'package:game_name/game/non_green/non_green.dart';
+import 'package:game_name/game/structures/structures.dart';
 
 class PlasticPlants extends NonGreenStructure {
   PlasticPlants(
@@ -17,13 +18,17 @@ class PlasticPlants extends NonGreenStructure {
             deltaEnergy: -0.05,
             deltaHealth: -0.1,
             deltaMorale: 0.1,
-            timeToBuild: 500);
+            timeToBuild: 5);
 
   static const name = 'plastic_plants';
 
   @override
   Future<void> onLoad() async {
-    sprite = game.plastic;
     await super.onLoad();
+    sprites = {
+      BuildingState.start: game.evFactory,
+      BuildingState.done: game.plastic,
+    };
+    current = BuildingState.start;
   }
 }

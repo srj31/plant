@@ -17,13 +17,17 @@ class WindMill extends Structure {
             deltaEnergy: 0.1,
             deltaHealth: 0.005,
             deltaMorale: 0.1,
-            timeToBuild: 1000);
+            timeToBuild: 2);
 
   static const name = 'windmill';
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    sprite = game.windmill;
+    sprites = {
+      BuildingState.start: game.evFactory,
+      BuildingState.done: game.windmill,
+    };
+    current = BuildingState.start;
   }
 }

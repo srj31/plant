@@ -17,13 +17,17 @@ class Deforrestation extends Structure {
             deltaEnergy: 0.1,
             deltaHealth: 0.1,
             deltaMorale: 0.1,
-            timeToBuild: 500);
+            timeToBuild: 6);
 
   static const name = 'deforrestation';
 
   @override
   Future<void> onLoad() async {
-    sprite = game.deforestation;
     await super.onLoad();
+    sprites = {
+      BuildingState.start: game.evFactory,
+      BuildingState.done: game.deforestation,
+    };
+    current = BuildingState.start;
   }
 }
