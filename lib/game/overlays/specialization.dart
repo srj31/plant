@@ -1,5 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:flame/experimental.dart';
 import 'package:flutter/material.dart';
 import 'package:game_name/game/our_game.dart';
 import 'package:game_name/game/specializations/policy.dart';

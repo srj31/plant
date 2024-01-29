@@ -1,13 +1,7 @@
 import 'package:game_name/game/specializations/specialization.dart';
 
 class ResearchSpecialization extends Specialization {
-  ResearchSpecialization(
-      {super.position,
-      super.size,
-      super.scale,
-      super.angle,
-      super.anchor,
-      super.priority})
+  ResearchSpecialization({super.priority})
       : super(
           factorCapital: 0.95,
           factorResources: 1.05,
@@ -24,7 +18,6 @@ class ResearchSpecialization extends Specialization {
   static const name = 'research_specialization';
   @override
   Future<void> onLoad() async {
-    sprite = game.researchSpecialization;
     await super.onLoad();
   }
 }

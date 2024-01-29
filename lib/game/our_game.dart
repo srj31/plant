@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:game_name/game/overlays/build.dart';
+import 'package:game_name/game/overlays/event.dart';
 import 'package:game_name/game/overlays/game_over.dart';
 import 'package:game_name/game/overlays/next_level.dart';
 import 'package:game_name/game/overlays/non_green.dart';
@@ -163,6 +164,11 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       }
       if (health >= 100) {
         overlays.add(NextLevelMenu.id);
+        hasTimerStarted = false;
+      }
+
+      if (elapsedSecs % 2 == 0) {
+        overlays.add(EventMenu.id);
         hasTimerStarted = false;
       }
     }, repeat: true);
