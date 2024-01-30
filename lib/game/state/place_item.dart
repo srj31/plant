@@ -18,7 +18,7 @@ class PlaceItemState extends AbstractState {
       ..position = Vector2(tappedCel.center.dx, tappedCel.center.dy)
       ..priority = 1;
 
-    game.addBuiltItem(spriteComponent);
+    game.addBuiltItem(item: spriteComponent);
 
     game.state = DefaultState();
   }

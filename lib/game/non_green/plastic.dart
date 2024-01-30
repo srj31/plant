@@ -14,7 +14,7 @@ class PlasticPlants extends NonGreenStructure {
             resources: 10,
             deltaCapital: 0.5,
             deltaResources: -0.1,
-            deltaCarbon: -0.1,
+            deltaCarbon: 0.1,
             deltaEnergy: -0.05,
             deltaHealth: -0.1,
             deltaMorale: 0.1,

@@ -11,9 +11,9 @@ class WindMill extends Structure {
       : super(
             capital: 2000,
             resources: 30,
-            deltaCapital: 0.05,
+            deltaCapital: -0.05,
             deltaResources: 0.1,
-            deltaCarbon: -0.3,
+            deltaCarbon: -0.1,
             deltaEnergy: 0.1,
             deltaHealth: 0.005,
             deltaMorale: 0.1,

@@ -14,7 +14,7 @@ class WasteIncineration extends NonGreenStructure {
             resources: 10,
             deltaCapital: 0.1,
             deltaResources: -0.1,
-            deltaCarbon: -0.1,
+            deltaCarbon: 0.1,
             deltaEnergy: -0.1,
             deltaHealth: -0.1,
             deltaMorale: 0.1,

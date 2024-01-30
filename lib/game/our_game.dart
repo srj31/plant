@@ -6,6 +6,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:game_name/game/event/earthquake.dart';
+import 'package:game_name/game/event/event.dart';
 import 'package:game_name/game/overlays/build.dart';
 import 'package:game_name/game/overlays/event.dart';
 import 'package:game_name/game/overlays/game_over.dart';
@@ -66,27 +68,30 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   static const double _minZoom = 0.3;
   static const double _maxZoom = 2.0;
   double _startZoom = _minZoom;
-  double health = 2;
+  double health = 40;
   double morale = 75;
   double carbonEmission = 20;
-  double resources = 10000;
+  double resources = 1000;
   double energy = 70;
-  double capital = 1000000;
+  double capital = 1000;
 
-  double deltaHealth = 10.0;
+  double deltaHealth = 0;
   double deltaMorale = -0.5;
   double deltaCarbon = -0.5;
   double deltaResources = -0.5;
   double deltaEnergy = -0.5;
-  double deltaCapital = -10;
+  double deltaCapital = -0.5;
 
-  List<Structure> _builtItems = [];
+  List<Structure> builtItems = [];
   List<Policy> _trees = [];
 
-  void addBuiltItem(Structure item) {
+  void addBuiltItem({required Structure item, bool isPreBuilt = false}) {
     world.add(item);
-    capital -= item.capital;
-    resources -= item.resources;
+    if (!isPreBuilt) {
+      capital -= item.capital;
+      resources -= item.resources;
+    }
+
     deltaHealth += item.deltaHealth;
     deltaMorale += item.deltaMorale;
     deltaCarbon += item.deltaCarbon;
@@ -94,10 +99,35 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     deltaEnergy += item.deltaEnergy;
     deltaCapital += item.deltaCapital;
 
-    _builtItems.add(item);
+    builtItems.add(item);
   }
 
-  void populateTrees(Policy item) {
+  void removeBuiltItem(int index) {
+    final item = builtItems[index];
+    deltaHealth += item.deltaHealth;
+    deltaMorale += item.deltaMorale;
+    deltaCarbon += item.deltaCarbon;
+    deltaResources += item.deltaResources;
+    deltaEnergy += item.deltaEnergy;
+    deltaCapital += item.deltaCapital;
+    print(item.deltaHealth);
+    world.remove(item);
+    builtItems.removeAt(index);
+  }
+
+  void populateTrees(Policy item) async {
+    // SpriteAnimationData data = SpriteAnimationData.sequenced(
+    //   amount: 2,
+    //   stepTime: 0.5,
+    //   textureSize: Vector2(120, 140),
+    // );
+    // var treeStartSpriteSheet =
+    //     await Flame.images.load("tree_start_spritesheet.png");
+    // final treeAnimation =
+    //     SpriteAnimationComponent.fromFrameData(treeStartSpriteSheet, data)
+    //       ..x = item.x
+    //       ..y = item.y
+    //       ..scale = Vector2(1.5, 1.5);
     world.add(item);
     deltaHealth += item.deltaHealth;
     deltaMorale += item.deltaMorale;
@@ -109,6 +139,10 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     _trees.add(item);
   }
 
+  void _calculateDeltaHealth() {
+    deltaHealth = -carbonEmission / 100;
+  }
+
   @override
   Color backgroundColor() =>
       const Color(0x00000000); // Must be transparent to show the background
@@ -117,6 +151,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   Future<void> onLoad() async {
     camera.viewfinder
       ..zoom = _startZoom
+      ..position = Vector2(size.x / 2, size.y / 2)
       ..anchor = Anchor.topLeft;
 
     mapComponent = await TiledComponent.load(
@@ -127,11 +162,11 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     await Flame.images.load("hexagonObjects_sheet.png");
     world.add(mapComponent);
 
-    initializeGame();
+    await initializeGame();
   }
 
-  void initializeGame() {
-    _loadSprites();
+  Future<void> initializeGame() async {
+    await _loadSprites();
 
     final trees = mapComponent.tileMap.getLayer<ObjectGroup>("trees")!;
     final buildings = mapComponent.tileMap.getLayer<ObjectGroup>("buildings")!;
@@ -140,17 +175,20 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       populateTrees(Afforestation(
           position: Vector2(tree.x, tree.y + tree.height / 2),
           priority: 1,
-          anchor: Anchor.topLeft));
+          anchor: Anchor.center));
     }
 
     for (final building in buildings.objects) {
       final structure = Structure.factory(building);
-      addBuiltItem(structure
-        ..current = BuildingState.done
-        ..timeLeft = 0);
+      addBuiltItem(
+          item: structure
+            ..current = BuildingState.done
+            ..timeLeft = 0,
+          isPreBuilt: true);
     }
 
     interval = Timer(2, onTick: () {
+      _calculateDeltaHealth();
       elapsedSecs += 1;
       health = math.max(0, health + deltaHealth);
       energy = math.max(0, energy + deltaEnergy);
@@ -238,9 +276,9 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     deltaEnergy = -0.5;
     deltaCapital = -10;
 
-    world.removeAll(_builtItems);
+    world.removeAll(builtItems);
     world.removeAll(_trees);
-    _builtItems = [];
+    builtItems = [];
     _trees = [];
   }
 
@@ -253,7 +291,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     morale *= specialization.factorMorale;
   }
 
-  void _loadSprites() {
+  Future<void> _loadSprites() async {
     capitalSprite = getObjectSprite(58, 488, 22, 20);
     carbonEmissionSprite = getObjectSprite(510, 485, 18, 24);
     energySprite = getObjectSprite(990, 64, 18, 28);
@@ -267,7 +305,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     greenHydrogen = getObjectSprite(600, 190, 56, 62);
     publicTransport = getObjectSprite(216, 0, 86, 94);
     carbonTax = getObjectSprite(970, 128, 18, 37);
-    afforestation = getObjectSprite(969, 343, 20, 46);
+
+    afforestation = Sprite(await Flame.images.load("grass_13.png"));
     globalTreaty = getObjectSprite(386, 75, 74, 70);
     carbonTechnology = getObjectSprite(908, 90, 30, 56);
     smartGrid = getObjectSprite(532, 0, 68, 98);

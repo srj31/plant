@@ -26,7 +26,7 @@ class EventMenu extends StatelessWidget {
                     ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.30, game.size.y * 0.80),
-                      Earthquake(),
+                      Earthquake(game: game),
                       game.technologySpecialization,
                       "Earthquake",
                       "Faster research and implementation of technological advancements.Reduced costs for technology-related upgrades",
@@ -34,7 +34,7 @@ class EventMenu extends StatelessWidget {
                     ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.30, game.size.y * 0.80),
-                      Flood(),
+                      Flood(game: game),
                       game.policySpecialization,
                       "Flood",
                       "Quicker rule changes and policy implementations. Higher starting Morale and easier to maintain",
@@ -42,7 +42,7 @@ class EventMenu extends StatelessWidget {
                     ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.30, game.size.y * 0.80),
-                      ForrestFire(),
+                      ForrestFire(game: game),
                       game.researchSpecialization,
                       "Forrest Fire",
                       "Faster progress in scientific advancements. Reduced costs for scientific research and development. ",
@@ -69,7 +69,9 @@ class ElevatedCard extends StatelessWidget {
     return Center(
         child: GestureDetector(
             onTap: () {
+              print("This started");
               game.hasTimerStarted = true;
+              gameEvent.handleEvent();
               game.overlays.remove(EventMenu.id);
             },
             child: Padding(
