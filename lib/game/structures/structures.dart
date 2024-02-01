@@ -4,6 +4,7 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame_tiled/flame_tiled.dart' as flame_tiled;
 import 'package:flutter/material.dart';
+import 'package:game_name/game/misc_structures/house.dart';
 import 'package:game_name/game/non_green/fossil_fuel.dart';
 import 'package:game_name/game/non_green/plastic.dart';
 import 'package:game_name/game/non_green/waste_incineration.dart';
@@ -68,7 +69,7 @@ class Structure extends SpriteGroupComponent<BuildingState>
   }
 
   factory Structure.factory(flame_tiled.TiledObject building) {
-    final (x, y) = (building.x, building.y + building.height * 0.63);
+    final (x, y) = (building.x, building.y + building.height * 0.6);
     switch (building.properties["type"]?.value) {
       case "fossil":
         return FossilFuel(
@@ -93,7 +94,7 @@ class Structure extends SpriteGroupComponent<BuildingState>
         return WindMill(
             position: Vector2(x, y), priority: 1, anchor: Anchor.center);
       case "house":
-        return EvFactory(
+        return House(
             position: Vector2(x, y), priority: 1, anchor: Anchor.center);
 
       default:
