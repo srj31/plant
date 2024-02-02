@@ -55,6 +55,9 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   late Sprite policySpecialization;
   late Sprite researchSpecialization;
 
+  late Sprite earthquake;
+  late Sprite forrestFire;
+
   late Specialization specialization;
 
   late Structure toAdd;
@@ -187,7 +190,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     camera.viewfinder
       ..zoom = _startZoom
       ..position = Vector2(0, 0)
-      ..anchor = Anchor.center;
+      ..anchor = Anchor.topLeft;
 
     mapComponent = await TiledComponent.load(
       'game.tmx',
@@ -346,25 +349,30 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     moraleSprite = getObjectSprite(944, 0, 22, 30);
 
     buildComponent = BuildComponent();
-    evFactory = getObjectSprite(120, 0, 94, 84);
-    windmill = getObjectSprite(712, 128, 52, 66);
-    recyclingFactory = getObjectSprite(532, 190, 66, 76);
-    greenHydrogen = getObjectSprite(600, 190, 56, 62);
+    evFactory = Sprite(await Flame.images.load("ev_factory.png"));
+    windmill = Sprite(await Flame.images.load("windmill.png"));
+    recyclingFactory = Sprite(await Flame.images.load("recycling_factory.png"));
+    greenHydrogen = Sprite(await Flame.images.load("green_hydrogen.png"));
+
     publicTransport = getObjectSprite(216, 0, 86, 94);
     carbonTax = getObjectSprite(970, 128, 18, 37);
-
     afforestation = Sprite(await Flame.images.load("grass_13.png"));
     globalTreaty = getObjectSprite(386, 75, 74, 70);
+
     carbonTechnology = getObjectSprite(908, 90, 30, 56);
     smartGrid = getObjectSprite(532, 0, 68, 98);
     biodegradable = getObjectSprite(601, 100, 56, 62);
     nanoTechnology = getObjectSprite(712, 433, 50, 50);
-    fossilFuel = getObjectSprite(864, 58, 42, 53);
+
+    fossilFuel = Sprite(await Flame.images.load("fossil.png"));
     deforestation = getObjectSprite(862, 248, 36, 32);
-    plastic = getObjectSprite(766, 0, 48, 48);
-    wasteIncineration = getObjectSprite(970, 128, 18, 37);
+    plastic = Sprite(await Flame.images.load("plastic.png"));
+    wasteIncineration = Sprite(await Flame.images.load("waste.png"));
 
     house = Sprite(await Flame.images.load("modern_villa.png"));
+
+    earthquake = Sprite(await Flame.images.load("earthquake.png"));
+    forrestFire = Sprite(await Flame.images.load("forrest_fire.png"));
 
     technologySpecialization = getObjectSprite(904, 437, 34, 41);
     policySpecialization = getObjectSprite(382, 319, 76, 76);
