@@ -55,9 +55,10 @@ class Structure extends SpriteGroupComponent<BuildingState>
   late double timeLeft;
 
   @override
-  void onTapUp(TapUpEvent event) {
+  void onLongTapDown(TapDownEvent event) {
     game.selectedStructure = this;
     game.overlays.add(StructureInfo.id);
+    super.onLongTapDown(event);
   }
 
   @override

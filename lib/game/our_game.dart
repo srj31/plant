@@ -18,6 +18,7 @@ import 'package:game_name/game/overlays/specialization.dart';
 import 'package:game_name/game/specializations/specialization.dart';
 import 'package:game_name/game/state/default.dart';
 import 'package:game_name/game/structures/structures.dart';
+import 'package:game_name/util/hex.dart';
 import 'overlays/hud.dart';
 import 'tile_info.dart';
 
@@ -59,6 +60,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   late Structure toAdd;
   late Timer interval;
   late Structure selectedStructure;
+
+  late List<List<Gid>> cachedTiledData;
 
   int elapsedSecs = 0;
   AbstractState state = DefaultState();
@@ -119,6 +122,34 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     trees.removeAt(index);
   }
 
+  List<List<bool>> getNonEmptyTiles() {
+    final tileSize = mapComponent.tileMap.destTileSize;
+    final rows = mapComponent.width;
+    final cols = mapComponent.height;
+    final grid = List<List<bool>>.generate(
+        rows.floor(),
+        (i) => List<bool>.generate(cols.floor(), (index) => false,
+            growable: false),
+        growable: false);
+
+    final size = Vector2(tileSize.x / math.sqrt(3), tileSize.y / 2);
+    final origin = Vector2(size.x * math.sqrt(3) / 2, size.y);
+    final Layout layout = Layout(layout_pointy, size, origin);
+    for (final item in builtItems) {
+      final pos = item.position;
+      final rowAndCol = pixelToOffset(layout, pos);
+      grid[rowAndCol.x.floor()][rowAndCol.y.floor()] = true;
+    }
+
+    for (final tree in trees) {
+      final pos = tree.position;
+      final rowAndCol = pixelToOffset(layout, pos);
+      grid[rowAndCol.x.floor()][rowAndCol.y.floor()] = true;
+    }
+
+    return grid;
+  }
+
   void populateTrees({required Tree tree, bool isPreBuilt = false}) async {
     // SpriteAnimationData data = SpriteAnimationData.sequenced(
     //   amount: 2,
@@ -155,8 +186,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   Future<void> onLoad() async {
     camera.viewfinder
       ..zoom = _startZoom
-      ..position = Vector2(size.x / 2, size.y / 2)
-      ..anchor = Anchor.topLeft;
+      ..position = Vector2(0, 0)
+      ..anchor = Anchor.center;
 
     mapComponent = await TiledComponent.load(
       'game.tmx',
@@ -165,12 +196,19 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
     await Flame.images.load("hexagonObjects_sheet.png");
     world.add(mapComponent);
-
     await initializeGame();
   }
 
   Future<void> initializeGame() async {
     await _loadSprites();
+    final tiledData =
+        mapComponent.tileMap.getLayer<TileLayer>("Map")!.tileData!;
+
+    cachedTiledData = List.generate(tiledData.length, (_) => []);
+
+    for (var i = 0; i < tiledData.length; i++) {
+      cachedTiledData[i] = [...tiledData[i]];
+    }
 
     final trees = mapComponent.tileMap.getLayer<ObjectGroup>("trees")!;
     final buildings = mapComponent.tileMap.getLayer<ObjectGroup>("buildings")!;
@@ -213,7 +251,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
         hasTimerStarted = false;
       }
 
-      if (elapsedSecs % 2 == 0) {
+      if (elapsedSecs % 1000 == 0) {
         overlays.add(EventMenu.id);
         hasTimerStarted = false;
       }
@@ -252,6 +290,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
   @override
   void onTapDown(TapDownEvent event) {
+    getTappedCell(event);
     state.handleTap(this, event);
   }
 
@@ -381,38 +420,20 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
   TileInfo getTappedCell(TapDownEvent event) {
     final clickOnMapPoint = camera.globalToLocal(event.localPosition);
-
-    final rows = mapComponent.tileMap.map.width;
-    final cols = mapComponent.tileMap.map.height;
-
     final tileSize = mapComponent.tileMap.destTileSize;
 
-    var targetRow = 0;
-    var targetCol = 0;
-    var minDistance = double.maxFinite;
-    var targetCenter = Offset.zero;
+    final size = Vector2(tileSize.x / math.sqrt(3), tileSize.y / 2);
+    final origin = Vector2(size.x * math.sqrt(3) / 2, size.y);
+    final Layout layout = Layout(layout_pointy, size, origin);
 
-    for (var row = 0; row < rows; row++) {
-      for (var col = 0; col < cols; col++) {
-        final xCenter = col * tileSize.x +
-            tileSize.x / 2 +
-            (row.isEven ? 0 : tileSize.x / 2);
-        final yCenter =
-            row * tileSize.y - (row * tileSize.y / 4) + tileSize.y / 2;
+    final rowAndCol = pixelToOffset(layout, clickOnMapPoint);
+    final targetHex = pixelToHex(layout, clickOnMapPoint);
+    final targetCenter = hexToPixel(layout, targetHex);
 
-        final distance = math.sqrt(math.pow(xCenter - clickOnMapPoint.x, 2) +
-            math.pow(yCenter - clickOnMapPoint.y, 2));
-
-        if (distance < minDistance) {
-          minDistance = distance;
-          targetRow = row;
-          targetCol = col;
-          targetCenter = Offset(xCenter, yCenter);
-        }
-      }
-    }
-
-    return TileInfo(center: targetCenter, row: targetRow, col: targetCol);
+    return TileInfo(
+        center: targetCenter,
+        row: rowAndCol.x.floor(),
+        col: rowAndCol.y.floor());
   }
 
   Sprite getObjectSprite(double x, double y, double width, double height) {

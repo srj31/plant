@@ -69,7 +69,6 @@ class ElevatedCard extends StatelessWidget {
     return Center(
         child: GestureDetector(
             onTap: () {
-              print("This started");
               game.hasTimerStarted = true;
               gameEvent.handleEvent();
               game.overlays.remove(EventMenu.id);

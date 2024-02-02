@@ -56,7 +56,7 @@ class OtherScreen extends StatelessWidget {
           NextLevelMenu.id: (context, game) => NextLevelMenu(game: game),
           EventMenu.id: (context, game) => EventMenu(game: game),
         },
-        initialActiveOverlays: const [EventMenu.id],
+        // initialActiveOverlays: const [EventMenu.id],
       ),
     );
   }

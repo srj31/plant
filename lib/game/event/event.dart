@@ -5,6 +5,5 @@ class GameEvent extends Component {
   GameEvent({required this.game, super.priority});
   OurGame game;
   void handleEvent() {
-    print("In Game Event ");
   }
 }

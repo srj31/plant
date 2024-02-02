@@ -167,7 +167,9 @@ class ElevatedCard extends StatelessWidget {
                                     child: ElevatedButton(
                                         onPressed: () {
                                           game.overlays.remove(BuildMenu.id);
-                                          game.state = PlaceItemState();
+                                          final newState = PlaceItemState();
+                                          newState.displayGrids(game);
+                                          game.state = newState;
                                           game.toAdd = structure;
                                         },
                                         style: ButtonStyle(
