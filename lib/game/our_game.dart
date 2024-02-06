@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:game_name/game/map_generation/map_generation.dart';
 import 'package:game_name/game/misc_structures/tree.dart';
 import 'package:game_name/game/overlays/build.dart';
 import 'package:game_name/game/overlays/event.dart';
@@ -72,6 +73,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   bool hasTimerStarted = false;
   static const double _minZoom = 0.3;
   static const double _maxZoom = 1.0;
+  final MapGenerator _mapGenerator =
+      MapGenerator(width: 25, height: 25, density: 0.6);
   double _startZoom = _minZoom;
   double health = 40;
   double morale = 75;
@@ -192,6 +195,14 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
   Future<void> initializeGame() async {
     await _loadSprites();
+    final generatedMap = _mapGenerator.generateMapWithGid();
+    for (var i = 0; i < generatedMap.length; i++) {
+      for (var j = 0; j < generatedMap[0].length; j++) {
+        mapComponent.tileMap
+            .setTileData(layerId: 0, x: j, y: i, gid: generatedMap[i][j]);
+      }
+    }
+
     final tiledData =
         mapComponent.tileMap.getLayer<TileLayer>("Map")!.tileData!;
 
