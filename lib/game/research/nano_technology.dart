@@ -1,4 +1,3 @@
-
 import 'package:game_name/game/research/researh.dart';
 
 class NanoTechnology extends Research {
@@ -10,15 +9,15 @@ class NanoTechnology extends Research {
       super.anchor,
       super.priority})
       : super(
-            capital: 1000,
+            capital: 300,
             resources: 20,
-            deltaCapital: 0.1,
+            deltaCapital: 1,
             deltaResources: 0.1,
-            deltaCarbon: -0.1,
-            deltaEnergy: 0.1,
-            deltaHealth: 0.1,
-            deltaMorale: 0.1,
-            timeToBuild: 1000);
+            deltaCarbon: 0.2,
+            deltaEnergy: -0.1,
+            deltaHealth: 0.05,
+            deltaMorale: 0.05,
+            timeToImplement: 3);
 
   static const name = 'nano_technology';
   @override

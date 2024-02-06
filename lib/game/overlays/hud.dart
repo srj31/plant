@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:flame/components.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../our_game.dart';
 import 'heart.dart';
@@ -29,7 +30,7 @@ class Hud extends PositionComponent with HasGameReference<OurGame> {
     double height = game.size.y - 50;
     const double sizeOfSpirte = 32;
 
-    Paint hudBackground = Paint()..color = const Color(0xFF000000);
+    Paint hudBackground = Paint()..color = const Color(0xFF444444);
     await add(RectangleComponent.fromRect(
       Rect.fromLTWH(0, game.size.y - 50, game.size.x, 50),
       paint: hudBackground,
@@ -69,19 +70,33 @@ class Hud extends PositionComponent with HasGameReference<OurGame> {
       size: Vector2.all(sizeOfSpirte),
     ));
 
+    final style = TextStyle(
+      fontSize: 15.0, // Change the font size here
+      fontStyle: GoogleFonts.raleway().fontStyle,
+    );
+    final regular = TextPaint(style: style);
+
     _healthTextComponent = addTextComponent(
-        '${game.health}', Vector2(sizeOfSpirte + 20, height + 15));
-    _moraleTextComponent = addTextComponent('${game.morale}',
-        Vector2(sizeOfSpirte + 20 + widthOfEach, height + 15));
+        '${game.health}', Vector2(sizeOfSpirte + 20, height + 15))
+      ..textRenderer = regular;
+
+    _moraleTextComponent = addTextComponent(
+        '${game.morale}', Vector2(sizeOfSpirte + 20 + widthOfEach, height + 15))
+      ..textRenderer = regular;
 
     _carbonEmissionTextComponent = addTextComponent('${game.carbonEmission}',
-        Vector2(sizeOfSpirte + 20 + 2 * widthOfEach, height + 15));
+        Vector2(sizeOfSpirte + 20 + 2 * widthOfEach, height + 15))
+      ..textRenderer = regular;
+
     _resourcesTextComponent = addTextComponent('${game.resources}',
-        Vector2(sizeOfSpirte + 20 + 3 * widthOfEach, height + 15));
+        Vector2(sizeOfSpirte + 20 + 3 * widthOfEach, height + 15))
+      ..textRenderer = regular;
     _energyTextComponent = addTextComponent('${game.energy}',
-        Vector2(sizeOfSpirte + 20 + 4 * widthOfEach, height + 15));
+        Vector2(sizeOfSpirte + 20 + 4 * widthOfEach, height + 15))
+      ..textRenderer = regular;
     _capitalTextComponent = addTextComponent('${game.capital}',
-        Vector2(sizeOfSpirte + 20 + 5 * widthOfEach, height + 15));
+        Vector2(sizeOfSpirte + 20 + 5 * widthOfEach, height + 15))
+      ..textRenderer = regular;
   }
 
   TextComponent addTextComponent(String text, Vector2 position) {

@@ -12,6 +12,7 @@ import 'package:game_name/game/overlays/research.dart';
 import 'package:game_name/game/overlays/specialization.dart';
 import 'package:game_name/game/splash_screen.dart';
 import 'package:game_name/game/structures/structures.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'game/our_game.dart';
 
@@ -22,6 +23,14 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  ThemeData _buildTheme(brightness) {
+    var baseTheme = ThemeData(brightness: brightness);
+
+    return baseTheme.copyWith(
+      textTheme: GoogleFonts.nunitoTextTheme(baseTheme.textTheme),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -31,7 +40,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Our Game',
-        theme: ThemeData.dark(),
+        theme: _buildTheme(Brightness.dark),
         home: const SplashScreenGame());
   }
 }
@@ -56,7 +65,7 @@ class OtherScreen extends StatelessWidget {
           NextLevelMenu.id: (context, game) => NextLevelMenu(game: game),
           EventMenu.id: (context, game) => EventMenu(game: game),
         },
-        initialActiveOverlays: const [EventMenu.id],
+        initialActiveOverlays: const [SpecializationMenu.id],
       ),
     );
   }

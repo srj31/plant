@@ -11,15 +11,15 @@ class House extends Structure {
       super.anchor,
       super.priority})
       : super(
-            capital: 1000,
-            resources: 20,
-            deltaCapital: 0.1,
-            deltaResources: 0.1,
-            deltaCarbon: -0.1,
-            deltaEnergy: 0.01,
-            deltaHealth: -0.002,
+            capital: 200,
+            resources: 50,
+            deltaCapital: 0.5,
+            deltaResources: -0.12,
+            deltaCarbon: -0.025,
+            deltaEnergy: -0.05,
+            deltaHealth: -0.01,
             deltaMorale: 0.1,
-            timeToBuild: 5);
+            timeToBuild: 2);
 
   final name = 'house';
   var showBubble = true;

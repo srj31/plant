@@ -9,15 +9,15 @@ class EvFactory extends Structure {
       super.anchor,
       super.priority})
       : super(
-            capital: 1000,
+            capital: 100,
             resources: 20,
-            deltaCapital: 0.1,
-            deltaResources: 0.1,
-            deltaCarbon: -0.1,
-            deltaEnergy: 0.005,
+            deltaCapital: 10,
+            deltaResources: 0.05,
+            deltaCarbon: 0.05,
+            deltaEnergy: 0.05,
             deltaHealth: 0.002,
-            deltaMorale: 0.1,
-            timeToBuild: 5);
+            deltaMorale: 0.2,
+            timeToBuild: 2);
 
   static const name = 'ev_factory';
 

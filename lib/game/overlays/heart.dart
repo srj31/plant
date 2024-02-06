@@ -1,3 +1,4 @@
+import 'package:flame/flame.dart';
 import 'package:game_name/game/our_game.dart';
 import 'package:flame/components.dart';
 
@@ -7,7 +8,7 @@ enum HeartState {
   dead,
 }
 
-class HeartHealthComponent extends SpriteGroupComponent<HeartState>
+class HeartHealthComponent extends SpriteAnimationGroupComponent<HeartState>
     with HasGameReference<OurGame> {
   HeartHealthComponent({
     required super.position,
@@ -21,21 +22,29 @@ class HeartHealthComponent extends SpriteGroupComponent<HeartState>
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    final healthySprite = await game.loadSprite(
-      'healthy_heart.png',
-      srcSize: Vector2.all(300),
+    SpriteAnimationData healthyData = SpriteAnimationData.sequenced(
+      amount: 5,
+      stepTime: 0.2,
+      textureSize: Vector2(32, 32),
+    );
+    SpriteAnimationData unhealthyData = SpriteAnimationData.sequenced(
+      amount: 5,
+      stepTime: 0.1,
+      textureSize: Vector2(32, 32),
     );
 
-    final unhealthySprite = await game.loadSprite(
-      'unhealthy_heart.png',
-      srcSize: Vector2.all(300),
-    );
-    final deadSprite = await game.loadSprite(
-      'dead_heart.png',
-      srcSize: Vector2.all(300),
-    );
+    final healthyHeartSheet = await Flame.images.load("healthy_heart.png");
+    final unhealthyHeartSheet = await Flame.images.load("unhealthy_heart.png");
 
-    sprites = {
+    final healthySprite =
+        SpriteAnimation.fromFrameData(healthyHeartSheet, healthyData);
+    final unhealthySprite =
+        SpriteAnimation.fromFrameData(unhealthyHeartSheet, unhealthyData);
+
+    final deadSprite =
+        SpriteAnimation.fromFrameData(unhealthyHeartSheet, unhealthyData);
+
+    animations = {
       HeartState.healthy: healthySprite,
       HeartState.unhealthy: unhealthySprite,
       HeartState.dead: deadSprite,

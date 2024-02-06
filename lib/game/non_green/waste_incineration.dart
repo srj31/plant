@@ -10,15 +10,15 @@ class WasteIncineration extends NonGreenStructure {
       super.anchor,
       super.priority})
       : super(
-            capital: 500,
+            capital: 200,
             resources: 10,
-            deltaCapital: 0.1,
+            deltaCapital: 2,
             deltaResources: -0.1,
-            deltaCarbon: 0.1,
-            deltaEnergy: -0.1,
+            deltaCarbon: -0.2,
+            deltaEnergy: 0.0,
             deltaHealth: -0.1,
-            deltaMorale: 0.1,
-            timeToBuild: 5);
+            deltaMorale: 0.05,
+            timeToBuild: 2);
 
   static const name = 'waste_incineration';
 

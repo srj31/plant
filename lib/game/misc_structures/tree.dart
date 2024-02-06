@@ -11,15 +11,15 @@ class Tree extends Structure {
       super.anchor,
       super.priority})
       : super(
-            capital: 1000,
+            capital: 100,
             resources: 20,
-            deltaCapital: 0.1,
+            deltaCapital: -0.5,
             deltaResources: 0.1,
-            deltaCarbon: -0.1,
-            deltaEnergy: 0.01,
-            deltaHealth: -0.002,
-            deltaMorale: 0.1,
-            timeToBuild: 5);
+            deltaCarbon: 0.05,
+            deltaEnergy: -0.01,
+            deltaHealth: 0.01,
+            deltaMorale: 0.0,
+            timeToBuild: 1);
 
   final name = 'tree';
   var showBubble = true;

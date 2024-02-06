@@ -10,15 +10,15 @@ class PlasticPlants extends NonGreenStructure {
       super.anchor,
       super.priority})
       : super(
-            capital: 500,
+            capital: 100,
             resources: 10,
-            deltaCapital: 0.5,
-            deltaResources: -0.1,
-            deltaCarbon: 0.1,
+            deltaCapital: 20,
+            deltaResources: -0.05,
+            deltaCarbon: -0.1,
             deltaEnergy: -0.05,
             deltaHealth: -0.1,
             deltaMorale: 0.1,
-            timeToBuild: 5);
+            timeToBuild: 2);
 
   static const name = 'plastic_plants';
 

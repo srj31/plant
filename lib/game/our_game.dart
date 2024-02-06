@@ -76,16 +76,16 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   double health = 40;
   double morale = 75;
   double carbonEmission = 20;
-  double resources = 1000;
+  double resources = 500;
   double energy = 70;
   double capital = 1000;
 
   double deltaHealth = 0;
-  double deltaMorale = -0.5;
-  double deltaCarbon = -0.5;
-  double deltaResources = -0.5;
-  double deltaEnergy = -0.5;
-  double deltaCapital = -0.5;
+  double deltaMorale = 0;
+  double deltaCarbon = 0;
+  double deltaResources = 0;
+  double deltaEnergy = 0;
+  double deltaCapital = 0;
 
   List<Structure> builtItems = [];
   List<Tree> trees = [];
@@ -154,18 +154,6 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   }
 
   void populateTrees({required Tree tree, bool isPreBuilt = false}) async {
-    // SpriteAnimationData data = SpriteAnimationData.sequenced(
-    //   amount: 2,
-    //   stepTime: 0.5,
-    //   textureSize: Vector2(120, 140),
-    // );
-    // var treeStartSpriteSheet =
-    //     await Flame.images.load("tree_start_spritesheet.png");
-    // final treeAnimation =
-    //     SpriteAnimationComponent.fromFrameData(treeStartSpriteSheet, data)
-    //       ..x = item.x
-    //       ..y = item.y
-    //       ..scale = Vector2(1.5, 1.5);
     world.add(tree);
     deltaHealth += tree.deltaHealth;
     deltaMorale += tree.deltaMorale;
@@ -239,7 +227,12 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     interval = Timer(2, onTick: () {
       _calculateDeltaHealth();
       elapsedSecs += 1;
-      health = math.max(0, health + deltaHealth);
+      health = math.max(
+          0,
+          health +
+              deltaHealth -
+              (1 - 0.01 * carbonEmission) -
+              (1 - 0.02 * resources));
       energy = math.max(0, energy + deltaEnergy);
       carbonEmission = math.max(0, carbonEmission + deltaCarbon);
       resources = math.max(0, resources + deltaResources);
@@ -313,11 +306,11 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     hasTimerStarted = false;
     _startZoom = _minZoom;
     health = 2;
-    morale = 75;
-    carbonEmission = 20;
-    resources = 10000;
-    energy = 70;
-    capital = 1000000;
+    morale = 30;
+    carbonEmission = 2;
+    resources = 100;
+    energy = 40;
+    capital = 1000;
 
     deltaHealth = 20;
     deltaMorale = -0.5;

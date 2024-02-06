@@ -1,4 +1,3 @@
-
 import 'package:game_name/game/policies/policy.dart';
 
 class GlobalTreaty extends Policy {
@@ -10,15 +9,15 @@ class GlobalTreaty extends Policy {
       super.anchor,
       super.priority})
       : super(
-            capital: 1000,
+            capital: 300,
             resources: 20,
-            deltaCapital: 0.1,
+            deltaCapital: 20,
             deltaResources: 0.1,
-            deltaCarbon: -0.1,
-            deltaEnergy: 0.1,
-            deltaHealth: 0.1,
-            deltaMorale: 0.1,
-            timeToBuild: 1000);
+            deltaCarbon: 0.0,
+            deltaEnergy: 0.0,
+            deltaHealth: 0.05,
+            deltaMorale: 0.2,
+            timeToPass: 2);
 
   static const name = 'global_treaty';
   @override

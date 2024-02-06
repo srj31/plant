@@ -9,18 +9,18 @@ class GreenHydrogen extends Structure {
       super.anchor,
       super.priority})
       : super(
-            capital: 2000,
-            resources: 30,
-            deltaCapital: 0.05,
-            deltaResources: 0.1,
-            deltaCarbon: -0.1,
-            deltaEnergy: 0.1,
+            capital: 1000,
+            resources: 50,
+            deltaCapital: -0.1,
+            deltaResources: 0.2,
+            deltaCarbon: 0.1,
+            deltaEnergy: -0.05,
             deltaHealth: 0.1,
             deltaMorale: 0.1,
-            timeToBuild: 5);
+            timeToBuild: 3);
 
   static const name = 'green_hydrogen';
-  
+
   @override
   Future<void> onLoad() async {
     await super.onLoad();
