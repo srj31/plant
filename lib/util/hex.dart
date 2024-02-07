@@ -62,7 +62,6 @@ Hex pixelToHex(Layout layout, Vector2 p) {
   double q = M.b0 * pt.x + M.b1 * pt.y;
   double r = M.b2 * pt.x + M.b3 * pt.y;
   final hex = hexRound(FractionalHex(q, r, -q - r));
-  final pixel = hexToPixel(layout, hex);
   return hex;
 }
 
@@ -96,18 +95,8 @@ axialToOddR(Hex hex) {
   return Vector2(row.floorToDouble(), col.floorToDouble());
 }
 
-Vector2 hex_corner_offset(Layout layout, int corner) {
-  Vector2 size = layout.size;
-  double angle = 2.0 * math.pi * (layout.orientation.start_angle + corner) / 6;
-  return Vector2(size.x * math.cos(angle), size.y * math.sin(angle));
-}
-
-List<Vector2> polygon_corners(Layout layout, Hex h) {
-  List<Vector2> corners = [];
-  Vector2 center = hexToPixel(layout, h);
-  for (int i = 0; i < 6; i++) {
-    Vector2 offset = hex_corner_offset(layout, i);
-    corners.add(Vector2(center.x + offset.x, center.y + offset.y));
-  }
-  return corners;
+oddrToAxial(Vector2 offset) {
+  var q = offset.y.floor() - (offset.x.floor() - (offset.x.floor() & 1)) / 2;
+  var r = offset.x.floor();
+  return Hex(q.floor(), r);
 }

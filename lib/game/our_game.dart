@@ -74,16 +74,16 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   static const double _minZoom = 0.3;
   static const double _maxZoom = 1.0;
   final MapGenerator _mapGenerator =
-      MapGenerator(width: 25, height: 25, density: 0.6);
+      MapGenerator(width: 10, height: 10, density: 0.6, treeDensity: 0.5);
   double _startZoom = _minZoom;
   double health = 40;
   double morale = 75;
   double carbonEmission = 20;
-  double resources = 500;
+  double resources = 100;
   double energy = 70;
   double capital = 1000;
 
-  double deltaHealth = 0;
+  double deltaHealth = -0.5;
   double deltaMorale = 0;
   double deltaCarbon = 0;
   double deltaResources = 0;
@@ -195,13 +195,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
   Future<void> initializeGame() async {
     await _loadSprites();
-    final generatedMap = _mapGenerator.generateMapWithGid();
-    for (var i = 0; i < generatedMap.length; i++) {
-      for (var j = 0; j < generatedMap[0].length; j++) {
-        mapComponent.tileMap
-            .setTileData(layerId: 0, x: j, y: i, gid: generatedMap[i][j]);
-      }
-    }
+    _initializeMap();
 
     final tiledData =
         mapComponent.tileMap.getLayer<TileLayer>("Map")!.tileData!;
@@ -210,29 +204,6 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
     for (var i = 0; i < tiledData.length; i++) {
       cachedTiledData[i] = [...tiledData[i]];
-    }
-
-    final trees = mapComponent.tileMap.getLayer<ObjectGroup>("trees")!;
-    final buildings = mapComponent.tileMap.getLayer<ObjectGroup>("buildings")!;
-
-    for (final tree in trees.objects) {
-      populateTrees(
-          tree: Tree(
-              position: Vector2(tree.x, tree.y + tree.height / 2),
-              priority: 1,
-              anchor: Anchor.center)
-            ..current = BuildingState.done
-            ..timeLeft = 0,
-          isPreBuilt: true);
-    }
-
-    for (final building in buildings.objects) {
-      final structure = Structure.factory(building);
-      addBuiltItem(
-          item: structure
-            ..current = BuildingState.done
-            ..timeLeft = 0,
-          isPreBuilt: true);
     }
 
     interval = Timer(2, onTick: () {
@@ -269,6 +240,64 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     camera.viewport.add(PoliciesComponent());
     camera.viewport.add(NonGreenComponent());
     camera.viewport.add(Hud());
+  }
+
+  void _initializeMap() {
+    const xOffset = 2;
+    const yOffset = 2;
+    final tileSize = mapComponent.tileMap.destTileSize;
+
+    final size = Vector2(tileSize.x / math.sqrt(3), tileSize.y / 2);
+    final origin = Vector2(size.x * math.sqrt(3) / 2, size.y);
+    final Layout layout = Layout(layout_pointy, size, origin);
+
+    final generatedMap = _mapGenerator.generateMapWithGid();
+    for (var i = 0; i < generatedMap.length; i++) {
+      for (var j = 0; j < generatedMap[0].length; j++) {
+        mapComponent.tileMap.setTileData(
+            layerId: 0,
+            x: j + xOffset,
+            y: i + yOffset,
+            gid: generatedMap[i][j]);
+      }
+    }
+
+    final treeLocationsinOffset =
+        _mapGenerator.generateTreeLocations(generatedMap, 10);
+    for (var i = 0; i < treeLocationsinOffset.length; i++) {
+      final hexAxial = oddrToAxial(Vector2(treeLocationsinOffset[i].x + xOffset,
+          treeLocationsinOffset[i].y + yOffset));
+      final location = hexToPixel(layout, hexAxial);
+      populateTrees(
+          tree: Tree(
+              position: Vector2(location.x, location.y),
+              priority: 1,
+              anchor: Anchor.center)
+            ..current = BuildingState.done
+            ..timeLeft = 0,
+          isPreBuilt: true);
+    }
+
+    final buildingLocationsinOffset = _mapGenerator.generateBuildingLocations(
+        generatedMap, 10,
+        game: this, xOffset: xOffset, yOffset: yOffset);
+
+    for (var i = 0; i < buildingLocationsinOffset.length; i++) {
+      final hexAxial = oddrToAxial(Vector2(
+          buildingLocationsinOffset[i].x + xOffset,
+          buildingLocationsinOffset[i].y + yOffset));
+      final location = hexToPixel(layout, hexAxial);
+      String buildingName = "house";
+      if (i > 2) buildingName = "waste_incineration";
+      if (i > 4) buildingName = "plastic";
+      if (i > 6) buildingName = "fossil";
+      final structure = Structure.factory(buildingName, location);
+      addBuiltItem(
+          item: structure
+            ..current = BuildingState.done
+            ..timeLeft = 0,
+          isPreBuilt: true);
+    }
   }
 
   @override
@@ -334,6 +363,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     world.removeAll(trees);
     builtItems = [];
     trees = [];
+
+    _initializeMap();
   }
 
   void setSpecialization(Specialization specialization) {

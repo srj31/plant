@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.8" tiledversion="1.8.5" orientation="hexagonal" renderorder="right-down" width="25" height="25" tilewidth="120" tileheight="139" infinite="0" hexsidelength="69" staggeraxis="y" staggerindex="odd" backgroundcolor="#49a6ac" nextlayerid="11" nextobjectid="86">
+<map version="1.8" tiledversion="1.8.5" orientation="hexagonal" renderorder="right-down" width="15" height="15" tilewidth="120" tileheight="140" infinite="0" hexsidelength="70" staggeraxis="y" staggerindex="odd" backgroundcolor="#49a6ac" nextlayerid="11" nextobjectid="86">
  <tileset firstgid="1" name="hexagonAll_sheet" tilewidth="122" tileheight="142" tilecount="224" columns="16" objectalignment="top">
   <tileoffset x="1" y="1"/>
   <image source="hexagonAll_sheet.png" width="2048" height="2048"/>
@@ -7,33 +7,23 @@
  <tileset firstgid="225" name="hexagonBuildings_sheet" tilewidth="122" tileheight="142" tilecount="112" columns="8" objectalignment="top">
   <image source="hexagonBuildings_sheet.png" width="1024" height="2048"/>
  </tileset>
- <layer id="2" name="Map" width="25" height="25">
+ <layer id="2" name="Map" width="15" height="15">
   <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,22,22,22,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,22,22,22,22,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,
-0,0,0,22,22,22,22,22,22,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,0,
-0,0,0,22,22,22,22,22,22,22,22,22,22,22,22,22,0,0,0,0,0,0,0,0,0,
-0,0,0,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,0,0,0,0,0,0,0,
-0,0,0,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,0,0,0,0,0,0,
-0,0,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,0,0,0,0,0,0,
-0,0,0,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,22,0,0,0,0,0,0,
-0,0,0,0,22,22,22,22,22,22,22,22,22,6,6,22,22,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,22,22,22,22,22,22,6,6,22,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,22,22,22,22,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,22,22,22,22,22,0,0,0,0,0,
+0,0,0,0,0,22,22,22,22,22,0,0,0,0,0,
+0,0,0,22,22,22,22,22,22,22,0,0,0,0,0,
+0,0,0,22,22,22,22,22,22,22,0,0,0,0,0,
+0,0,0,22,22,22,22,22,22,22,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
  <objectgroup id="9" name="trees">
@@ -64,91 +54,6 @@
    </properties>
   </object>
   <object id="28" gid="265" x="419.473" y="1065.38" width="122" height="142" visible="0">
-   <properties>
-    <property name="type" value="fossil"/>
-   </properties>
-  </object>
-  <object id="31" gid="72" x="2160" y="1134" width="122" height="142">
-   <properties>
-    <property name="type" value="windmill"/>
-   </properties>
-  </object>
-  <object id="33" gid="72" x="2100" y="1031" width="122" height="142">
-   <properties>
-    <property name="type" value="windmill"/>
-   </properties>
-  </object>
-  <object id="36" gid="102" x="960" y="1133" width="122" height="142">
-   <properties>
-    <property name="type" value="waste_incineration"/>
-   </properties>
-  </object>
-  <object id="42" gid="102" x="900" y="1236" width="122" height="142">
-   <properties>
-    <property name="type" value="waste_incineration"/>
-   </properties>
-  </object>
-  <object id="43" gid="102" x="1080" y="1133" width="122" height="142">
-   <properties>
-    <property name="type" value="waste_incineration"/>
-   </properties>
-  </object>
-  <object id="44" gid="102" x="1020" y="1236" width="122" height="142">
-   <properties>
-    <property name="type" value="waste_incineration"/>
-   </properties>
-  </object>
-  <object id="45" gid="102" x="1140" y="1237" width="122" height="142">
-   <properties>
-    <property name="type" value="waste_incineration"/>
-   </properties>
-  </object>
-  <object id="46" gid="41" x="1560" y="1340" width="122" height="142">
-   <properties>
-    <property name="type" value="plastic"/>
-   </properties>
-  </object>
-  <object id="47" gid="41" x="1680" y="1340" width="122" height="142">
-   <properties>
-    <property name="type" value="plastic"/>
-   </properties>
-  </object>
-  <object id="48" gid="41" x="1440" y="1339" width="122" height="142">
-   <properties>
-    <property name="type" value="plastic"/>
-   </properties>
-  </object>
-  <object id="49" gid="41" x="1500" y="1236" width="122" height="142">
-   <properties>
-    <property name="type" value="plastic"/>
-   </properties>
-  </object>
-  <object id="50" gid="41" x="1620" y="1236" width="122" height="142">
-   <properties>
-    <property name="type" value="plastic"/>
-   </properties>
-  </object>
-  <object id="81" gid="249" x="1680" y="515" width="122" height="142">
-   <properties>
-    <property name="type" value="fossil"/>
-   </properties>
-  </object>
-  <object id="82" gid="249" x="1560" y="515" width="122" height="142">
-   <properties>
-    <property name="type" value="fossil"/>
-   </properties>
-  </object>
-  <object id="83" gid="249" x="1620" y="619" width="122" height="142">
-   <properties>
-    <property name="type" value="fossil"/>
-   </properties>
-  </object>
-  <object id="84" gid="249" x="1502.51" y="615.159" width="122" height="142">
-   <properties>
-    <property name="type" value="fossil"/>
-   </properties>
-  </object>
-  <object id="85" gid="249" x="1680" y="722" width="122" height="142">
    <properties>
     <property name="type" value="fossil"/>
    </properties>
