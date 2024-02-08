@@ -1,3 +1,4 @@
+import 'dart:collection';
 import 'dart:math' as math;
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
@@ -16,6 +17,8 @@ import 'package:game_name/game/overlays/non_green.dart';
 import 'package:game_name/game/overlays/policies.dart';
 import 'package:game_name/game/overlays/research.dart';
 import 'package:game_name/game/overlays/specialization.dart';
+import 'package:game_name/game/policies/policy.dart';
+import 'package:game_name/game/research/researh.dart';
 import 'package:game_name/game/specializations/specialization.dart';
 import 'package:game_name/game/state/default.dart';
 import 'package:game_name/game/structures/structures.dart';
@@ -77,13 +80,13 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       MapGenerator(width: 10, height: 10, density: 0.6, treeDensity: 0.5);
   double _startZoom = _minZoom;
   double health = 40;
-  double morale = 75;
+  double morale = 0;
   double carbonEmission = 20;
   double resources = 100;
-  double energy = 70;
+  double energy = 0;
   double capital = 1000;
 
-  double deltaHealth = -0.5;
+  double deltaHealth = -0.1;
   double deltaMorale = 0;
   double deltaCarbon = 0;
   double deltaResources = 0;
@@ -92,22 +95,35 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
   List<Structure> builtItems = [];
   List<Tree> trees = [];
+  Queue<(double, Structure)> inProgressStructures =
+      Queue<(double, Structure)>();
+  Queue<(double, Policy)> inProgressPolicies = Queue<(double, Policy)>();
+  Queue<(double, Research)> inProgressResearches = Queue<(double, Research)>();
 
   void addBuiltItem({required Structure item, bool isPreBuilt = false}) {
     world.add(item);
+    builtItems.add(item);
     if (!isPreBuilt) {
       capital -= item.capital;
       resources -= item.resources;
+      inProgressStructures.add((elapsedSecs + item.timeToBuild, item));
+    } else {
+      deltaHealth += item.deltaHealth;
+      deltaMorale += item.deltaMorale;
+      deltaCarbon += item.deltaCarbon;
+      deltaResources += item.deltaResources;
+      deltaEnergy += item.deltaEnergy;
+      deltaCapital += item.deltaCapital;
     }
+  }
 
-    deltaHealth += item.deltaHealth;
-    deltaMorale += item.deltaMorale;
-    deltaCarbon += item.deltaCarbon;
-    deltaResources += item.deltaResources;
-    deltaEnergy += item.deltaEnergy;
-    deltaCapital += item.deltaCapital;
+  void startPolicy(Policy policy) {
+    inProgressPolicies.add((elapsedSecs + policy.timeToPass, policy));
+  }
 
-    builtItems.add(item);
+  void startResearch(Research research) {
+    inProgressResearches
+        .add((elapsedSecs + research.timeToImplement, research));
   }
 
   void removeBuiltItem(int index) {
@@ -209,12 +225,48 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     interval = Timer(2, onTick: () {
       _calculateDeltaHealth();
       elapsedSecs += 1;
+      while (inProgressStructures.isNotEmpty &&
+          inProgressStructures.first.$1 <= elapsedSecs) {
+        final itemWithTime = inProgressStructures.removeFirst();
+        final item = itemWithTime.$2;
+        deltaHealth += item.deltaHealth;
+        deltaMorale += item.deltaMorale;
+        deltaCarbon += item.deltaCarbon;
+        deltaResources += item.deltaResources;
+        deltaEnergy += item.deltaEnergy;
+        deltaCapital += item.deltaCapital;
+      }
+
+      while (inProgressPolicies.isNotEmpty &&
+          inProgressPolicies.first.$1 <= elapsedSecs) {
+        final policyWithTime = inProgressPolicies.removeFirst();
+        final policy = policyWithTime.$2;
+        deltaHealth += policy.deltaHealth;
+        deltaMorale += policy.deltaMorale;
+        deltaCarbon += policy.deltaCarbon;
+        deltaResources += policy.deltaResources;
+        deltaEnergy += policy.deltaEnergy;
+        deltaCapital += policy.deltaCapital;
+      }
+
+      while (inProgressResearches.isNotEmpty &&
+          inProgressResearches.first.$1 <= elapsedSecs) {
+        final researchWithTime = inProgressResearches.removeFirst();
+        final research = researchWithTime.$2;
+        deltaHealth += research.deltaHealth;
+        deltaMorale += research.deltaMorale;
+        deltaCarbon += research.deltaCarbon;
+        deltaResources += research.deltaResources;
+        deltaEnergy += research.deltaEnergy;
+        deltaCapital += research.deltaCapital;
+      }
+
       health = math.max(
           0,
           health +
               deltaHealth -
-              (1 - 0.01 * carbonEmission) -
-              (1 - 0.02 * resources));
+              (1 - 0.001 * carbonEmission) -
+              (1 - 0.002 * resources));
       energy = math.max(0, energy + deltaEnergy);
       carbonEmission = math.max(0, carbonEmission + deltaCarbon);
       resources = math.max(0, resources + deltaResources);
