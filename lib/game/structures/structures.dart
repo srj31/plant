@@ -12,6 +12,7 @@ import 'package:game_name/game/our_game.dart';
 import 'package:game_name/game/structures/ev_factory.dart';
 import 'package:game_name/game/structures/green_hydrogen.dart';
 import 'package:game_name/game/structures/recycling_factory.dart';
+import 'package:game_name/game/structures/upgrade/upgrade.dart';
 import 'package:game_name/game/structures/windmill.dart';
 
 enum BuildingState {
@@ -38,6 +39,8 @@ class Structure extends SpriteGroupComponent<BuildingState>
     required this.deltaHealth,
     required this.deltaMorale,
     required this.timeToBuild,
+    required this.fullName,
+    required this.upgrades,
   }) {
     timeLeft = timeToBuild;
   }
@@ -52,6 +55,9 @@ class Structure extends SpriteGroupComponent<BuildingState>
   final double deltaHealth;
   final double deltaMorale;
   final double timeToBuild;
+  final String fullName;
+
+  final List<Upgrade> upgrades;
   late double timeLeft;
 
   @override
@@ -123,9 +129,10 @@ class StructureInfo extends StatelessWidget {
                     children: [
                   ElevatedCard(
                       game,
+                      structure,
                       Vector2(game.size.x * 0.70, game.size.y * 0.80),
                       structure.sprite!,
-                      "Structure Name",
+                      structure.fullName,
                       "Delta for all thigs",
                       "Details about upgrading the structure"),
                 ]))));
@@ -133,13 +140,15 @@ class StructureInfo extends StatelessWidget {
 }
 
 class ElevatedCard extends StatelessWidget {
-  const ElevatedCard(this.game, this.size, this.spriteImage, this.heading,
-      this.subheading, this.description,
+  const ElevatedCard(this.game, this.structure, this.size, this.spriteImage,
+      this.heading, this.subheading, this.description,
       {super.key});
   final OurGame game;
   final String heading;
   final String subheading;
   final String description;
+
+  final Structure structure;
 
   final Vector2 size;
   final Sprite spriteImage;
@@ -192,6 +201,9 @@ class ElevatedCard extends StatelessWidget {
                                 fontSize: 16, fontWeight: FontWeight.bold)),
                         Text(subheading, style: const TextStyle(fontSize: 12)),
                         Text(description, style: const TextStyle(fontSize: 10)),
+                        ...structure.upgrades
+                            .map((upgrade) => UpgradeWidget(upgrade))
+                            .toList(),
                         Container(
                             alignment: Alignment.center,
                             margin: const EdgeInsets.only(top: 10),
