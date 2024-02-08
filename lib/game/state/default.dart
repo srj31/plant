@@ -9,9 +9,7 @@ abstract class AbstractState {
 
 class DefaultState extends AbstractState {
   @override
-  void handleTap(OurGame game, TapDownEvent info) {
-        
-  }
+  void handleTap(OurGame game, TapDownEvent info) {}
 
   @override
   String toString() {

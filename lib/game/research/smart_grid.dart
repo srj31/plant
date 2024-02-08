@@ -9,15 +9,15 @@ class SmartGrid extends Research {
       super.anchor,
       super.priority})
       : super(
-            capital: 1000,
-            resources: 20,
-            deltaCapital: 0.1,
-            deltaResources: 0.1,
-            deltaCarbon: -0.1,
+            capital: 500,
+            resources: 40,
+            deltaCapital: -0.1,
+            deltaResources: 0.2,
+            deltaCarbon: 0.05,
             deltaEnergy: 0.1,
             deltaHealth: 0.1,
-            deltaMorale: 0.1,
-            timeToBuild: 1000);
+            deltaMorale: 0.05,
+            timeToImplement: 4);
 
   static const name = 'smart_grid';
   @override

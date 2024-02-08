@@ -9,21 +9,25 @@ class WindMill extends Structure {
       super.anchor,
       super.priority})
       : super(
-            capital: 2000,
-            resources: 30,
-            deltaCapital: 0.05,
-            deltaResources: 0.1,
-            deltaCarbon: -0.3,
+            capital: 150,
+            resources: 20,
+            deltaCapital: -0.5,
+            deltaResources: 0.01,
+            deltaCarbon: 0.1,
             deltaEnergy: 0.1,
-            deltaHealth: 0.005,
-            deltaMorale: 0.1,
-            timeToBuild: 1000);
+            deltaHealth: 0.1,
+            deltaMorale: 0.01,
+            timeToBuild: 2);
 
   static const name = 'windmill';
 
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    sprite = game.windmill;
+    sprites = {
+      BuildingState.start: game.evFactory,
+      BuildingState.done: game.windmill,
+    };
+    current = BuildingState.start;
   }
 }

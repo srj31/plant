@@ -9,15 +9,15 @@ class Afforestation extends Policy {
       super.anchor,
       super.priority})
       : super(
-            capital: 2000,
+            capital: 100,
             resources: 20,
             deltaCapital: 0.0,
             deltaResources: 0.002,
-            deltaCarbon: -0.1,
+            deltaCarbon: 0.05,
             deltaEnergy: 0.0,
-            deltaHealth: 0.0,
-            deltaMorale: 0.1,
-            timeToBuild: 1000);
+            deltaHealth: 0.005,
+            deltaMorale: 0.05,
+            timeToPass: 1);
 
   static const name = 'afforestation';
   @override

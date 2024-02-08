@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flame_splash_screen/flame_splash_screen.dart';
 import 'package:game_name/game/main_menu.dart';
-import 'package:game_name/main.dart';
 
 class SplashScreenGame extends StatefulWidget {
   const SplashScreenGame({super.key});

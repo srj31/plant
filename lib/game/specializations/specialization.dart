@@ -1,13 +1,8 @@
 import 'package:flame/components.dart';
 import 'package:game_name/game/our_game.dart';
 
-class Specialization extends SpriteComponent with HasGameReference<OurGame> {
+class Specialization extends Component with HasGameReference<OurGame> {
   Specialization({
-    super.position,
-    super.size,
-    super.scale,
-    super.angle,
-    super.anchor,
     super.priority,
     required this.factorCapital,
     required this.factorResources,

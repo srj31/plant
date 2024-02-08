@@ -1,13 +1,7 @@
 import 'package:game_name/game/specializations/specialization.dart';
 
 class TechnologySpecialization extends Specialization {
-  TechnologySpecialization(
-      {super.position,
-      super.size,
-      super.scale,
-      super.angle,
-      super.anchor,
-      super.priority})
+  TechnologySpecialization({super.priority})
       : super(
           factorCapital: 1.1,
           factorResources: 0.95,
@@ -24,7 +18,6 @@ class TechnologySpecialization extends Specialization {
   static const name = 'technology_specialization';
   @override
   Future<void> onLoad() async {
-    sprite = game.technologySpecialization;
     await super.onLoad();
   }
 }

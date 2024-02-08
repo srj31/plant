@@ -1,5 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:flame/experimental.dart';
 import 'package:flutter/material.dart';
 import 'package:game_name/game/our_game.dart';
 import 'package:game_name/game/specializations/policy.dart';
@@ -129,10 +128,10 @@ class ElevatedCard extends StatelessWidget {
                                     children: [
                                       Stack(clipBehavior: Clip.none, children: [
                                         SizedBox(
-                                            width: size.x * 0.2,
+                                            width: size.x * 0.22,
                                             height: size.y * 0.1,
                                             child: const Card(
-                                              color: Colors.lightGreenAccent,
+                                              color: Colors.amberAccent,
                                             )),
                                         Positioned(
                                             top: size.y * 0.01,
@@ -142,7 +141,7 @@ class ElevatedCard extends StatelessWidget {
                                                     .toImageSync())),
                                         Positioned(
                                           bottom: size.y * 0.02,
-                                          right: 0,
+                                          right: size.x * 0.02,
                                           child: Text(
                                             'x${specialization.factorMorale.toStringAsFixed(2)}',
                                             style: const TextStyle(
@@ -153,10 +152,10 @@ class ElevatedCard extends StatelessWidget {
                                       ]),
                                       Stack(children: [
                                         SizedBox(
-                                            width: size.x * 0.2,
+                                            width: size.x * 0.22,
                                             height: size.y * 0.1,
                                             child: const Card(
-                                              color: Colors.lightGreenAccent,
+                                              color: Colors.amberAccent,
                                             )),
                                         Positioned(
                                             top: size.y * 0.01,
@@ -165,37 +164,39 @@ class ElevatedCard extends StatelessWidget {
                                                 image: game.carbonEmissionSprite
                                                     .toImageSync())),
                                         Positioned(
-                                            bottom: size.y * 0.02,
-                                            right: size.x * 0.02,
-                                            child: Text(
-                                              "x${specialization.factorCarbon.toStringAsFixed(2)}",
-                                              style: const TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 10),
-                                            )),
+                                          bottom: size.y * 0.02,
+                                          right: size.x * 0.02,
+                                          child: Text(
+                                            'x${specialization.factorCarbon.toStringAsFixed(2)}',
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10),
+                                          ),
+                                        ),
                                       ]),
                                       Stack(children: [
                                         SizedBox(
-                                            width: size.x * 0.2,
+                                            width: size.x * 0.22,
                                             height: size.y * 0.1,
                                             child: const Card(
-                                              color: Colors.lightGreenAccent,
+                                              color: Colors.amberAccent,
                                             )),
                                         Positioned(
                                             top: size.y * 0.01,
-                                            left: 0,
+                                            left: size.x * 0.02,
                                             child: RawImage(
                                                 image: game.resourcesSprite
                                                     .toImageSync())),
                                         Positioned(
-                                            bottom: size.y * 0.02,
-                                            right: size.x * 0.02,
-                                            child: Text(
-                                              "x${specialization.factorCarbon.toStringAsFixed(2)}",
-                                              style: const TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 10),
-                                            )),
+                                          bottom: size.y * 0.02,
+                                          right: size.x * 0.02,
+                                          child: Text(
+                                            'x${specialization.factorResources.toStringAsFixed(2)}',
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10),
+                                          ),
+                                        ),
                                       ]),
                                     ],
                                   )),
@@ -206,49 +207,51 @@ class ElevatedCard extends StatelessWidget {
                                     children: [
                                       Stack(children: [
                                         SizedBox(
-                                            width: size.x * 0.2,
+                                            width: size.x * 0.22,
                                             height: size.y * 0.1,
                                             child: const Card(
-                                              color: Colors.lightGreenAccent,
+                                              color: Colors.amberAccent,
                                             )),
                                         Positioned(
                                             top: size.y * 0.01,
-                                            left: 0,
+                                            left: size.x * 0.02,
                                             child: RawImage(
                                                 image: game.energySprite
                                                     .toImageSync())),
                                         Positioned(
-                                            bottom: size.y * 0.02,
-                                            right: size.x * 0.02,
-                                            child: Text(
-                                              "x${specialization.factorEnergy.toStringAsFixed(2)}",
-                                              style: const TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 10),
-                                            )),
+                                          bottom: size.y * 0.02,
+                                          right: size.x * 0.02,
+                                          child: Text(
+                                            'x${specialization.factorEnergy.toStringAsFixed(2)}',
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10),
+                                          ),
+                                        ),
                                       ]),
                                       Stack(children: [
                                         SizedBox(
-                                            width: size.x * 0.2,
+                                            width: size.x * 0.22,
                                             height: size.y * 0.1,
                                             child: const Card(
-                                              color: Colors.lightGreenAccent,
+                                              color: Colors.amberAccent,
                                             )),
                                         Positioned(
                                             top: size.y * 0.01,
-                                            left: 0,
+                                            left: size.x * 0.02,
                                             child: RawImage(
                                                 image: game.capitalSprite
                                                     .toImageSync())),
                                         Positioned(
-                                            bottom: size.y * 0.02,
-                                            right: size.x * 0.02,
-                                            child: Text(
-                                              "x${specialization.factorCapital.toStringAsFixed(2)}",
-                                              style: const TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 10),
-                                            )),
+                                          bottom: size.y * 0.02,
+                                          right: size.x * 0.02,
+                                          child: Text(
+                                            'x${specialization.factorCapital.toStringAsFixed(2)}',
+                                            style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 10),
+                                          ),
+                                        ),
                                       ]),
                                     ],
                                   ))
@@ -277,7 +280,7 @@ class ElevatedCard extends StatelessWidget {
                                             specialization.factorTechTime,
                                         height: size.y * 0.05,
                                         child: const Card(
-                                          color: Colors.lightGreenAccent,
+                                          color: Colors.amber,
                                         )),
                                   ],
                                 ),
@@ -287,7 +290,7 @@ class ElevatedCard extends StatelessWidget {
                                         specialization.factorPolicyTime,
                                     height: size.y * 0.05,
                                     child: const Card(
-                                      color: Colors.lightGreenAccent,
+                                      color: Colors.amber,
                                     )),
                                 SizedBox(
                                     width: size.x *
@@ -295,7 +298,7 @@ class ElevatedCard extends StatelessWidget {
                                         specialization.factorResearchTime,
                                     height: size.y * 0.05,
                                     child: const Card(
-                                      color: Colors.lightGreenAccent,
+                                      color: Colors.amber,
                                     )),
                               ],
                             ),
@@ -310,7 +313,7 @@ class ElevatedCard extends StatelessWidget {
                                             specialization.factorTechCost,
                                         height: size.y * 0.05,
                                         child: const Card(
-                                          color: Colors.lightGreenAccent,
+                                          color: Colors.amber,
                                         )),
                                   ],
                                 ),
@@ -320,7 +323,7 @@ class ElevatedCard extends StatelessWidget {
                                         specialization.factorPolicyCost,
                                     height: size.y * 0.05,
                                     child: const Card(
-                                      color: Colors.lightGreenAccent,
+                                      color: Colors.amber,
                                     )),
                                 SizedBox(
                                     width: size.x *
@@ -328,7 +331,7 @@ class ElevatedCard extends StatelessWidget {
                                         specialization.factorResearchCost,
                                     height: size.y * 0.05,
                                     child: const Card(
-                                      color: Colors.lightGreenAccent,
+                                      color: Colors.amber,
                                     )),
                               ],
                             )

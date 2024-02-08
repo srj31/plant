@@ -1,4 +1,5 @@
-import 'dart:ui';
+
+import 'package:flame/game.dart';
 
 class TileInfo {
   TileInfo({
@@ -7,7 +8,7 @@ class TileInfo {
     required this.col,
   });
 
-  final Offset center;
+  final Vector2 center;
   final int row;
   final int col;
 

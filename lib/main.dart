@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:flame/game.dart';
 import 'package:flutter/services.dart';
-import 'package:game_name/game/main_menu.dart';
 import 'package:game_name/game/overlays/build.dart';
+import 'package:game_name/game/overlays/event.dart';
 import 'package:game_name/game/overlays/game_over.dart';
 import 'package:game_name/game/overlays/next_level.dart';
 import 'package:game_name/game/overlays/non_green.dart';
@@ -12,6 +12,7 @@ import 'package:game_name/game/overlays/research.dart';
 import 'package:game_name/game/overlays/specialization.dart';
 import 'package:game_name/game/splash_screen.dart';
 import 'package:game_name/game/structures/structures.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import 'game/our_game.dart';
 
@@ -22,6 +23,14 @@ void main() {
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
+  ThemeData _buildTheme(brightness) {
+    var baseTheme = ThemeData(brightness: brightness);
+
+    return baseTheme.copyWith(
+      textTheme: GoogleFonts.nunitoTextTheme(baseTheme.textTheme),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([
@@ -31,7 +40,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         title: 'Our Game',
-        theme: ThemeData.dark(),
+        theme: _buildTheme(Brightness.dark),
         home: const SplashScreenGame());
   }
 }
@@ -54,6 +63,7 @@ class OtherScreen extends StatelessWidget {
               SpecializationMenu(game: game),
           GameOverMenu.id: (context, game) => GameOverMenu(game: game),
           NextLevelMenu.id: (context, game) => NextLevelMenu(game: game),
+          EventMenu.id: (context, game) => EventMenu(game: game),
         },
         initialActiveOverlays: const [SpecializationMenu.id],
       ),

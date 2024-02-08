@@ -9,15 +9,15 @@ class PublicTransport extends Policy {
       super.anchor,
       super.priority})
       : super(
-            capital: 1000,
-            resources: 20,
-            deltaCapital: 0.1,
-            deltaResources: 0.1,
-            deltaCarbon: -0.1,
-            deltaEnergy: 0.1,
-            deltaHealth: 0.1,
-            deltaMorale: 0.1,
-            timeToBuild: 1000);
+            capital: 400,
+            resources: 30,
+            deltaCapital: 30,
+            deltaResources: 0.0,
+            deltaCarbon: 0.1,
+            deltaEnergy: -0.2,
+            deltaHealth: 0.05,
+            deltaMorale: 0.2,
+            timeToPass: 3);
 
   static const name = 'public_transport';
   @override

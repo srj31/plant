@@ -1,7 +1,10 @@
+import 'dart:math';
+
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame_tiled/flame_tiled.dart' as flame_tiled;
 import 'package:flutter/material.dart';
+import 'package:game_name/game/misc_structures/house.dart';
 import 'package:game_name/game/non_green/fossil_fuel.dart';
 import 'package:game_name/game/non_green/plastic.dart';
 import 'package:game_name/game/non_green/waste_incineration.dart';
@@ -11,7 +14,13 @@ import 'package:game_name/game/structures/green_hydrogen.dart';
 import 'package:game_name/game/structures/recycling_factory.dart';
 import 'package:game_name/game/structures/windmill.dart';
 
-class Structure extends SpriteComponent
+enum BuildingState {
+  start,
+  building,
+  done,
+}
+
+class Structure extends SpriteGroupComponent<BuildingState>
     with TapCallbacks, HasGameReference<OurGame> {
   Structure({
     super.position,
@@ -29,7 +38,9 @@ class Structure extends SpriteComponent
     required this.deltaHealth,
     required this.deltaMorale,
     required this.timeToBuild,
-  });
+  }) {
+    timeLeft = timeToBuild;
+  }
 
   final double capital;
   final double resources;
@@ -41,15 +52,25 @@ class Structure extends SpriteComponent
   final double deltaHealth;
   final double deltaMorale;
   final double timeToBuild;
+  late double timeLeft;
 
   @override
-  void onTapUp(TapUpEvent event) {
+  void onLongTapDown(TapDownEvent event) {
     game.selectedStructure = this;
     game.overlays.add(StructureInfo.id);
+    super.onLongTapDown(event);
+  }
+
+  @override
+  void update(double dt) {
+    timeLeft = max(0, timeLeft - dt);
+    if (timeLeft == 0) {
+      current = BuildingState.done;
+    }
   }
 
   factory Structure.factory(flame_tiled.TiledObject building) {
-    final (x, y) = (building.x, building.y + building.height * 0.63);
+    final (x, y) = (building.x, building.y + building.height * 0.6);
     switch (building.properties["type"]?.value) {
       case "fossil":
         return FossilFuel(
@@ -74,7 +95,7 @@ class Structure extends SpriteComponent
         return WindMill(
             position: Vector2(x, y), priority: 1, anchor: Anchor.center);
       case "house":
-        return EvFactory(
+        return House(
             position: Vector2(x, y), priority: 1, anchor: Anchor.center);
 
       default:

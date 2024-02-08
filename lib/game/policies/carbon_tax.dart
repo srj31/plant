@@ -9,15 +9,15 @@ class CarbonTax extends Policy {
       super.anchor,
       super.priority})
       : super(
-            capital: 1000,
+            capital: 200,
             resources: 20,
-            deltaCapital: 0.1,
+            deltaCapital: 10,
             deltaResources: 0.1,
-            deltaCarbon: -0.1,
-            deltaEnergy: 0.1,
+            deltaCarbon: 0.025,
+            deltaEnergy: 0.0,
             deltaHealth: 0.1,
             deltaMorale: 0.1,
-            timeToBuild: 1000);
+            timeToPass: 2);
 
   static const name = 'carbon_tax';
   @override
