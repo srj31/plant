@@ -69,37 +69,33 @@ class Structure extends SpriteGroupComponent<BuildingState>
     }
   }
 
-  factory Structure.factory(flame_tiled.TiledObject building) {
-    final (x, y) = (building.x, building.y + building.height * 0.6);
-    switch (building.properties["type"]?.value) {
+  factory Structure.factory(String name, Vector2 location) {
+    switch (name) {
       case "fossil":
         return FossilFuel(
-            position: Vector2(x, y), priority: 1, anchor: Anchor.center);
-
+            position: location, priority: 1, anchor: Anchor.center);
       case "plastic":
         return PlasticPlants(
-            position: Vector2(x, y), priority: 1, anchor: Anchor.center);
+            position: location, priority: 1, anchor: Anchor.center);
       case "waste_incineration":
         return WasteIncineration(
-            position: Vector2(x, y), priority: 1, anchor: Anchor.center);
+            position: location, priority: 1, anchor: Anchor.center);
       case "ev_factory":
         return EvFactory(
-            position: Vector2(x, y), priority: 1, anchor: Anchor.center);
+            position: location, priority: 1, anchor: Anchor.center);
       case "green_hydrogen":
         return GreenHydrogen(
-            position: Vector2(x, y), priority: 1, anchor: Anchor.center);
+            position: location, priority: 1, anchor: Anchor.center);
       case "recycling_factory":
         return RecyclingFactory(
-            position: Vector2(x, y), priority: 1, anchor: Anchor.center);
+            position: location, priority: 1, anchor: Anchor.center);
       case "windmill":
-        return WindMill(
-            position: Vector2(x, y), priority: 1, anchor: Anchor.center);
+        return WindMill(position: location, priority: 1, anchor: Anchor.center);
       case "house":
-        return House(
-            position: Vector2(x, y), priority: 1, anchor: Anchor.center);
+        return House(position: location, priority: 1, anchor: Anchor.center);
 
       default:
-        return throw Exception("Unknown type ${building.properties["type"]}");
+        return throw Exception("Unknown type $name");
     }
   }
 }

@@ -40,6 +40,7 @@ dependencies:
   flame_splash_screen: ^0.2.0
   just_audio: ^0.9.36
   google_fonts: ^6.1.0
+  fast_noise: ^2.0.0
 
 dev_dependencies:
   flutter_test:
