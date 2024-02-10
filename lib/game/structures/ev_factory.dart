@@ -20,22 +20,6 @@ class EvFactory extends Structure {
           deltaMorale: 0.2,
           timeToBuild: 2,
           fullName: "EV Factory",
-          upgrades: [
-            Upgrade(
-              name: 'Solar Panel',
-              capital: 50,
-              resources: 10,
-              deltaCapital: -0.05,
-              deltaResources: -0.1,
-              deltaCarbon: 0.05,
-              deltaEnergy: 0.1,
-              deltaHealth: 0.01,
-              deltaMorale: 0.01,
-              timeToUpgrade: 1,
-              description:
-                  "Install solar panels to save on energy bills and reduce carbon footprint.",
-            )
-          ],
         );
 
   final name = 'ev_factory';
@@ -47,6 +31,47 @@ class EvFactory extends Structure {
       BuildingState.done: game.evFactory,
     };
     current = BuildingState.start;
+    upgrades = [
+      Upgrade(
+          name: 'Automated Assembly Line',
+          capital: 50,
+          resources: 10,
+          deltaCapital: -0.05,
+          deltaResources: -0.1,
+          deltaCarbon: 0.05,
+          deltaEnergy: 0.1,
+          deltaHealth: 0.01,
+          deltaMorale: 0.01,
+          timeToUpgrade: 1,
+          description: "Enhance production efficiency with robotic automation",
+          game: game),
+      Upgrade(
+          name: 'Battery Technology Research Lab',
+          capital: 50,
+          resources: 10,
+          deltaCapital: -0.05,
+          deltaResources: -0.1,
+          deltaCarbon: 0.05,
+          deltaEnergy: 0.1,
+          deltaHealth: 0.01,
+          deltaMorale: 0.01,
+          timeToUpgrade: 1,
+          description: "Innovate longer-lasting, high-performance EV batteries",
+          game: game),
+      Upgrade(
+          name: 'Charging Station Network Expansion',
+          capital: 50,
+          resources: 10,
+          deltaCapital: -0.05,
+          deltaResources: -0.1,
+          deltaCarbon: 0.05,
+          deltaEnergy: 0.1,
+          deltaHealth: 0.01,
+          deltaMorale: 0.01,
+          timeToUpgrade: 1,
+          description: "Expand convenient access to EV charging infrastructure",
+          game: game)
+    ];
     await super.onLoad();
   }
 }

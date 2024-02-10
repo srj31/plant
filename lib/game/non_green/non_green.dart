@@ -19,7 +19,6 @@ class NonGreenStructure extends Structure {
     required super.deltaMorale,
     required super.timeToBuild,
     required super.fullName,
-    required super.upgrades,
   });
 
   @override

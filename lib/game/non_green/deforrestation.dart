@@ -20,22 +20,6 @@ class Deforrestation extends Structure {
           deltaMorale: 0.1,
           timeToBuild: 1,
           fullName: "Deforrestation",
-          upgrades: [
-            Upgrade(
-              name: 'Solar Panel',
-              capital: 50,
-              resources: 10,
-              deltaCapital: -0.05,
-              deltaResources: -0.1,
-              deltaCarbon: 0.05,
-              deltaEnergy: 0.1,
-              deltaHealth: 0.01,
-              deltaMorale: 0.01,
-              timeToUpgrade: 1,
-              description:
-                  "Install solar panels to save on energy bills and reduce carbon footprint.",
-            )
-          ],
         );
 
   static const name = 'deforrestation';
@@ -48,5 +32,21 @@ class Deforrestation extends Structure {
       BuildingState.done: game.deforestation,
     };
     current = BuildingState.start;
+    upgrades = [
+      Upgrade(
+          name: 'Solar Panel',
+          capital: 50,
+          resources: 10,
+          deltaCapital: -0.05,
+          deltaResources: -0.1,
+          deltaCarbon: 0.05,
+          deltaEnergy: 0.1,
+          deltaHealth: 0.01,
+          deltaMorale: 0.01,
+          timeToUpgrade: 1,
+          description:
+              "Install solar panels to save on energy bills and reduce carbon footprint.",
+          game: game)
+    ];
   }
 }

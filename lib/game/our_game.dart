@@ -22,6 +22,7 @@ import 'package:game_name/game/research/researh.dart';
 import 'package:game_name/game/specializations/specialization.dart';
 import 'package:game_name/game/state/default.dart';
 import 'package:game_name/game/structures/structures.dart';
+import 'package:game_name/game/structures/upgrade/upgrade.dart';
 import 'package:game_name/util/hex.dart';
 import 'overlays/hud.dart';
 import 'tile_info.dart';
@@ -74,10 +75,10 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   AbstractState state = DefaultState();
 
   bool hasTimerStarted = false;
-  static const double _minZoom = 0.3;
+  static const double _minZoom = 0.5;
   static const double _maxZoom = 1.0;
   final MapGenerator _mapGenerator =
-      MapGenerator(width: 10, height: 10, density: 0.6, treeDensity: 0.5);
+      MapGenerator(width: 10, height: 5, density: 0.62, treeDensity: 0.5);
   double _startZoom = _minZoom;
   double health = 40;
   double morale = 0;
@@ -99,6 +100,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       Queue<(double, Structure)>();
   Queue<(double, Policy)> inProgressPolicies = Queue<(double, Policy)>();
   Queue<(double, Research)> inProgressResearches = Queue<(double, Research)>();
+  Queue<(double, Upgrade)> inProgressUpgrade = Queue<(double, Upgrade)>();
 
   void addBuiltItem({required Structure item, bool isPreBuilt = false}) {
     world.add(item);
@@ -118,12 +120,23 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   }
 
   void startPolicy(Policy policy) {
+    capital -= policy.capital;
+    resources -= policy.capital;
     inProgressPolicies.add((elapsedSecs + policy.timeToPass, policy));
   }
 
   void startResearch(Research research) {
+    capital -= research.capital;
+    resources -= research.capital;
     inProgressResearches
         .add((elapsedSecs + research.timeToImplement, research));
+  }
+
+  void applyUpgrade(Upgrade upgrade) {
+    upgrade.isPurchased = true;
+    capital -= upgrade.capital;
+    resources -= upgrade.capital;
+    inProgressUpgrade.add((elapsedSecs + upgrade.timeToUpgrade, upgrade));
   }
 
   void removeBuiltItem(int index) {
@@ -261,6 +274,18 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
         deltaCapital += research.deltaCapital;
       }
 
+      while (inProgressUpgrade.isNotEmpty &&
+          inProgressUpgrade.first.$1 <= elapsedSecs) {
+        final upgradeWithTime = inProgressUpgrade.removeFirst();
+        final upgrade = upgradeWithTime.$2;
+        deltaHealth += upgrade.deltaHealth;
+        deltaMorale += upgrade.deltaMorale;
+        deltaCarbon += upgrade.deltaCarbon;
+        deltaResources += upgrade.deltaResources;
+        deltaEnergy += upgrade.deltaEnergy;
+        deltaCapital += upgrade.deltaCapital;
+      }
+
       health = math.max(
           0,
           health +
@@ -295,8 +320,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   }
 
   void _initializeMap() {
-    const xOffset = 2;
-    const yOffset = 2;
+    const xOffset = 1;
+    const yOffset = 3;
     final tileSize = mapComponent.tileMap.destTileSize;
 
     final size = Vector2(tileSize.x / math.sqrt(3), tileSize.y / 2);
@@ -308,8 +333,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       for (var j = 0; j < generatedMap[0].length; j++) {
         mapComponent.tileMap.setTileData(
             layerId: 0,
-            x: j + xOffset,
-            y: i + yOffset,
+            x: j + yOffset,
+            y: i + xOffset,
             gid: generatedMap[i][j]);
       }
     }

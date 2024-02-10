@@ -16,12 +16,11 @@ class MapGenerator {
   final int height;
   final double density;
   final double treeDensity;
-  final Random _random = Random();
   final PerlinNoise _noise =
       PerlinNoise(seed: Random().nextInt(1337), frequency: 0.15);
 
   final SimplexFractalNoise _noiseSimplex = SimplexFractalNoise(
-    octaves: 4,
+    octaves: 3,
     frequency: 0.5,
     seed: Random().nextInt(1337),
   );
@@ -77,7 +76,7 @@ class MapGenerator {
             nonEmptyTiles[i + xOffset][j + yOffset] == false) {
           var noise = _noiseSimplex.getNoise2(i.toDouble(), j.toDouble());
           var percentage = (noise - _min) / (_max - _min);
-          if (percentage < treeDensity && count > 0) {
+          if (percentage != 0.5 && count > 0) {
             count--;
             buildingLocations.add(Vector2(i.toDouble(), j.toDouble()));
           }
@@ -103,23 +102,6 @@ class MapGenerator {
                 }
               },
             ));
-    return grid;
-  }
-
-  List<List<TileData>> generateNoiseMap() {
-    final grid = List<List<TileData>>.generate(
-        height,
-        (i) => List<TileData>.generate(
-              width,
-              (j) {
-                if (_random.nextDouble() < density) {
-                  return TileData(type: TileType.grassLand);
-                } else {
-                  return TileData(type: TileType.water);
-                }
-              },
-            ));
-
     return grid;
   }
 }

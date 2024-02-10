@@ -21,22 +21,6 @@ class WasteIncineration extends NonGreenStructure {
           deltaMorale: 0.05,
           timeToBuild: 2,
           fullName: "Waste Incineration",
-          upgrades: [
-            Upgrade(
-              name: 'Solar Panel',
-              capital: 50,
-              resources: 10,
-              deltaCapital: -0.05,
-              deltaResources: -0.1,
-              deltaCarbon: 0.05,
-              deltaEnergy: 0.1,
-              deltaHealth: 0.01,
-              deltaMorale: 0.01,
-              timeToUpgrade: 1,
-              description:
-                  "Install solar panels to save on energy bills and reduce carbon footprint.",
-            )
-          ],
         );
 
   static const name = 'waste_incineration';
@@ -49,5 +33,22 @@ class WasteIncineration extends NonGreenStructure {
       BuildingState.done: game.wasteIncineration,
     };
     current = BuildingState.start;
+    upgrades = [
+      Upgrade(
+        game: game,
+        name: 'Solar Panel',
+        capital: 50,
+        resources: 10,
+        deltaCapital: -0.05,
+        deltaResources: -0.1,
+        deltaCarbon: 0.05,
+        deltaEnergy: 0.1,
+        deltaHealth: 0.01,
+        deltaMorale: 0.01,
+        timeToUpgrade: 1,
+        description:
+            "Install solar panels to save on energy bills and reduce carbon footprint.",
+      )
+    ];
   }
 }

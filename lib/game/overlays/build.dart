@@ -97,7 +97,7 @@ class BuildMenu extends StatelessWidget {
 
 class ElevatedCard extends StatelessWidget {
   const ElevatedCard(this.game, this.size, this.structure, this.spriteImage,
-      this.heading, this.subheading, this.description);
+      this.heading, this.subheading, this.description, {super.key});
   final OurGame game;
   final String heading;
   final String subheading;

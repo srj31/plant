@@ -20,22 +20,6 @@ class GreenHydrogen extends Structure {
           deltaMorale: 0.1,
           timeToBuild: 3,
           fullName: "Green Hydrogen",
-          upgrades: [
-            Upgrade(
-              name: 'Solar Panel',
-              capital: 50,
-              resources: 10,
-              deltaCapital: -0.05,
-              deltaResources: -0.1,
-              deltaCarbon: 0.05,
-              deltaEnergy: 0.1,
-              deltaHealth: 0.01,
-              deltaMorale: 0.01,
-              timeToUpgrade: 1,
-              description:
-                  "Install solar panels to save on energy bills and reduce carbon footprint.",
-            )
-          ],
         );
 
   final name = 'green_hydrogen';
@@ -48,5 +32,21 @@ class GreenHydrogen extends Structure {
       BuildingState.done: game.greenHydrogen,
     };
     current = BuildingState.start;
+    upgrades = [
+      Upgrade(
+          name: 'Solar Panel',
+          capital: 50,
+          resources: 10,
+          deltaCapital: -0.05,
+          deltaResources: -0.1,
+          deltaCarbon: 0.05,
+          deltaEnergy: 0.1,
+          deltaHealth: 0.01,
+          deltaMorale: 0.01,
+          timeToUpgrade: 1,
+          description:
+              "Install solar panels to save on energy bills and reduce carbon footprint.",
+          game: game)
+    ];
   }
 }

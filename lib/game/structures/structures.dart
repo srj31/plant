@@ -2,7 +2,6 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
-import 'package:flame_tiled/flame_tiled.dart' as flame_tiled;
 import 'package:flutter/material.dart';
 import 'package:game_name/game/misc_structures/house.dart';
 import 'package:game_name/game/non_green/fossil_fuel.dart';
@@ -40,7 +39,6 @@ class Structure extends SpriteGroupComponent<BuildingState>
     required this.deltaMorale,
     required this.timeToBuild,
     required this.fullName,
-    required this.upgrades,
   }) {
     timeLeft = timeToBuild;
   }
@@ -57,7 +55,7 @@ class Structure extends SpriteGroupComponent<BuildingState>
   final double timeToBuild;
   final String fullName;
 
-  final List<Upgrade> upgrades;
+  late List<Upgrade> upgrades;
   late double timeLeft;
 
   @override
@@ -66,6 +64,8 @@ class Structure extends SpriteGroupComponent<BuildingState>
     game.overlays.add(StructureInfo.id);
     super.onLongTapDown(event);
   }
+
+  void applyUpgrade(Upgrade upgrade) {}
 
   @override
   void update(double dt) {
@@ -139,7 +139,7 @@ class StructureInfo extends StatelessWidget {
   }
 }
 
-class ElevatedCard extends StatelessWidget {
+class ElevatedCard extends StatefulWidget {
   const ElevatedCard(this.game, this.structure, this.size, this.spriteImage,
       this.heading, this.subheading, this.description,
       {super.key});
@@ -154,6 +154,26 @@ class ElevatedCard extends StatelessWidget {
   final Sprite spriteImage;
 
   @override
+  ElevatedCardState createState() => ElevatedCardState(game);
+}
+
+class ElevatedCardState extends State<ElevatedCard> {
+  ElevatedCardState(this.game)
+      : capital = game.capital,
+        resources = game.resources;
+  final OurGame game;
+
+  double capital;
+  double resources;
+
+  void deltaCapitalResources(double deltaCapital, double deltaResources) {
+    setState(() {
+      capital += deltaCapital;
+      resources += deltaResources;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Center(
         child: GestureDetector(
@@ -165,8 +185,8 @@ class ElevatedCard extends StatelessWidget {
                     child: Card(
                   elevation: 10,
                   child: SizedBox(
-                    width: size.x,
-                    height: size.y,
+                    width: widget.size.x,
+                    height: widget.size.y,
                   ),
                 )),
                 Positioned(
@@ -178,47 +198,34 @@ class ElevatedCard extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15.0),
                       ),
                       child: Container(
-                        width: size.x / 2,
-                        height: size.y,
+                        width: widget.size.x / 2,
+                        height: widget.size.y,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15.0),
                         ),
                         child: RawImage(
-                          image: spriteImage.toImageSync(),
+                          image: widget.spriteImage.toImageSync(),
                         ),
                       ),
                     )),
                 Positioned(
                   top: 10,
                   right: 0,
-                  width: size.x / 2 - 5,
-                  height: size.y,
+                  width: widget.size.x / 2 - 5,
+                  height: widget.size.y,
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(heading,
+                        Text(widget.heading,
                             style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold)),
-                        Text(subheading, style: const TextStyle(fontSize: 12)),
-                        Text(description, style: const TextStyle(fontSize: 10)),
-                        ...structure.upgrades
+                        Text(widget.subheading,
+                            style: const TextStyle(fontSize: 12)),
+                        Text(widget.description,
+                            style: const TextStyle(fontSize: 10)),
+                        ...widget.structure.upgrades
                             .map((upgrade) => UpgradeWidget(upgrade))
                             .toList(),
-                        Container(
-                            alignment: Alignment.center,
-                            margin: const EdgeInsets.only(top: 10),
-                            child: SizedBox(
-                                height: 25,
-                                child: ElevatedButton(
-                                    onPressed: () {},
-                                    style: ButtonStyle(
-                                      backgroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.blue),
-                                      fixedSize: MaterialStateProperty.all(
-                                          Size(size.x / 3, 20)),
-                                    ),
-                                    child: const Text("Upgrade"))))
                       ]),
                 )
               ]),
