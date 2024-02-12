@@ -315,9 +315,11 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
         hasTimerStarted = false;
       }
 
-      if (elapsedSecs % 1000 == 0) {
-        overlays.add(EventMenu.id);
-        hasTimerStarted = false;
+      if (elapsedSecs % 10 == 0) {
+        if (math.Random().nextDouble() < 0.4) {
+          overlays.add(EventMenu.id);
+          hasTimerStarted = false;
+        }
       }
     }, repeat: true);
 
