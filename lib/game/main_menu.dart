@@ -17,7 +17,7 @@ class MainMenuState extends State<MainMenu> {
   void initState() {
     super.initState();
     _player = AudioPlayer();
-    _player.setAsset('assets/music/game_menu.wav');
+    _player.setAsset('assets/audio/game_menu.wav');
     _player.setLoopMode(LoopMode.one);
     _player.play();
   }

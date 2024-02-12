@@ -2,11 +2,13 @@ import 'dart:collection';
 import 'dart:math' as math;
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
+import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/map_generation/map_generation.dart';
 import 'package:game_name/game/misc_structures/tree.dart';
 import 'package:game_name/game/overlays/build.dart';
@@ -73,6 +75,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
   int elapsedSecs = 0;
   AbstractState state = DefaultState();
+  bool playSounds = true;
+  double soundVolume = 1.0;
 
   bool hasTimerStarted = false;
   static const double _minZoom = 0.5;
@@ -224,6 +228,10 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
   Future<void> initializeGame() async {
     await _loadSprites();
+    await AudioManager.init();
+
+    AudioManager.playBgm('game_menu.wav', soundVolume * 0.2);
+
     _initializeMap();
 
     final tiledData =
@@ -299,6 +307,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       morale = math.max(0, morale + deltaMorale);
       if (health <= 0) {
         overlays.add(GameOverMenu.id);
+        AudioManager.playSfx('game_over.wav', soundVolume);
         hasTimerStarted = false;
       }
       if (health >= 100) {

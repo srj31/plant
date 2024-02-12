@@ -1,6 +1,8 @@
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_tiled/flame_tiled.dart';
+import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/our_game.dart';
 import 'package:game_name/game/state/default.dart';
 
@@ -44,6 +46,8 @@ class PlaceItemState extends AbstractState {
       ..priority = 1;
 
     game.addBuiltItem(item: spriteComponent);
+
+    AudioManager.playSfx('on_construction.wav', game.soundVolume);
 
     game.state = DefaultState();
   }

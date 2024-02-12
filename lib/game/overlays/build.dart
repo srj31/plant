@@ -1,7 +1,9 @@
 import 'package:flame/components.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flame/events.dart';
+import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/our_game.dart';
 import 'package:game_name/game/state/place_item.dart';
 import 'package:game_name/game/structures/ev_factory.dart';
@@ -31,6 +33,7 @@ class BuildComponent extends SpriteComponent
   @override
   void onTapDown(TapDownEvent event) {
     game.overlays.add(BuildMenu.id);
+    AudioManager.playSfx('opening_overlay.wav', game.soundVolume);
   }
 }
 
@@ -97,7 +100,8 @@ class BuildMenu extends StatelessWidget {
 
 class ElevatedCard extends StatelessWidget {
   const ElevatedCard(this.game, this.size, this.structure, this.spriteImage,
-      this.heading, this.subheading, this.description, {super.key});
+      this.heading, this.subheading, this.description,
+      {super.key});
   final OurGame game;
   final String heading;
   final String subheading;

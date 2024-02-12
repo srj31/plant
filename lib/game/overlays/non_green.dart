@@ -1,6 +1,8 @@
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
+import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/non_green/fossil_fuel.dart';
 import 'package:game_name/game/non_green/deforrestation.dart';
 import 'package:game_name/game/non_green/plastic.dart';
@@ -30,6 +32,7 @@ class NonGreenComponent extends SpriteComponent
   @override
   void onTapDown(TapDownEvent event) {
     game.overlays.add(NonGreenMenu.id);
+    AudioManager.playSfx('opening_overlay.wav', game.soundVolume);
   }
 }
 
@@ -95,7 +98,7 @@ class NonGreenMenu extends StatelessWidget {
 
 class ElevatedCard extends StatelessWidget {
   const ElevatedCard(this.game, this.size, this.structure, this.spriteImage,
-      this.heading, this.subheading, this.description);
+      this.heading, this.subheading, this.description, {super.key});
   final OurGame game;
   final String heading;
   final String subheading;

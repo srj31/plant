@@ -1,6 +1,8 @@
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
+import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/our_game.dart';
 import 'package:game_name/game/research/biodegradable.dart';
 import 'package:game_name/game/research/carbon_technology.dart';
@@ -29,6 +31,7 @@ class ResearchComponent extends SpriteComponent
   @override
   void onTapDown(TapDownEvent event) {
     game.overlays.add(ResearchMenu.id);
+    AudioManager.playSfx("opening_overlay.wav", game.soundVolume);
   }
 }
 

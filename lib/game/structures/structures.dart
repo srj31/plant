@@ -2,7 +2,9 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
+import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
+import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/misc_structures/house.dart';
 import 'package:game_name/game/non_green/fossil_fuel.dart';
 import 'package:game_name/game/non_green/plastic.dart';
@@ -54,6 +56,7 @@ class Structure extends SpriteGroupComponent<BuildingState>
   final double deltaMorale;
   final double timeToBuild;
   final String fullName;
+  bool isDone = false;
 
   late List<Upgrade> upgrades;
   late double timeLeft;
@@ -65,12 +68,14 @@ class Structure extends SpriteGroupComponent<BuildingState>
     super.onLongTapDown(event);
   }
 
-  void applyUpgrade(Upgrade upgrade) {}
-
   @override
   void update(double dt) {
     timeLeft = max(0, timeLeft - dt);
     if (timeLeft == 0) {
+      if (!isDone) {
+        AudioManager.playSfx('when_built.wav', game.soundVolume);
+      }
+      isDone = true;
       current = BuildingState.done;
     }
   }
