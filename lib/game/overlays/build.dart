@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame/flame.dart';
 import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 
@@ -25,7 +26,7 @@ class BuildComponent extends SpriteComponent
 
   @override
   Future<void> onLoad() async {
-    sprite = game.getObjectSprite(690, 221, 20, 23);
+    sprite = Sprite(await Flame.images.load('build.png'));
     position = Vector2(50, 50);
     size = Vector2.all(32);
   }

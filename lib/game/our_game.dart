@@ -465,11 +465,11 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   }
 
   Future<void> _loadSprites() async {
-    capitalSprite = getObjectSprite(58, 488, 22, 20);
-    carbonEmissionSprite = getObjectSprite(510, 485, 18, 24);
-    energySprite = getObjectSprite(990, 64, 18, 28);
-    resourcesSprite = getObjectSprite(0, 488, 28, 21);
-    moraleSprite = getObjectSprite(944, 0, 22, 30);
+    capitalSprite = Sprite(await Flame.images.load("capital.png"));
+    carbonEmissionSprite = Sprite(await Flame.images.load("carbonControl.png"));
+    energySprite = Sprite(await Flame.images.load("energy.png"));
+    resourcesSprite = Sprite(await Flame.images.load("resources.png"));
+    moraleSprite = Sprite(await Flame.images.load("morale.png"));
 
     buildComponent = BuildComponent();
     evFactory = Sprite(await Flame.images.load("ev_factory.png"));

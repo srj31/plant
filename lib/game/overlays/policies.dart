@@ -1,6 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
-import 'package:flame_audio/flame_audio.dart';
+import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/our_game.dart';
@@ -23,7 +23,7 @@ class PoliciesComponent extends SpriteComponent
 
   @override
   Future<void> onLoad() async {
-    sprite = game.getObjectSprite(944, 343, 23, 37);
+    sprite = Sprite(await Flame.images.load('policy.png'));
     position = Vector2(50, 150);
     size = Vector2.all(32);
   }

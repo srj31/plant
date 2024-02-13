@@ -1,6 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
-import 'package:flame_audio/flame_audio.dart';
+import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/non_green/fossil_fuel.dart';
@@ -24,7 +24,7 @@ class NonGreenComponent extends SpriteComponent
 
   @override
   Future<void> onLoad() async {
-    sprite = game.getObjectSprite(282, 484, 32, 26);
+    sprite = Sprite(await Flame.images.load('non_green.png'));
     position = Vector2(50, 200);
     size = Vector2.all(32);
   }
@@ -98,7 +98,8 @@ class NonGreenMenu extends StatelessWidget {
 
 class ElevatedCard extends StatelessWidget {
   const ElevatedCard(this.game, this.size, this.structure, this.spriteImage,
-      this.heading, this.subheading, this.description, {super.key});
+      this.heading, this.subheading, this.description,
+      {super.key});
   final OurGame game;
   final String heading;
   final String subheading;
