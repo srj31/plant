@@ -29,15 +29,7 @@ class EventMenu extends StatelessWidget {
                       Earthquake(game: game),
                       game.earthquake,
                       "Earthquake",
-                      "Faster research and implementation of technological advancements.Reduced costs for technology-related upgrades",
-                    ),
-                    ElevatedCard(
-                      game,
-                      Vector2(game.size.x * 0.30, game.size.y * 0.80),
-                      Flood(game: game),
-                      game.policySpecialization,
-                      "Flood",
-                      "Quicker rule changes and policy implementations. Higher starting Morale and easier to maintain",
+                      "Witness the devastating aftermath of prolonged strain on Earth's health as structures crumble under seismic activity. Highlighting the urgent need for sustainable practices, this event emphasizes the critical importance of safeguarding against environmental degradation to mitigate natural disasters",
                     ),
                     ElevatedCard(
                       game,
@@ -45,7 +37,7 @@ class EventMenu extends StatelessWidget {
                       ForrestFire(game: game),
                       game.forrestFire,
                       "Forrest Fire",
-                      "Faster progress in scientific advancements. Reduced costs for scientific research and development. ",
+                      "Experience the ferocity of wildfires fueled by escalating global temperatures. Witness the destruction of precious ecosystems and habitats as forests blaze under the intensified heat of climate change. This event underscores the urgent need for environmental action to combat the escalating threats posed by rising temperatures and their devastating consequences.",
                     ),
                   ]),
                 ]))));

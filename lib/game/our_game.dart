@@ -125,13 +125,13 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
   void startPolicy(Policy policy) {
     capital -= policy.capital;
-    resources -= policy.capital;
+    resources -= policy.resources;
     inProgressPolicies.add((elapsedSecs + policy.timeToPass, policy));
   }
 
   void startResearch(Research research) {
     capital -= research.capital;
-    resources -= research.capital;
+    resources -= research.resources;
     inProgressResearches
         .add((elapsedSecs + research.timeToImplement, research));
   }
@@ -139,7 +139,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   void applyUpgrade(Upgrade upgrade) {
     upgrade.isPurchased = true;
     capital -= upgrade.capital;
-    resources -= upgrade.capital;
+    resources -= upgrade.resources;
     inProgressUpgrade.add((elapsedSecs + upgrade.timeToUpgrade, upgrade));
   }
 

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 // and background music in this game.
 class AudioManager {
   static final sfx = ValueNotifier(true);
-  static final bgm = ValueNotifier(true);
+  static final bgm = ValueNotifier(false);
 
   static Future<void> init() async {
     FlameAudio.bgm.initialize();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/main_menu.dart';
 import 'package:game_name/game/our_game.dart';
 
@@ -57,6 +58,7 @@ class GameOverMenu extends StatelessWidget {
                 child: ElevatedButton(
                   onPressed: () {
                     game.overlays.remove(GameOverMenu.id);
+                    AudioManager.stopBgm();
                     game.resumeEngine();
 
                     Navigator.of(context).pushReplacement(

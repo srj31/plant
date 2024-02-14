@@ -28,12 +28,12 @@ class BubblePopup extends SpriteComponent
       return;
     }
     final center = Offset(size.x / 2, size.y / 2);
-    final radius = size.x;
+    final radius = size.x * 0.7;
 
     // The circle should be paint before or it will be hidden by the path
-    Paint paintCircle = Paint()..color = Colors.black;
+    Paint paintCircle = Paint()..color = Colors.lightGreen;
     Paint paintBorder = Paint()
-      ..color = Colors.white
+      ..color = Colors.lightGreenAccent
       ..strokeWidth = size.x / 36
       ..style = PaintingStyle.stroke;
     canvas.drawCircle(center, radius, paintCircle);

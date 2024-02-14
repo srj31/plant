@@ -5,6 +5,7 @@ import 'package:game_name/game/specializations/policy.dart';
 import 'package:game_name/game/specializations/research.dart';
 import 'package:game_name/game/specializations/specialization.dart';
 import 'package:game_name/game/specializations/technology.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class SpecializationMenu extends StatelessWidget {
   static const id = 'SpecializationMenu';
@@ -30,7 +31,7 @@ class SpecializationMenu extends StatelessWidget {
                       game.technologySpecialization,
                       "Technology Specialization",
                       "Faster research and implementation of technological advancements.Reduced costs for technology-related upgrades",
-                      "Slower decision-making in rule changes and policy implementations. Less influence on policy-related parameters like Morale and Health",
+                      "Unleash the power of technology to optimize resource management, revolutionize infrastructure, and pioneer eco-friendly solutions. Although there is slower decision-making in rule changes and policy implementations.",
                     ),
                     ElevatedCard(
                       game,
@@ -90,8 +91,9 @@ class ElevatedCard extends StatelessWidget {
                     height: size.y,
                   ),
                 )),
+                // Top Part
                 Positioned(
-                    top: -10,
+                    top: -20,
                     left: size.x * 0.1,
                     child: Card(
                         elevation: 10,
@@ -258,11 +260,12 @@ class ElevatedCard extends StatelessWidget {
                             ])
                           ],
                         ))),
+                // The time and cost stats
                 Positioned(
-                  top: size.y * 0.5,
+                  top: size.y * 0.47,
                   right: 0,
                   width: size.x,
-                  height: size.y * 0.5,
+                  height: size.y * 0.6,
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
@@ -337,13 +340,25 @@ class ElevatedCard extends StatelessWidget {
                             )
                           ],
                         ),
-                        const Divider(
-                          color: Colors.orangeAccent,
+                        const Padding(
+                          padding: EdgeInsets.only(right: 10.0),
+                          child: Divider(color: Colors.amber),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: 10.0, right: 10.0, bottom: 10.0),
+                          child: Text(description,
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: Colors.amber.shade100,
+                                fontWeight: FontWeight.w500,
+                                fontStyle: GoogleFonts.oxygenMono().fontStyle,
+                              )),
                         ),
                         Container(
                             alignment: Alignment.center,
                             child: SizedBox(
-                                height: 25,
+                                height: 20,
                                 child: ElevatedButton(
                                     onPressed: () {
                                       game.setSpecialization(specialization);
@@ -354,18 +369,12 @@ class ElevatedCard extends StatelessWidget {
                                     style: ButtonStyle(
                                       foregroundColor:
                                           MaterialStateProperty.all(
-                                              Colors.white),
+                                              Colors.black),
                                       backgroundColor:
                                           MaterialStateProperty.all(
-                                              Colors.blue),
+                                              Colors.amber),
                                     ),
                                     child: const Text("Choose")))),
-                        const Divider(
-                          color: Colors.orangeAccent,
-                        ),
-                        Text(description,
-                            style: const TextStyle(
-                                fontSize: 11, color: Colors.black))
                       ]),
                 )
               ]),

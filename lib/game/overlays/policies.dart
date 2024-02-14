@@ -76,7 +76,7 @@ class PoliciesMenu extends StatelessWidget {
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
                       Afforestation(),
-                      game.carbonTax,
+                      game.afforestation,
                       "Afforestation Program",
                       "^CO ^Resource",
                       "Positive on Health, Resources, and Morale",
