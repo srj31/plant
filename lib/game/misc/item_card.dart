@@ -262,6 +262,8 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                     AudioManager.playSfx(
                                         'tap_button.mp3', game.soundVolume);
                                     game.overlays.remove(overlayId);
+                                    AudioManager.playSfx(
+                                        'tap_button.mp3', game.soundVolume);
                                     final newState = PlaceItemState();
                                     newState.displayGrids(game);
                                     game.state = newState;

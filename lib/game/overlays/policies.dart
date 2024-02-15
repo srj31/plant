@@ -166,6 +166,8 @@ class ElevatedCard extends StatelessWidget {
                                     onPressed: () {
                                       if (policy.capital <= game.capital &&
                                           policy.resources <= game.resources) {
+                                        AudioManager.playSfx(
+                                            'tap_button.mp3', game.soundVolume);
                                         game.overlays.remove(PoliciesMenu.id);
                                         game.startPolicy(policy);
                                       }

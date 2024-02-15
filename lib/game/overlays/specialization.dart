@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/our_game.dart';
 import 'package:game_name/game/specializations/policy.dart';
 import 'package:game_name/game/specializations/research.dart';
@@ -363,6 +364,8 @@ class ElevatedCard extends StatelessWidget {
                                     onPressed: () {
                                       game.setSpecialization(specialization);
                                       // game.hasTimerStarted = true;
+                                      AudioManager.playSfx(
+                                          'tap_button.mp3', game.soundVolume);
                                       game.overlays
                                           .remove(SpecializationMenu.id);
                                     },

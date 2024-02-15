@@ -170,6 +170,8 @@ class ElevatedCard extends StatelessWidget {
                                       if (research.capital <= game.capital &&
                                           research.resources <=
                                               game.resources) {
+                                        AudioManager.playSfx(
+                                            'tap_button.mp3', game.soundVolume);
                                         game.overlays.remove(ResearchMenu.id);
                                         game.startResearch(research);
                                       }
