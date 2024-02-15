@@ -7,7 +7,7 @@ import 'package:game_name/game/structures/structures.dart';
 
 class ItemCard<Item extends Structure> extends StatelessWidget {
   const ItemCard(this.game, this.size, this.structure, this.spriteImage,
-      this.heading, this.description,
+      this.heading, this.description, this.isGreen, this.overlayId,
       {super.key});
   final OurGame game;
   final String heading;
@@ -16,6 +16,9 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
   final Vector2 size;
   final Sprite spriteImage;
   final Item structure;
+
+  final bool isGreen;
+  final String overlayId;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +30,7 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
               child: Stack(clipBehavior: Clip.none, children: [
                 Positioned(
                     child: Card(
-                  color: Colors.green,
+                  color: isGreen ? Colors.green : Colors.grey,
                   elevation: 10,
                   child: SizedBox(
                     width: size.x,
@@ -52,7 +55,9 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                   height: size.y,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15.0),
-                                    color: Colors.lightGreen,
+                                    color: isGreen
+                                        ? Colors.lightGreen
+                                        : Colors.grey.shade200,
                                   ),
                                   child: RawImage(
                                     image: spriteImage.toImageSync(),
@@ -253,7 +258,7 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                 onPressed: () {
                                   if (structure.capital <= game.capital &&
                                       structure.resources <= game.resources) {
-                                    game.overlays.remove(BuildMenu.id);
+                                    game.overlays.remove(overlayId);
                                     final newState = PlaceItemState();
                                     newState.displayGrids(game);
                                     game.state = newState;

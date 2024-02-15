@@ -1,17 +1,14 @@
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
-import 'package:flame_audio/flame_audio.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flame/events.dart';
 import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/misc/item_card.dart';
 import 'package:game_name/game/our_game.dart';
-import 'package:game_name/game/state/place_item.dart';
 import 'package:game_name/game/structures/ev_factory.dart';
 import 'package:game_name/game/structures/green_hydrogen.dart';
 import 'package:game_name/game/structures/recycling_factory.dart';
-import 'package:game_name/game/structures/structures.dart';
 import 'package:game_name/game/structures/windmill.dart';
 
 class BuildComponent extends SpriteComponent
@@ -64,14 +61,18 @@ class BuildMenu extends StatelessWidget {
                       EvFactory(),
                       game.evFactory,
                       "EV Factory",
-                      "Establish your Electric Vehicle (EV) factory, produce eco-friendly cars, and ride the wave of sustainability."),
+                      "Establish your Electric Vehicle (EV) factory, produce eco-friendly cars, and ride the wave of sustainability.",
+                      true,
+                      BuildMenu.id),
                   ItemCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
                       WindMill(),
                       game.windmill,
                       "Wind Energy",
-                      "Capitalize on the wind's force to boost your Energy production, reduce Carbon Emission, and strengthen Earth's health"),
+                      "Capitalize on the wind's force to boost your Energy production, reduce Carbon Emission, and strengthen Earth's health",
+                      true,
+                      BuildMenu.id),
                 ]),
                 Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                   ItemCard(
@@ -80,14 +81,18 @@ class BuildMenu extends StatelessWidget {
                       GreenHydrogen(),
                       game.greenHydrogen,
                       "Green Hydrogen",
-                      "A strategic, long-term investment for players aiming for advanced and low-carbon energy solutions"),
+                      "A strategic, long-term investment for players aiming for advanced and low-carbon energy solutions",
+                      true,
+                      BuildMenu.id),
                   ItemCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
                       RecyclingFactory(),
                       game.recyclingFactory,
                       "Recycling Factory",
-                      "Process and recycle waste materials, reducing overall pollution and promoting a circular economy"),
+                      "Process and recycle waste materials, reducing overall pollution and promoting a circular economy",
+                      true,
+                      BuildMenu.id),
                 ])
               ],
             ),

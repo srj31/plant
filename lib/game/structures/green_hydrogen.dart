@@ -28,7 +28,7 @@ class GreenHydrogen extends Structure {
   Future<void> onLoad() async {
     await super.onLoad();
     sprites = {
-      BuildingState.start: game.evFactory,
+      BuildingState.start: game.underConstruction,
       BuildingState.done: game.greenHydrogen,
     };
     current = BuildingState.start;

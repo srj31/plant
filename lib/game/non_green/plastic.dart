@@ -29,7 +29,7 @@ class PlasticPlants extends NonGreenStructure {
   Future<void> onLoad() async {
     await super.onLoad();
     sprites = {
-      BuildingState.start: game.evFactory,
+      BuildingState.start: game.underConstruction,
       BuildingState.done: game.plastic,
     };
     current = BuildingState.start;

@@ -61,7 +61,7 @@ class ResearchMenu extends StatelessWidget {
                       game.carbonTechnology,
                       "Advanced Carbon Capture Technology",
                       "^CO",
-                      "Positive on Health and Carbon Emission",
+                      "Pioneer innovative solutions to combat climate change with advanced carbon capture technology. Develop cutting-edge methods to capture and store carbon emissions, mitigating the environmental impact of industrial processes and fostering a cleaner, greener future.",
                     ),
                     ElevatedCard(
                       game,
@@ -70,7 +70,7 @@ class ResearchMenu extends StatelessWidget {
                       game.smartGrid,
                       "Smart Grid Implementation",
                       "^Energy vCO2 ^Capital",
-                      "Positive on Energy and Capital.",
+                      "Revolutionize energy infrastructure with the implementation of a smart grid. Investigate intelligent systems and grid optimization techniques to enhance energy distribution efficiency, integrate renewable resources, and empower communities with sustainable energy solutions.",
                     ),
                   ]),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -81,7 +81,7 @@ class ResearchMenu extends StatelessWidget {
                       game.biodegradable,
                       "Biodegradable Materials Research",
                       "^Resource",
-                      "Positive on Resources and Health",
+                      "Lead the way in sustainable materials innovation with research into biodegradable alternatives. Explore eco-friendly materials and manufacturing processes to reduce pollution, minimize waste, and promote the transition to a circular economy.",
                     ),
                     ElevatedCard(
                       game,
@@ -90,7 +90,7 @@ class ResearchMenu extends StatelessWidget {
                       game.nanoTechnology,
                       "Nanotechnology for Air Filtration",
                       "^Resource ^Health",
-                      "Positive on Health and Resources",
+                      "Harness the power of nanotechnology to purify the air we breathe. Explore cutting-edge filtration techniques and nano-scale materials to combat air pollution, improve indoor air quality, and safeguard public health in an increasingly urbanized world.",
                     )
                   ])
                 ]))));

@@ -28,7 +28,7 @@ class Deforrestation extends Structure {
   Future<void> onLoad() async {
     await super.onLoad();
     sprites = {
-      BuildingState.start: game.evFactory,
+      BuildingState.start: game.underConstruction,
       BuildingState.done: game.deforestation,
     };
     current = BuildingState.start;

@@ -57,6 +57,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   late Sprite wasteIncineration;
 
   late Sprite house;
+  late Sprite underConstruction;
 
   late Sprite technologySpecialization;
   late Sprite policySpecialization;
@@ -493,6 +494,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     wasteIncineration = Sprite(await Flame.images.load("waste.png"));
 
     house = Sprite(await Flame.images.load("modern_villa.png"));
+    underConstruction = Sprite(await Flame.images.load("underconstruction.png"));
 
     earthquake = Sprite(await Flame.images.load("earthquake.png"));
     forrestFire = Sprite(await Flame.images.load("forrest_fire.png"));

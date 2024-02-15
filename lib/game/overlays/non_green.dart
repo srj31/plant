@@ -3,6 +3,7 @@ import 'package:flame/events.dart';
 import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:game_name/game/audio_manager.dart';
+import 'package:game_name/game/misc/item_card.dart';
 import 'package:game_name/game/non_green/fossil_fuel.dart';
 import 'package:game_name/game/non_green/deforrestation.dart';
 import 'package:game_name/game/non_green/plastic.dart';
@@ -55,42 +56,44 @@ class NonGreenMenu extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    ElevatedCard(
+                    ItemCard(
                         game,
                         Vector2(game.size.x * 0.40, game.size.y * 0.40),
                         FossilFuel(),
                         game.fossilFuel,
                         "Fossil Fuel Energy",
-                        "^CO ^Morale",
-                        "Effect: Provides immediate and cheap energy. Negative Effects: High carbon emissions, air pollution, health risks, and ecosystem degradation"),
-                    ElevatedCard(
+                        "Embrace the allure of fossil fuels to rapidly boost energy production. Harness the power of traditional energy sources, but beware of the environmental consequences as carbon emissions soar and air quality declines.",
+                        false,
+                        NonGreenMenu.id),
+                    ItemCard(
                         game,
                         Vector2(game.size.x * 0.40, game.size.y * 0.40),
                         Deforrestation(),
                         game.deforestation,
                         "Deforrestation",
-                        "^Capital ^Co vMorale",
-                        "Effect: Clearing land for agricultural purposes. Negative Effects: Loss of biodiversity, habitat destruction, soil erosion, increased carbon emissions, and loss of ecosystem services.")
+                        "Clear the way for development with ruthless deforestation. Exploit natural resources and expand civilization, but at the cost of biodiversity loss, habitat destruction, and escalating carbon emissions.",
+                        false,
+                        NonGreenMenu.id)
                   ]),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    ElevatedCard(
-                      game,
-                      Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                      PlasticPlants(),
-                      game.plastic,
-                      "Plastic Manufacturing",
-                      "^CO ^Resource",
-                      "Effect: Low production costs for disposable items. Negative Effects: Plastic pollution in oceans and ecosystems, harm to marine life, and long-lasting environmental impact.",
-                    ),
-                    ElevatedCard(
-                      game,
-                      Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                      WasteIncineration(),
-                      game.wasteIncineration,
-                      "Waste Incineration",
-                      "^Morale ^CO",
-                      "Effect: Quick disposal of waste. Negative Effects: Air pollution, release of toxic chemicals, contribution to climate change, and potential health hazards.",
-                    )
+                    ItemCard(
+                        game,
+                        Vector2(game.size.x * 0.40, game.size.y * 0.40),
+                        PlasticPlants(),
+                        game.plastic,
+                        "Plastic Manufacturing",
+                        "Dive into the world of plastic production to meet consumer demand. Fuel economic growth with mass-produced plastics, but grapple with the environmental fallout of pollution, marine debris, and ecosystem degradation.",
+                        false,
+                        NonGreenMenu.id),
+                    ItemCard(
+                        game,
+                        Vector2(game.size.x * 0.40, game.size.y * 0.40),
+                        WasteIncineration(),
+                        game.wasteIncineration,
+                        "Waste Incineration",
+                        "Dispose of waste quickly and efficiently with incineration technology. Tackle the mounting waste crisis, but contend with the environmental repercussions of air pollution, toxic emissions, and the depletion of natural resources.",
+                        false,
+                        NonGreenMenu.id)
                   ])
                 ]))));
   }
@@ -98,11 +101,10 @@ class NonGreenMenu extends StatelessWidget {
 
 class ElevatedCard extends StatelessWidget {
   const ElevatedCard(this.game, this.size, this.structure, this.spriteImage,
-      this.heading, this.subheading, this.description,
+      this.heading, this.description,
       {super.key});
   final OurGame game;
   final String heading;
-  final String subheading;
   final Structure structure;
   final String description;
 
@@ -157,7 +159,6 @@ class ElevatedCard extends StatelessWidget {
                         Text(heading,
                             style: const TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold)),
-                        Text(subheading, style: const TextStyle(fontSize: 12)),
                         Text(description, style: const TextStyle(fontSize: 10)),
                         Container(
                             alignment: Alignment.center,

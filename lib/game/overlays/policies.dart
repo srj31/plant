@@ -61,7 +61,7 @@ class PoliciesMenu extends StatelessWidget {
                         game.publicTransport,
                         "Public Transportation Expansion",
                         "^CO ^Morale",
-                        "Reduces Carbon Emission, improves Morale good for all"),
+                        "Propel environmental progress by investing in robust public transit systems. Reduce traffic congestion, lower emissions, and improve urban air quality with expanded public transportation options, fostering sustainable mobility and vibrant communities"),
                     ElevatedCard(
                         game,
                         Vector2(game.size.x * 0.40, game.size.y * 0.40),
@@ -69,7 +69,7 @@ class PoliciesMenu extends StatelessWidget {
                         game.carbonTax,
                         "Carbon Tax Implementation",
                         "^Capital ^Co vMorale",
-                        "Positive on Capital, negative on Morale")
+                        "Take decisive action against climate change with a carbon tax. Incentivize emissions reduction, spur innovation in clean energy, and generate revenue for environmental initiatives, paving the way for a greener and more prosperous future.")
                   ]),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     ElevatedCard(
@@ -79,7 +79,7 @@ class PoliciesMenu extends StatelessWidget {
                       game.afforestation,
                       "Afforestation Program",
                       "^CO ^Resource",
-                      "Positive on Health, Resources, and Morale",
+                      "Embrace nature's solution to climate change with a proactive afforestation initiative. Restore ecosystems, mitigate carbon emissions, and enhance biodiversity by planting trees, fostering green spaces, and safeguarding the planet for generations to come.",
                     ),
                     ElevatedCard(
                       game,
@@ -88,7 +88,7 @@ class PoliciesMenu extends StatelessWidget {
                       game.globalTreaty,
                       "Global Collaboration Treaty",
                       "^Morale ^CO",
-                      "Positive on Morale and globally on Carbon Emission",
+                      "Forge international unity in the fight against climate change with a comprehensive global treaty. Coordinate efforts, share resources, and amplify impact on a global scale, ushering in a new era of cooperation and collective responsibility for a sustainable future.",
                     )
                   ])
                 ]))));

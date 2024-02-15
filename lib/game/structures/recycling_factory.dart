@@ -28,7 +28,7 @@ class RecyclingFactory extends Structure {
   Future<void> onLoad() async {
     await super.onLoad();
     sprites = {
-      BuildingState.start: game.evFactory,
+      BuildingState.start: game.underConstruction,
       BuildingState.done: game.recyclingFactory,
     };
     current = BuildingState.start;
