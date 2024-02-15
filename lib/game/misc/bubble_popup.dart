@@ -1,4 +1,5 @@
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:game_name/game/our_game.dart';
@@ -17,8 +18,17 @@ class BubblePopup extends SpriteComponent
 
   @override
   void onTapDown(TapDownEvent event) {
-    removeFromParent();
-    super.removeFromParent();
+    addAll([
+      OpacityEffect.fadeOut(
+        LinearEffectController(0.05),
+        target: this,
+        onComplete: removeFromParent,
+      ),
+      ScaleEffect.by(
+        Vector2.all(1.1),
+        LinearEffectController(0.05),
+      ),
+    ]);
     onTap();
   }
 

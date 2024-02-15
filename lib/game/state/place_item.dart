@@ -1,6 +1,5 @@
 import 'package:flame/components.dart';
 import 'package:flame/events.dart';
-import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/our_game.dart';
@@ -30,7 +29,7 @@ class PlaceItemState extends AbstractState {
   @override
   void handleTap(OurGame game, TapDownEvent info) {
     final tappedCel = game.getTappedCell(info);
-    const placableTile = 108;
+    const changeTiles = [108, 92];
     final data =
         game.mapComponent.tileMap.getLayer<TileLayer>("Map")!.tileData!;
     if (tappedCel.row < 0 ||
@@ -40,7 +39,7 @@ class PlaceItemState extends AbstractState {
     }
     for (var i = 0; i < data.length; i++) {
       for (var j = 0; j < data[0].length; j++) {
-        if (data[i][j].tile == placableTile) {
+        if (changeTiles.contains(data[i][j].tile)) {
           game.mapComponent.tileMap.setTileData(
               layerId: 0, x: j, y: i, gid: game.cachedTiledData[i][j]);
         }

@@ -85,8 +85,6 @@ class House extends Structure {
 
   @override
   void update(double dt) {
-    super.update(dt);
-
     if (!showBubble) {
       return;
     }
