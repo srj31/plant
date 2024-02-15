@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
+import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/our_game.dart';
 import 'package:game_name/game/overlays/build.dart';
 import 'package:game_name/game/state/place_item.dart';
@@ -30,7 +31,7 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
               child: Stack(clipBehavior: Clip.none, children: [
                 Positioned(
                     child: Card(
-                  color: isGreen ? Colors.green : Colors.grey,
+                  color: isGreen ? Colors.green : Colors.grey.shade900,
                   elevation: 10,
                   child: SizedBox(
                     width: size.x,
@@ -57,7 +58,7 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                     borderRadius: BorderRadius.circular(15.0),
                                     color: isGreen
                                         ? Colors.lightGreen
-                                        : Colors.grey.shade200,
+                                        : Colors.grey.shade700,
                                   ),
                                   child: RawImage(
                                     image: spriteImage.toImageSync(),
@@ -258,6 +259,8 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                 onPressed: () {
                                   if (structure.capital <= game.capital &&
                                       structure.resources <= game.resources) {
+                                    AudioManager.playSfx(
+                                        'tap_button.mp3', game.soundVolume);
                                     game.overlays.remove(overlayId);
                                     final newState = PlaceItemState();
                                     newState.displayGrids(game);

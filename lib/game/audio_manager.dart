@@ -15,6 +15,7 @@ class AudioManager {
       'when_built.wav',
       'on_construction.wav',
       'tap_bubble.wav',
+      'tap_button.mp3',
       'game_menu.wav'
     ]);
   }
