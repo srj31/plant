@@ -2,6 +2,7 @@ import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
+import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/our_game.dart';
 
 class BubblePopup extends SpriteComponent
@@ -29,6 +30,7 @@ class BubblePopup extends SpriteComponent
         LinearEffectController(0.05),
       ),
     ]);
+    AudioManager.playSfx("tap_bubble.wav", game.soundVolume);
     onTap();
   }
 

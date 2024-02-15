@@ -14,6 +14,7 @@ class AudioManager {
       'opening_overlay.wav',
       'when_built.wav',
       'on_construction.wav',
+      'tap_bubble.wav',
       'game_menu.wav'
     ]);
   }
