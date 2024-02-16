@@ -160,63 +160,53 @@ class ElevatedCard extends StatelessWidget {
                                 fontSize: 16, fontWeight: FontWeight.bold)),
                         Text(subheading, style: const TextStyle(fontSize: 12)),
                         Text(description, style: const TextStyle(fontSize: 10)),
-                        Container(
-                            alignment: Alignment.center,
-                            margin: const EdgeInsets.only(top: 10),
-                            child: SizedBox(
-                                height: 25,
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      if (research.capital <= game.capital &&
-                                          research.resources <=
-                                              game.resources) {
-                                        AudioManager.playSfx(
-                                            'tap_button.mp3', game.soundVolume);
-                                        game.overlays.remove(ResearchMenu.id);
-                                        game.startResearch(research);
-                                      }
-                                    },
-                                    style: ButtonStyle(
-                                      foregroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.white),
-                                      backgroundColor:
-                                          research.capital <= game.capital &&
-                                                  research.resources <=
-                                                      game.resources
-                                              ? MaterialStateProperty.all(
-                                                  Colors.green)
-                                              : MaterialStateProperty.all(
-                                                  Colors.grey),
-                                      fixedSize: MaterialStateProperty.all(
-                                          Size(size.x * 0.45, 20)),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        RawImage(
-                                          image:
-                                              game.capitalSprite.toImageSync(),
-                                        ),
-                                        Text(
-                                            research.capital.toStringAsFixed(0),
-                                            style:
-                                                const TextStyle(fontSize: 10)),
-                                        const Spacer(),
-                                        RawImage(
-                                          image: game.resourcesSprite
-                                              .toImageSync(),
-                                        ),
-                                        Text(
-                                            research.resources
-                                                .toStringAsFixed(0),
-                                            style:
-                                                const TextStyle(fontSize: 10)),
-                                      ],
-                                    ))))
                       ]),
-                )
+                ),
+                Positioned(
+                    bottom: 10,
+                    left: 10,
+                    child: Container(
+                        alignment: Alignment.center,
+                        margin: const EdgeInsets.only(top: 10),
+                        child: SizedBox(
+                            height: 25,
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  if (research.capital <= game.capital &&
+                                      research.resources <= game.resources) {
+                                    AudioManager.playSfx(
+                                        'tap_button.mp3', game.soundVolume);
+                                    game.overlays.remove(ResearchMenu.id);
+                                    game.startResearch(research);
+                                  }
+                                },
+                                style: ButtonStyle(
+                                  foregroundColor:
+                                      MaterialStateProperty.all(Colors.white),
+                                  backgroundColor: research.capital <=
+                                              game.capital &&
+                                          research.resources <= game.resources
+                                      ? MaterialStateProperty.all(Colors.green)
+                                      : MaterialStateProperty.all(Colors.grey),
+                                  fixedSize: MaterialStateProperty.all(
+                                      Size(size.x * 0.45, 20)),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    RawImage(
+                                      image: game.capitalSprite.toImageSync(),
+                                    ),
+                                    Text(research.capital.toStringAsFixed(0),
+                                        style: const TextStyle(fontSize: 10)),
+                                    const Spacer(),
+                                    RawImage(
+                                      image: game.resourcesSprite.toImageSync(),
+                                    ),
+                                    Text(research.resources.toStringAsFixed(0),
+                                        style: const TextStyle(fontSize: 10)),
+                                  ],
+                                )))))
               ]),
             )));
   }

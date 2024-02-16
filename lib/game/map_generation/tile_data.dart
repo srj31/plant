@@ -1,4 +1,5 @@
 enum TileType {
+  highLand(id: 181),
   grassLand(id: 22),
   water(id: 0);
 

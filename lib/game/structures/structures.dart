@@ -75,9 +75,7 @@ class Structure extends SpriteGroupComponent<BuildingState>
       if (!isDone) {
         AudioManager.playSfx('when_built.wav', game.soundVolume);
         add(FinishBuildingEffect(
-            size: Vector2.all(100),
-            priority: 1000,
-            position: Vector2.all(0)));
+            size: Vector2.all(100), priority: 1000, position: Vector2.all(0)));
       }
       isDone = true;
       current = BuildingState.done;

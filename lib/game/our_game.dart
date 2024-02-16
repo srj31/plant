@@ -2,7 +2,6 @@ import 'dart:collection';
 import 'dart:math' as math;
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
-import 'package:flame_audio/flame_audio.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart';
 
@@ -79,7 +78,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   bool playSounds = true;
   double soundVolume = 1.0;
 
-  bool hasTimerStarted = false;
+  bool hasTimerStarted = true;
   static const double _minZoom = 0.5;
   static const double _maxZoom = 1.0;
   final MapGenerator _mapGenerator =
@@ -190,8 +189,27 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     return grid;
   }
 
-  void populateTrees({required Tree tree, bool isPreBuilt = false}) async {
+  Future<void> populateTrees(
+      {required Tree tree, bool isPreBuilt = false}) async {
+    SpriteAnimationData treeData = SpriteAnimationData.sequenced(
+      amount: 4,
+      stepTime: 0.15,
+      textureSize: Vector2(120, 140),
+    );
+
+    final treeSheet = await Flame.images.load('tree_animation.png');
+
+    final treeSprite = SpriteAnimationComponent.fromFrameData(
+      treeSheet,
+      treeData,
+      position: tree.position,
+      priority: 100,
+      anchor: Anchor.center,
+    );
+
+    world.add(treeSprite);
     world.add(tree);
+
     deltaHealth += tree.deltaHealth;
     deltaMorale += tree.deltaMorale;
     deltaCarbon += tree.deltaCarbon;
@@ -331,7 +349,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     camera.viewport.add(Hud());
   }
 
-  void _initializeMap() {
+  Future<void> _initializeMap() async {
     const xOffset = 1;
     const yOffset = 3;
     final tileSize = mapComponent.tileMap.destTileSize;
@@ -357,7 +375,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       final hexAxial = oddrToAxial(Vector2(treeLocationsinOffset[i].x + xOffset,
           treeLocationsinOffset[i].y + yOffset));
       final location = hexToPixel(layout, hexAxial);
-      populateTrees(
+      await populateTrees(
           tree: Tree(
               position: Vector2(location.x, location.y),
               priority: 1,
@@ -383,6 +401,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       final structure = Structure.factory(buildingName, location);
       addBuiltItem(
           item: structure
+            ..priority = 100
             ..current = BuildingState.done
             ..timeLeft = 0,
           isPreBuilt: true);
@@ -427,7 +446,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     }
   }
 
-  void nextLevel() {
+  void nextLevel() async {
     overlays.add(SpecializationMenu.id);
     elapsedSecs = 0;
     state = DefaultState();
@@ -453,7 +472,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     builtItems = [];
     trees = [];
 
-    _initializeMap();
+    await _initializeMap();
   }
 
   void setSpecialization(Specialization specialization) {
@@ -494,7 +513,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     wasteIncineration = Sprite(await Flame.images.load("waste.png"));
 
     house = Sprite(await Flame.images.load("modern_villa.png"));
-    underConstruction = Sprite(await Flame.images.load("underconstruction.png"));
+    underConstruction =
+        Sprite(await Flame.images.load("underconstruction.png"));
 
     earthquake = Sprite(await Flame.images.load("earthquake.png"));
     forrestFire = Sprite(await Flame.images.load("forrest_fire.png"));

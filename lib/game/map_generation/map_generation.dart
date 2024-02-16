@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:fast_noise/fast_noise.dart';
+import 'package:fast_noise/fast_noise.dart' as noise;
 import 'package:flame/game.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:game_name/game/map_generation/tile_data.dart';
@@ -16,19 +16,16 @@ class MapGenerator {
   final int height;
   final double density;
   final double treeDensity;
-  final PerlinNoise _noise =
-      PerlinNoise(seed: Random().nextInt(1337), frequency: 0.15);
+  final noise.PerlinNoise _noise =
+      noise.PerlinNoise(seed: Random().nextInt(1337), frequency: 0.2);
 
-  final SimplexFractalNoise _noiseSimplex = SimplexFractalNoise(
-    octaves: 3,
-    frequency: 0.5,
-    seed: Random().nextInt(1337),
-  );
+  final noise.ValueFractalNoise _noiseSimplex = noise.ValueFractalNoise(
+      seed: Random().nextInt(1337), frequency: 0.2, octaves: 2, lacunarity: 2);
 
   static const _max = 1; // maximum noise value
   static const _min = -_max; // minimum noise value
 
-  static const _maxTree = 0.5; // maximum noise value
+  static const _maxTree = 0.1; // maximum noise value
   static const _minTree = -_maxTree; // minimum noise value
 
   List<List<Gid>> generateMapWithGid() {
@@ -76,7 +73,7 @@ class MapGenerator {
             nonEmptyTiles[i + xOffset][j + yOffset] == false) {
           var noise = _noiseSimplex.getNoise2(i.toDouble(), j.toDouble());
           var percentage = (noise - _min) / (_max - _min);
-          if (percentage != 0.5 && count > 0) {
+          if (percentage < treeDensity && count > 0) {
             count--;
             buildingLocations.add(Vector2(i.toDouble(), j.toDouble()));
           }
@@ -96,6 +93,9 @@ class MapGenerator {
                 var noise = _noise.getNoise2(i.toDouble(), j.toDouble());
                 var percentage = (noise - _min) / (_max - _min);
                 if (percentage < density) {
+                  if (percentage < 0.5 * density) {
+                    return TileData(type: TileType.highLand);
+                  }
                   return TileData(type: TileType.grassLand);
                 } else {
                   return TileData(type: TileType.water);

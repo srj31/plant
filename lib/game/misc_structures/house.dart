@@ -89,6 +89,8 @@ class House extends Structure {
       return;
     }
 
+    super.update(dt);
+
     switch (current) {
       case BuildingState.done:
         {

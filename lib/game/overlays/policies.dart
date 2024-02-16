@@ -157,59 +157,53 @@ class ElevatedCard extends StatelessWidget {
                                 fontSize: 16, fontWeight: FontWeight.bold)),
                         Text(subheading, style: const TextStyle(fontSize: 12)),
                         Text(description, style: const TextStyle(fontSize: 10)),
-                        Container(
-                            alignment: Alignment.center,
-                            margin: const EdgeInsets.only(top: 10),
-                            child: SizedBox(
-                                height: 25,
-                                child: ElevatedButton(
-                                    onPressed: () {
-                                      if (policy.capital <= game.capital &&
-                                          policy.resources <= game.resources) {
-                                        AudioManager.playSfx(
-                                            'tap_button.mp3', game.soundVolume);
-                                        game.overlays.remove(PoliciesMenu.id);
-                                        game.startPolicy(policy);
-                                      }
-                                    },
-                                    style: ButtonStyle(
-                                      foregroundColor:
-                                          MaterialStateProperty.all(
-                                              Colors.white),
-                                      backgroundColor: policy.capital <=
-                                                  game.capital &&
-                                              policy.resources <= game.resources
-                                          ? MaterialStateProperty.all(
-                                              Colors.green)
-                                          : MaterialStateProperty.all(
-                                              Colors.grey),
-                                      fixedSize: MaterialStateProperty.all(
-                                          Size(size.x * 0.45, 20)),
-                                    ),
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        RawImage(
-                                          image:
-                                              game.capitalSprite.toImageSync(),
-                                        ),
-                                        Text(policy.capital.toStringAsFixed(0),
-                                            style:
-                                                const TextStyle(fontSize: 10)),
-                                        const Spacer(),
-                                        RawImage(
-                                          image: game.resourcesSprite
-                                              .toImageSync(),
-                                        ),
-                                        Text(
-                                            policy.resources.toStringAsFixed(0),
-                                            style:
-                                                const TextStyle(fontSize: 10)),
-                                      ],
-                                    ))))
                       ]),
-                )
+                ),
+                Positioned(
+                    bottom: 10,
+                    left: 10,
+                    child: Container(
+                        alignment: Alignment.center,
+                        margin: const EdgeInsets.only(top: 10),
+                        child: SizedBox(
+                            height: 25,
+                            child: ElevatedButton(
+                                onPressed: () {
+                                  if (policy.capital <= game.capital &&
+                                      policy.resources <= game.resources) {
+                                    AudioManager.playSfx(
+                                        'tap_button.mp3', game.soundVolume);
+                                    game.overlays.remove(PoliciesMenu.id);
+                                    game.startPolicy(policy);
+                                  }
+                                },
+                                style: ButtonStyle(
+                                  foregroundColor:
+                                      MaterialStateProperty.all(Colors.white),
+                                  backgroundColor: policy.capital <=
+                                              game.capital &&
+                                          policy.resources <= game.resources
+                                      ? MaterialStateProperty.all(Colors.green)
+                                      : MaterialStateProperty.all(Colors.grey),
+                                  fixedSize: MaterialStateProperty.all(
+                                      Size(size.x * 0.45, 20)),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    RawImage(
+                                      image: game.capitalSprite.toImageSync(),
+                                    ),
+                                    Text(policy.capital.toStringAsFixed(0),
+                                        style: const TextStyle(fontSize: 10)),
+                                    const Spacer(),
+                                    RawImage(
+                                      image: game.resourcesSprite.toImageSync(),
+                                    ),
+                                    Text(policy.resources.toStringAsFixed(0),
+                                        style: const TextStyle(fontSize: 10)),
+                                  ],
+                                )))))
               ]),
             )));
   }

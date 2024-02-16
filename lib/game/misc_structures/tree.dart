@@ -30,7 +30,7 @@ class Tree extends Structure {
   @override
   Future<void> onLoad() async {
     sprites = {
-      BuildingState.start: game.evFactory,
+      BuildingState.start: game.underConstruction,
       BuildingState.done: game.afforestation,
     };
     current = BuildingState.start;
