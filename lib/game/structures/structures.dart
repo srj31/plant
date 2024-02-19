@@ -22,7 +22,7 @@ enum BuildingState {
   done,
 }
 
-class Structure extends SpriteGroupComponent<BuildingState>
+class Structure extends SpriteAnimationGroupComponent<BuildingState>
     with TapCallbacks, HasGameReference<OurGame> {
   Structure({
     super.position,
@@ -56,6 +56,8 @@ class Structure extends SpriteGroupComponent<BuildingState>
   final double deltaMorale;
   final double timeToBuild;
   final String fullName;
+
+  late Sprite displaySprite;
   bool isDone = false;
 
   late List<Upgrade> upgrades;
@@ -70,6 +72,7 @@ class Structure extends SpriteGroupComponent<BuildingState>
 
   @override
   void update(double dt) {
+    super.update(dt);
     timeLeft = max(0, timeLeft - dt);
     if (timeLeft == 0) {
       if (!isDone) {
@@ -138,7 +141,7 @@ class StructureInfo extends StatelessWidget {
                       game,
                       structure,
                       Vector2(game.size.x * 0.70, game.size.y * 0.80),
-                      structure.sprite!,
+                      structure.displaySprite,
                       structure.fullName,
                       "Delta for all thigs",
                       "Details about upgrading the structure"),

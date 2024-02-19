@@ -27,7 +27,8 @@ class RecyclingFactory extends Structure {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    sprites = {
+    displaySprite = game.getSpriteFromSheet("recycling_factory.png");
+    animations = {
       BuildingState.start: game.underConstruction,
       BuildingState.done: game.recyclingFactory,
     };

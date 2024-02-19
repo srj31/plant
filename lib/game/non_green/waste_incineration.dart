@@ -28,7 +28,8 @@ class WasteIncineration extends NonGreenStructure {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    sprites = {
+    displaySprite = game.getSpriteFromSheet("waste.png");
+    animations = {
       BuildingState.start: game.underConstruction,
       BuildingState.done: game.wasteIncineration,
     };

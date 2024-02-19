@@ -32,7 +32,7 @@ class SpecializationMenu extends StatelessWidget {
                       game.technologySpecialization,
                       "Technology Specialization",
                       "Faster research and implementation of technological advancements.Reduced costs for technology-related upgrades",
-                      "Unleash the power of technology to optimize resource management, revolutionize infrastructure, and pioneer eco-friendly solutions. Although there is slower decision-making in rule changes and policy implementations.",
+                      "Unleash the power of technology to optimize resource management, revolutionize infrastructure, and pioneer eco-friendly solutions. ",
                     ),
                     ElevatedCard(
                       game,
@@ -350,10 +350,10 @@ class ElevatedCard extends StatelessWidget {
                               left: 10.0, right: 10.0, bottom: 10.0),
                           child: Text(description,
                               style: TextStyle(
-                                fontSize: 11,
-                                color: Colors.amber.shade100,
-                                fontWeight: FontWeight.w500,
-                                fontStyle: GoogleFonts.oxygenMono().fontStyle,
+                                fontSize: 13,
+                                color: Colors.black,
+                                fontWeight: FontWeight.w600,
+                                fontStyle: GoogleFonts.play().fontStyle,
                               )),
                         ),
                         Container(
@@ -363,7 +363,7 @@ class ElevatedCard extends StatelessWidget {
                                 child: ElevatedButton(
                                     onPressed: () {
                                       game.setSpecialization(specialization);
-                                      // game.hasTimerStarted = true;
+                                      game.hasTimerStarted = true;
                                       AudioManager.playSfx(
                                           'tap_button.mp3', game.soundVolume);
                                       game.overlays

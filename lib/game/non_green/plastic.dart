@@ -28,7 +28,8 @@ class PlasticPlants extends NonGreenStructure {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    sprites = {
+    displaySprite = game.getSpriteFromSheet("plastic.png");
+    animations = {
       BuildingState.start: game.underConstruction,
       BuildingState.done: game.plastic,
     };

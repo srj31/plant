@@ -27,7 +27,8 @@ class Deforrestation extends Structure {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    sprites = {
+    displaySprite = game.getSpriteFromSheet("resources.png");
+    animations = {
       BuildingState.start: game.underConstruction,
       BuildingState.done: game.deforestation,
     };

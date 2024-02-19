@@ -22,7 +22,7 @@ class PublicTransport extends Policy {
   static const name = 'public_transport';
   @override
   Future<void> onLoad() async {
-    sprite = game.evFactory;
+    sprite = game.publicTransport;
     await super.onLoad();
   }
 }

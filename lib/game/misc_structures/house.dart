@@ -29,8 +29,9 @@ class House extends Structure {
 
   @override
   Future<void> onLoad() async {
-    sprites = {
-      BuildingState.start: game.evFactory,
+    displaySprite = game.getSpriteFromSheet("house.png");
+    animations = {
+      BuildingState.start: game.underConstruction,
       BuildingState.done: game.house,
     };
     upgrades = [

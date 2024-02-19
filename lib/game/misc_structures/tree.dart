@@ -29,9 +29,10 @@ class Tree extends Structure {
 
   @override
   Future<void> onLoad() async {
-    sprites = {
+    displaySprite = game.getSpriteFromSheet("tree_animation.png");
+    animations = {
       BuildingState.start: game.underConstruction,
-      BuildingState.done: game.afforestation,
+      BuildingState.done: game.tree,
     };
     current = BuildingState.start;
     upgrades = [

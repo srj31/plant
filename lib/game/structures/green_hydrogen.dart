@@ -27,7 +27,8 @@ class GreenHydrogen extends Structure {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    sprites = {
+    displaySprite = game.getSpriteFromSheet("green_hydrogen.png");
+    animations = {
       BuildingState.start: game.underConstruction,
       BuildingState.done: game.greenHydrogen,
     };

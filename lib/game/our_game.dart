@@ -38,10 +38,10 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   late Sprite energySprite;
   late Sprite resourcesSprite;
 
-  late Sprite evFactory;
-  late Sprite windmill;
-  late Sprite recyclingFactory;
-  late Sprite greenHydrogen;
+  late SpriteAnimation evFactory;
+  late SpriteAnimation windmill;
+  late SpriteAnimation recyclingFactory;
+  late SpriteAnimation greenHydrogen;
   late Sprite publicTransport;
   late Sprite carbonTax;
   late Sprite afforestation;
@@ -50,13 +50,14 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   late Sprite smartGrid;
   late Sprite biodegradable;
   late Sprite nanoTechnology;
-  late Sprite fossilFuel;
-  late Sprite deforestation;
-  late Sprite plastic;
-  late Sprite wasteIncineration;
+  late SpriteAnimation fossilFuel;
+  late SpriteAnimation deforestation;
+  late SpriteAnimation plastic;
+  late SpriteAnimation wasteIncineration;
 
-  late Sprite house;
-  late Sprite underConstruction;
+  late SpriteAnimation house;
+  late SpriteAnimation tree;
+  late SpriteAnimation underConstruction;
 
   late Sprite technologySpecialization;
   late Sprite policySpecialization;
@@ -78,7 +79,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   bool playSounds = true;
   double soundVolume = 1.0;
 
-  bool hasTimerStarted = true;
+  bool hasTimerStarted = false;
   static const double _minZoom = 0.5;
   static const double _maxZoom = 1.0;
   final MapGenerator _mapGenerator =
@@ -191,23 +192,6 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
   Future<void> populateTrees(
       {required Tree tree, bool isPreBuilt = false}) async {
-    SpriteAnimationData treeData = SpriteAnimationData.sequenced(
-      amount: 4,
-      stepTime: 0.15,
-      textureSize: Vector2(120, 140),
-    );
-
-    final treeSheet = await Flame.images.load('tree_animation.png');
-
-    final treeSprite = SpriteAnimationComponent.fromFrameData(
-      treeSheet,
-      treeData,
-      position: tree.position,
-      priority: 100,
-      anchor: Anchor.center,
-    );
-
-    world.add(treeSprite);
     world.add(tree);
 
     deltaHealth += tree.deltaHealth;
@@ -492,10 +476,13 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     moraleSprite = Sprite(await Flame.images.load("morale.png"));
 
     buildComponent = BuildComponent();
-    evFactory = Sprite(await Flame.images.load("ev_factory.png"));
-    windmill = Sprite(await Flame.images.load("windmill.png"));
-    recyclingFactory = Sprite(await Flame.images.load("recycling_factory.png"));
-    greenHydrogen = Sprite(await Flame.images.load("green_hydrogen.png"));
+    Vector2 tileSize = mapComponent.tileMap.destTileSize;
+    evFactory = await getSpriteAnimation("ev_factory.png", 1, 0.15, tileSize);
+    windmill = await getSpriteAnimation("windmill.png", 3, 0.3, tileSize);
+    recyclingFactory =
+        await getSpriteAnimation("recycling_factory.png", 1, 0.15, tileSize);
+    greenHydrogen =
+        await getSpriteAnimation("green_hydrogen.png", 1, 0.15, tileSize);
 
     publicTransport = getObjectSprite(216, 0, 86, 94);
     carbonTax = getObjectSprite(970, 128, 18, 37);
@@ -507,14 +494,17 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     biodegradable = getObjectSprite(601, 100, 56, 62);
     nanoTechnology = getObjectSprite(712, 433, 50, 50);
 
-    fossilFuel = Sprite(await Flame.images.load("fossil.png"));
-    deforestation = getObjectSprite(862, 248, 36, 32);
-    plastic = Sprite(await Flame.images.load("plastic.png"));
-    wasteIncineration = Sprite(await Flame.images.load("waste.png"));
+    fossilFuel = await getSpriteAnimation("fossil.png", 1, 0.15, tileSize);
+    deforestation =
+        await getSpriteAnimation("resources.png", 1, 0.15, tileSize);
+    plastic = await getSpriteAnimation("plastic.png", 1, 0.15, tileSize);
+    wasteIncineration =
+        await getSpriteAnimation("waste.png", 1, 0.15, tileSize);
 
-    house = Sprite(await Flame.images.load("modern_villa.png"));
+    tree = await getSpriteAnimation("tree_animation.png", 4, 0.15, tileSize);
+    house = await getSpriteAnimation("house.png", 1, 0.15, tileSize);
     underConstruction =
-        Sprite(await Flame.images.load("underconstruction.png"));
+        await getSpriteAnimation("underconstruction.png", 1, 0.15, tileSize);
 
     earthquake = Sprite(await Flame.images.load("earthquake.png"));
     forrestFire = Sprite(await Flame.images.load("forrest_fire.png"));
@@ -522,6 +512,22 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     technologySpecialization = getObjectSprite(904, 437, 34, 41);
     policySpecialization = getObjectSprite(382, 319, 76, 76);
     researchSpecialization = getObjectSprite(594, 384, 58, 108);
+  }
+
+  Future<SpriteAnimation> getSpriteAnimation(
+      String name, int amount, double stepTime, Vector2 textureSize) async {
+    SpriteAnimationData data = SpriteAnimationData.sequenced(
+      amount: amount,
+      stepTime: stepTime,
+      textureSize: textureSize,
+    );
+
+    final sheet = await Flame.images.load(name);
+
+    return SpriteAnimation.fromFrameData(
+      sheet,
+      data,
+    );
   }
 
   void _processDrag(ScaleUpdateInfo info) {
@@ -587,6 +593,15 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
         center: targetCenter,
         row: rowAndCol.x.floor(),
         col: rowAndCol.y.floor());
+  }
+
+  Sprite getSpriteFromSheet(String sheetname,
+      {double x = 0, double y = 0, double width = 120, double height = 140}) {
+    return Sprite(
+      Flame.images.fromCache(sheetname),
+      srcPosition: Vector2(x, y),
+      srcSize: Vector2(width, height),
+    );
   }
 
   Sprite getObjectSprite(double x, double y, double width, double height) {

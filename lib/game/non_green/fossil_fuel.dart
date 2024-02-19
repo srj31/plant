@@ -28,7 +28,8 @@ class FossilFuel extends NonGreenStructure {
   @override
   Future<void> onLoad() async {
     await super.onLoad();
-    sprites = {
+    displaySprite = game.getSpriteFromSheet("fossil.png");
+    animations = {
       BuildingState.start: game.underConstruction,
       BuildingState.done: game.fossilFuel,
     };
