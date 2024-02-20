@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:math' as math;
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flame/components.dart';
 import 'package:flame/flame.dart';
 import 'package:flame_tiled/flame_tiled.dart';
@@ -15,9 +16,11 @@ import 'package:game_name/game/overlays/event.dart';
 import 'package:game_name/game/overlays/game_over.dart';
 import 'package:game_name/game/overlays/next_level.dart';
 import 'package:game_name/game/overlays/non_green.dart';
+import 'package:game_name/game/overlays/pause.dart';
 import 'package:game_name/game/overlays/policies.dart';
 import 'package:game_name/game/overlays/research.dart';
 import 'package:game_name/game/overlays/specialization.dart';
+import 'package:game_name/game/overlays/stats.dart';
 import 'package:game_name/game/policies/policy.dart';
 import 'package:game_name/game/research/researh.dart';
 import 'package:game_name/game/specializations/specialization.dart';
@@ -79,6 +82,10 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   bool playSounds = true;
   double soundVolume = 1.0;
 
+  Size deviceSize = WidgetsBinding
+          .instance.platformDispatcher.views.first.physicalSize /
+      WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio;
+
   bool hasTimerStarted = false;
   static const double _minZoom = 0.5;
   static const double _maxZoom = 1.0;
@@ -106,6 +113,14 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   Queue<(double, Policy)> inProgressPolicies = Queue<(double, Policy)>();
   Queue<(double, Research)> inProgressResearches = Queue<(double, Research)>();
   Queue<(double, Upgrade)> inProgressUpgrade = Queue<(double, Upgrade)>();
+  Map<String, List<FlSpot>> dataPoints = <String, List<FlSpot>>{
+    "health": [],
+    "morale": [],
+    "carbon": [],
+    "resources": [],
+    "energy": [],
+    "capital": []
+  };
 
   void addBuiltItem({required Structure item, bool isPreBuilt = false}) {
     world.add(item);
@@ -204,10 +219,6 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     trees.add(tree);
   }
 
-  void _calculateDeltaHealth() {
-    deltaHealth = -carbonEmission / 100;
-  }
-
   @override
   Color backgroundColor() =>
       const Color(0x00000000); // Must be transparent to show the background
@@ -247,7 +258,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     }
 
     interval = Timer(2, onTick: () {
-      _calculateDeltaHealth();
+      _updateDataPoints();
       elapsedSecs += 1;
       while (inProgressStructures.isNotEmpty &&
           inProgressStructures.first.$1 <= elapsedSecs) {
@@ -330,7 +341,48 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     camera.viewport.add(ResearchComponent());
     camera.viewport.add(PoliciesComponent());
     camera.viewport.add(NonGreenComponent());
+    camera.viewport
+        .add(PausePlayComponent(position: Vector2(deviceSize.width - 100, 50)));
     camera.viewport.add(Hud());
+    camera.viewport.add(StatsComponent());
+  }
+
+  void _updateDataPoints() {
+    dataPoints.putIfAbsent("health", () => []);
+    dataPoints.putIfAbsent("energy", () => []);
+    dataPoints.putIfAbsent("carbon", () => []);
+    dataPoints.putIfAbsent("resources", () => []);
+    dataPoints.putIfAbsent("capital", () => []);
+    dataPoints.putIfAbsent("morale", () => []);
+
+    if (dataPoints["health"]!.length >= 10) {
+      dataPoints["health"]!.removeAt(0);
+      dataPoints["energy"]!.removeAt(0);
+      dataPoints["carbon"]!.removeAt(0);
+      dataPoints["resources"]!.removeAt(0);
+      dataPoints["capital"]!.removeAt(0);
+      dataPoints["morale"]!.removeAt(0);
+    }
+    dataPoints["health"]!
+        .add(FlSpot(elapsedSecs.toDouble(), health.toDouble()));
+    dataPoints["energy"]!
+        .add(FlSpot(elapsedSecs.toDouble(), energy.toDouble()));
+    dataPoints["carbon"]!
+        .add(FlSpot(elapsedSecs.toDouble(), carbonEmission.toDouble()));
+    dataPoints["resources"]!
+        .add(FlSpot(elapsedSecs.toDouble(), resources.toDouble()));
+    dataPoints["capital"]!
+        .add(FlSpot(elapsedSecs.toDouble(), capital.toDouble()));
+    dataPoints["morale"]!
+        .add(FlSpot(elapsedSecs.toDouble(), morale.toDouble()));
+  }
+
+  void pause() {
+    hasTimerStarted = false;
+  }
+
+  void resume() {
+    hasTimerStarted = true;
   }
 
   Future<void> _initializeMap() async {

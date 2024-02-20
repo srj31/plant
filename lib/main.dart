@@ -10,6 +10,7 @@ import 'package:game_name/game/overlays/non_green.dart';
 import 'package:game_name/game/overlays/policies.dart';
 import 'package:game_name/game/overlays/research.dart';
 import 'package:game_name/game/overlays/specialization.dart';
+import 'package:game_name/game/overlays/stats.dart';
 import 'package:game_name/game/splash_screen.dart';
 import 'package:game_name/game/structures/structures.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -64,6 +65,7 @@ class OtherScreen extends StatelessWidget {
           GameOverMenu.id: (context, game) => GameOverMenu(game: game),
           NextLevelMenu.id: (context, game) => NextLevelMenu(game: game),
           EventMenu.id: (context, game) => EventMenu(game: game),
+          StatsMenu.id: (context, game) => StatsMenu(game: game),
         },
         initialActiveOverlays: const [SpecializationMenu.id],
       ),
