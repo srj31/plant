@@ -79,7 +79,10 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                                     color: structure
                                                                 .deltaMorale >=
                                                             0
-                                                        ? Colors.green
+                                                        ? isGreen
+                                                            ? Colors.green
+                                                            : Colors
+                                                                .green.shade900
                                                         : Colors.red.shade900,
                                                   )),
                                               Positioned(
@@ -106,10 +109,12 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                               height: size.y * 0.15,
                                               child: Card(
                                                 elevation: 5,
-                                                color:
-                                                    structure.deltaCarbon >= 0
+                                                color: structure.deltaCarbon >=
+                                                        0
+                                                    ? isGreen
                                                         ? Colors.green
-                                                        : Colors.red.shade900,
+                                                        : Colors.green.shade900
+                                                    : Colors.red.shade900,
                                               )),
                                           Positioned(
                                               top: size.y * 0.01,
@@ -136,11 +141,13 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                               height: size.y * 0.15,
                                               child: Card(
                                                 elevation: 5,
-                                                color:
-                                                    structure.deltaResources >=
-                                                            0
+                                                color: structure
+                                                            .deltaResources >=
+                                                        0
+                                                    ? isGreen
                                                         ? Colors.green
-                                                        : Colors.red.shade900,
+                                                        : Colors.green.shade900
+                                                    : Colors.red.shade900,
                                               )),
                                           Positioned(
                                               top: size.y * 0.01,
@@ -173,10 +180,12 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                               height: size.y * 0.15,
                                               child: Card(
                                                 elevation: 5,
-                                                color:
-                                                    structure.deltaEnergy >= 0
+                                                color: structure.deltaEnergy >=
+                                                        0
+                                                    ? isGreen
                                                         ? Colors.green
-                                                        : Colors.red.shade900,
+                                                        : Colors.green.shade900
+                                                    : Colors.red.shade900,
                                               )),
                                           Positioned(
                                               top: size.y * 0.01,
@@ -202,10 +211,12 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                               height: size.y * 0.15,
                                               child: Card(
                                                 elevation: 5,
-                                                color:
-                                                    structure.deltaCapital >= 0
+                                                color: structure.deltaCapital >=
+                                                        0
+                                                    ? isGreen
                                                         ? Colors.green
-                                                        : Colors.red.shade900,
+                                                        : Colors.green.shade900
+                                                    : Colors.red.shade900,
                                               )),
                                           Positioned(
                                               top: size.y * 0.01,
@@ -273,7 +284,11 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                   backgroundColor: structure.capital <=
                                               game.capital &&
                                           structure.resources <= game.resources
-                                      ? MaterialStateProperty.all(Colors.green)
+                                      ? isGreen
+                                          ? MaterialStateProperty.all(
+                                              Colors.green)
+                                          : MaterialStateProperty.all(
+                                              Colors.green.shade900)
                                       : MaterialStateProperty.all(Colors.grey),
                                   fixedSize: MaterialStateProperty.all(
                                       Size(size.x * 0.5, 20)),

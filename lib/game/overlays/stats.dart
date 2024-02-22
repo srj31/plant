@@ -19,7 +19,7 @@ class StatsComponent extends SpriteComponent
   @override
   Future<void> onLoad() async {
     sprite = Sprite(await Flame.images.load('build.png'));
-    position = Vector2(game.deviceSize.width - 50, 100);
+    position = Vector2(game.deviceSize.width - 100, 100);
     size = Vector2.all(32);
     priority = 2;
   }
@@ -50,12 +50,9 @@ class StatsMenu extends StatelessWidget {
                     GestureDetector(
                       onTap: () =>
                           {game.resume(), game.overlays.remove(StatsMenu.id)},
-                      child: const Positioned(
-                          left: 10,
-                          top: 10,
-                          child: Text("Close",
-                              style: TextStyle(
-                                  fontSize: 30, backgroundColor: Colors.red))),
+                      child: const Text("Close",
+                          style: TextStyle(
+                              fontSize: 30, backgroundColor: Colors.red)),
                     ),
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       Text(
@@ -120,31 +117,35 @@ class StatSection extends StatelessWidget {
         child: Stack(children: [
           Card(
               color: Colors.green.shade800,
-              child: Container(
-                child: Row(children: [
-                  Column(children: [
-                    Text(title,
-                        style:
-                            const TextStyle(fontSize: 12, color: Colors.white)),
-                    Text(value),
-                  ]),
-                  Expanded(
-                    child: Padding(
-                        padding: const EdgeInsets.only(right: 16, left: 6),
-                        child: LineChart(LineChartData(lineBarsData: [
-                          LineChartBarData(
-                            isCurved: true,
-                            color: Colors.green.shade800,
-                            barWidth: 2,
-                            isStrokeCapRound: true,
-                            dotData: const FlDotData(show: true),
-                            belowBarData: BarAreaData(show: false),
-                            spots: data,
-                          )
-                        ]))),
-                  ),
-                ]),
-              ))
+              child: Row(children: [
+                Expanded(
+                    flex: 1,
+                    child: Card(
+                      color: Colors.green.shade900,
+                      child: Column(children: [
+                        Text(title,
+                            style: const TextStyle(
+                                fontSize: 12, color: Colors.white)),
+                        Text(value),
+                      ]),
+                    )),
+                Expanded(
+                  flex: 4,
+                  child: Padding(
+                      padding: const EdgeInsets.only(right: 16, left: 6),
+                      child: LineChart(LineChartData(lineBarsData: [
+                        LineChartBarData(
+                          isCurved: true,
+                          color: Colors.green,
+                          barWidth: 2,
+                          isStrokeCapRound: true,
+                          dotData: const FlDotData(show: true),
+                          belowBarData: BarAreaData(show: false),
+                          spots: data,
+                        )
+                      ]))),
+                ),
+              ]))
         ]));
   }
 }

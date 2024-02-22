@@ -108,7 +108,7 @@ class Structure extends SpriteAnimationGroupComponent<BuildingState>
       case "windmill":
         return WindMill(position: location, priority: 1, anchor: Anchor.center);
       case "house":
-        return House(position: location, priority: 1, anchor: Anchor.center);
+        return HouseStructure(position: location, priority: 1, anchor: Anchor.center);
 
       default:
         return throw Exception("Unknown type $name");

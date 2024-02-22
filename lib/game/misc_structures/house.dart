@@ -3,8 +3,8 @@ import 'package:game_name/game/misc/bubble_popup.dart';
 import 'package:game_name/game/structures/structures.dart';
 import 'package:game_name/game/structures/upgrade/upgrade.dart';
 
-class House extends Structure {
-  House(
+class HouseStructure extends Structure {
+  HouseStructure(
       {super.position,
       super.size,
       super.scale,
@@ -86,11 +86,10 @@ class House extends Structure {
 
   @override
   void update(double dt) {
+    super.update(dt);
     if (!showBubble) {
       return;
     }
-
-    super.update(dt);
 
     switch (current) {
       case BuildingState.done:

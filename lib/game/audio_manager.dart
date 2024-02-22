@@ -16,7 +16,9 @@ class AudioManager {
       'on_construction.wav',
       'tap_bubble.wav',
       'tap_button.mp3',
-      'game_menu.wav'
+      'game_menu.wav',
+      'earthquake.wav',
+      'forrest_fire.wav',
     ]);
   }
 

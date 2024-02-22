@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
     var baseTheme = ThemeData(brightness: brightness);
 
     return baseTheme.copyWith(
-      textTheme: GoogleFonts.playTextTheme(baseTheme.textTheme),
+      textTheme: GoogleFonts.varelaRoundTextTheme(baseTheme.textTheme),
     );
   }
 
@@ -67,7 +67,7 @@ class OtherScreen extends StatelessWidget {
           EventMenu.id: (context, game) => EventMenu(game: game),
           StatsMenu.id: (context, game) => StatsMenu(game: game),
         },
-        initialActiveOverlays: const [SpecializationMenu.id],
+        initialActiveOverlays: const [NonGreenMenu.id],
       ),
     );
   }

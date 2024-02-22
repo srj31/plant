@@ -3,8 +3,8 @@ import 'package:game_name/game/misc/bubble_popup.dart';
 import 'package:game_name/game/structures/structures.dart';
 import 'package:game_name/game/structures/upgrade/upgrade.dart';
 
-class Tree extends Structure {
-  Tree(
+class TreeStructure extends Structure {
+  TreeStructure(
       {super.position,
       super.size,
       super.scale,

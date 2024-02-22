@@ -48,7 +48,7 @@ class PlaceItemState extends AbstractState {
     final spriteComponent = game.toAdd
       ..anchor = Anchor.center
       ..position = Vector2(tappedCel.center.x, tappedCel.center.y)
-      ..priority = 1;
+      ..priority = tappedCel.row;
 
     game.addBuiltItem(item: spriteComponent);
 

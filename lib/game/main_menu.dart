@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:game_name/main.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:just_audio/just_audio.dart';
 
 class MainMenu extends StatefulWidget {
@@ -40,6 +40,7 @@ class MainMenuState extends State<MainMenu> {
                 style: TextStyle(
                     fontSize: 50,
                     fontStyle: FontStyle.italic,
+                    fontFamily: GoogleFonts.play().fontFamily,
                     foreground: Paint()..color = Colors.white),
               )),
           ElevatedButton(

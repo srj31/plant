@@ -11,6 +11,7 @@ import 'package:flame/game.dart';
 import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/map_generation/map_generation.dart';
 import 'package:game_name/game/misc_structures/tree.dart';
+import 'package:game_name/game/overlays/banner.dart';
 import 'package:game_name/game/overlays/build.dart';
 import 'package:game_name/game/overlays/event.dart';
 import 'package:game_name/game/overlays/game_over.dart';
@@ -107,7 +108,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   double deltaCapital = 0;
 
   List<Structure> builtItems = [];
-  List<Tree> trees = [];
+  List<TreeStructure> trees = [];
   Queue<(double, Structure)> inProgressStructures =
       Queue<(double, Structure)>();
   Queue<(double, Policy)> inProgressPolicies = Queue<(double, Policy)>();
@@ -206,7 +207,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   }
 
   Future<void> populateTrees(
-      {required Tree tree, bool isPreBuilt = false}) async {
+      {required TreeStructure tree, bool isPreBuilt = false}) async {
     world.add(tree);
 
     deltaHealth += tree.deltaHealth;
@@ -227,8 +228,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   Future<void> onLoad() async {
     camera.viewfinder
       ..zoom = _startZoom
-      ..position = Vector2(0, 0)
-      ..anchor = Anchor.topLeft;
+      ..position = Vector2(size.x, size.y * 0.8)
+      ..anchor = Anchor.center;
 
     mapComponent = await TiledComponent.load(
       'game.tmx',
@@ -308,12 +309,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
         deltaCapital += upgrade.deltaCapital;
       }
 
-      health = math.max(
-          0,
-          health +
-              deltaHealth -
-              (1 - 0.001 * carbonEmission) -
-              (1 - 0.002 * resources));
+      health = math.max(0, health + deltaHealth - (1 - 0.001 * carbonEmission));
       energy = math.max(0, energy + deltaEnergy);
       carbonEmission = math.max(0, carbonEmission + deltaCarbon);
       resources = math.max(0, resources + deltaResources);
@@ -330,19 +326,45 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       }
 
       if (elapsedSecs % 10 == 0) {
-        if (math.Random().nextDouble() < 0.4) {
+        if (math.Random().nextDouble() < 0.8) {
           overlays.add(EventMenu.id);
           hasTimerStarted = false;
         }
       }
     }, repeat: true);
 
+    camera.viewport.add(BannerComponent(
+        position: Vector2(size.x * 0.05, size.y * 0.25),
+        size: Vector2.all(45),
+        borderSize: 1,
+        priority: 0,
+        anchor: Anchor.center));
     camera.viewport.add(buildComponent);
+    camera.viewport.add(BannerComponent(
+        position: Vector2(size.x * 0.05, size.y * 0.40),
+        size: Vector2.all(45),
+        borderSize: 1,
+        priority: 0,
+        anchor: Anchor.center));
     camera.viewport.add(ResearchComponent());
+    camera.viewport.add(BannerComponent(
+        position: Vector2(size.x * 0.05, size.y * 0.55),
+        size: Vector2.all(45),
+        borderSize: 1,
+        priority: 0,
+        anchor: Anchor.center));
     camera.viewport.add(PoliciesComponent());
+    camera.viewport.add(BannerComponent(
+        position: Vector2(size.x * 0.05, size.y * 0.70),
+        size: Vector2.all(45),
+        borderSize: 1,
+        priority: 0,
+        anchor: Anchor.center));
     camera.viewport.add(NonGreenComponent());
-    camera.viewport
-        .add(PausePlayComponent(position: Vector2(deviceSize.width - 100, 50)));
+    camera.viewport.add(PausePlayComponent(
+        position: Vector2(size.x * 0.075, size.y * 0.9),
+        anchor: Anchor.center,
+        scale: Vector2.all(1.5)));
     camera.viewport.add(Hud());
     camera.viewport.add(StatsComponent());
   }
@@ -412,7 +434,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
           treeLocationsinOffset[i].y + yOffset));
       final location = hexToPixel(layout, hexAxial);
       await populateTrees(
-          tree: Tree(
+          tree: TreeStructure(
               position: Vector2(location.x, location.y),
               priority: 1,
               anchor: Anchor.center)
@@ -431,9 +453,9 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
           buildingLocationsinOffset[i].y + yOffset));
       final location = hexToPixel(layout, hexAxial);
       String buildingName = "house";
-      if (i > 2) buildingName = "waste_incineration";
-      if (i > 4) buildingName = "plastic";
-      if (i > 6) buildingName = "fossil";
+      if (i > 4) buildingName = "fossil";
+      if (i > 6) buildingName = "waste_incineration";
+      if (i > 8) buildingName = "plastic";
       final structure = Structure.factory(buildingName, location);
       addBuiltItem(
           item: structure
@@ -529,12 +551,12 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
     buildComponent = BuildComponent();
     Vector2 tileSize = mapComponent.tileMap.destTileSize;
-    evFactory = await getSpriteAnimation("ev_factory.png", 1, 0.15, tileSize);
-    windmill = await getSpriteAnimation("windmill.png", 3, 0.3, tileSize);
+    evFactory = await getSpriteAnimation("ev_factory.png", 4, 0.3, tileSize);
+    windmill = await getSpriteAnimation("windmill.png", 4, 0.15, tileSize);
     recyclingFactory =
-        await getSpriteAnimation("recycling_factory.png", 1, 0.15, tileSize);
+        await getSpriteAnimation("recycling_factory.png", 1, 0.3, tileSize);
     greenHydrogen =
-        await getSpriteAnimation("green_hydrogen.png", 1, 0.15, tileSize);
+        await getSpriteAnimation("green_hydrogen.png", 4, 0.15, tileSize);
 
     publicTransport = getObjectSprite(216, 0, 86, 94);
     carbonTax = getObjectSprite(970, 128, 18, 37);
@@ -546,15 +568,15 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     biodegradable = getObjectSprite(601, 100, 56, 62);
     nanoTechnology = getObjectSprite(712, 433, 50, 50);
 
-    fossilFuel = await getSpriteAnimation("fossil.png", 1, 0.15, tileSize);
+    fossilFuel = await getSpriteAnimation("fossil.png", 4, 0.5, tileSize);
     deforestation =
         await getSpriteAnimation("resources.png", 1, 0.15, tileSize);
     plastic = await getSpriteAnimation("plastic.png", 1, 0.15, tileSize);
     wasteIncineration =
         await getSpriteAnimation("waste.png", 1, 0.15, tileSize);
 
-    tree = await getSpriteAnimation("tree_animation.png", 4, 0.15, tileSize);
-    house = await getSpriteAnimation("house.png", 1, 0.15, tileSize);
+    tree = await getSpriteAnimation("tree_animation.png", 4, 0.3, tileSize);
+    house = await getSpriteAnimation("house.png", 4, 0.3, tileSize);
     underConstruction =
         await getSpriteAnimation("underconstruction.png", 1, 0.15, tileSize);
 

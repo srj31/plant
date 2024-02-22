@@ -24,7 +24,8 @@ class ResearchComponent extends SpriteComponent
   @override
   Future<void> onLoad() async {
     sprite = Sprite(await Flame.images.load('research.png'));
-    position = Vector2(50, 100);
+    position = Vector2(game.size.x * 0.05, game.size.y * 0.40);
+    anchor = Anchor.center;
     size = Vector2.all(32);
   }
 
@@ -60,7 +61,6 @@ class ResearchMenu extends StatelessWidget {
                       CarbonTechnology(),
                       game.carbonTechnology,
                       "Advanced Carbon Capture Technology",
-                      "^CO",
                       "Pioneer innovative solutions to combat climate change with advanced carbon capture technology. Develop cutting-edge methods to capture and store carbon emissions, mitigating the environmental impact of industrial processes and fostering a cleaner, greener future.",
                     ),
                     ElevatedCard(
@@ -69,7 +69,6 @@ class ResearchMenu extends StatelessWidget {
                       SmartGrid(),
                       game.smartGrid,
                       "Smart Grid Implementation",
-                      "^Energy vCO2 ^Capital",
                       "Revolutionize energy infrastructure with the implementation of a smart grid. Investigate intelligent systems and grid optimization techniques to enhance energy distribution efficiency, integrate renewable resources, and empower communities with sustainable energy solutions.",
                     ),
                   ]),
@@ -80,7 +79,6 @@ class ResearchMenu extends StatelessWidget {
                       Biodegradable(),
                       game.biodegradable,
                       "Biodegradable Materials Research",
-                      "^Resource",
                       "Lead the way in sustainable materials innovation with research into biodegradable alternatives. Explore eco-friendly materials and manufacturing processes to reduce pollution, minimize waste, and promote the transition to a circular economy.",
                     ),
                     ElevatedCard(
@@ -89,7 +87,6 @@ class ResearchMenu extends StatelessWidget {
                       NanoTechnology(),
                       game.nanoTechnology,
                       "Nanotechnology for Air Filtration",
-                      "^Resource ^Health",
                       "Harness the power of nanotechnology to purify the air we breathe. Explore cutting-edge filtration techniques and nano-scale materials to combat air pollution, improve indoor air quality, and safeguard public health in an increasingly urbanized world.",
                     )
                   ])
@@ -99,10 +96,10 @@ class ResearchMenu extends StatelessWidget {
 
 class ElevatedCard extends StatelessWidget {
   const ElevatedCard(this.game, this.size, this.research, this.spriteImage,
-      this.heading, this.subheading, this.description);
+      this.heading, this.description,
+      {super.key});
   final OurGame game;
   final String heading;
-  final String subheading;
   final Research research;
   final String description;
 
@@ -119,6 +116,7 @@ class ElevatedCard extends StatelessWidget {
               child: Stack(clipBehavior: Clip.none, children: [
                 Positioned(
                     child: Card(
+                  color: Colors.green,
                   elevation: 10,
                   child: SizedBox(
                     width: size.x,
@@ -126,42 +124,221 @@ class ElevatedCard extends StatelessWidget {
                   ),
                 )),
                 Positioned(
-                    top: -10,
+                    top: -15,
                     left: 5,
                     child: Card(
-                      elevation: 10,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15.0),
-                      ),
-                      child: Container(
-                          width: size.x / 2,
-                          height: size.y,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(15.0),
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.all(10.0),
-                            child: RawImage(
-                              image: spriteImage.toImageSync(),
-                              fit: BoxFit.fitHeight,
-                            ),
-                          )),
-                    )),
+                        elevation: 10,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15.0),
+                        ),
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Stack(
+                                clipBehavior: Clip.none,
+                                children: [
+                                  Container(
+                                      width: size.x * 0.5,
+                                      height: size.y,
+                                      decoration: BoxDecoration(
+                                        color: Colors.lightGreen,
+                                        borderRadius:
+                                            BorderRadius.circular(15.0),
+                                      ),
+                                      child: Padding(
+                                        padding: const EdgeInsets.all(10.0),
+                                        child: RawImage(
+                                          image: spriteImage.toImageSync(),
+                                        ),
+                                      )),
+                                  Positioned(
+                                      top: size.y * 0.1,
+                                      left: -size.x * 0.07,
+                                      child: Column(
+                                        children: [
+                                          Stack(
+                                              clipBehavior: Clip.none,
+                                              children: [
+                                                SizedBox(
+                                                    width: size.x * 0.18,
+                                                    height: size.y * 0.15,
+                                                    child: Card(
+                                                      elevation: 5,
+                                                      color: research
+                                                                  .deltaMorale >=
+                                                              0
+                                                          ? Colors.green
+                                                          : Colors.red.shade900,
+                                                    )),
+                                                Positioned(
+                                                    top: size.y * 0.01,
+                                                    left: size.x * 0.02,
+                                                    child: RawImage(
+                                                        image: game.moraleSprite
+                                                            .toImageSync())),
+                                                Positioned(
+                                                  bottom: size.y * 0.02,
+                                                  right: size.x * 0.02,
+                                                  child: Text(
+                                                    research.deltaMorale
+                                                        .toStringAsFixed(2),
+                                                    style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 10),
+                                                  ),
+                                                ),
+                                              ]),
+                                          Stack(
+                                              clipBehavior: Clip.none,
+                                              children: [
+                                                SizedBox(
+                                                    width: size.x * 0.18,
+                                                    height: size.y * 0.15,
+                                                    child: Card(
+                                                      elevation: 5,
+                                                      color: research
+                                                                  .deltaCarbon >=
+                                                              0
+                                                          ? Colors.green
+                                                          : Colors.red.shade900,
+                                                    )),
+                                                Positioned(
+                                                    top: size.y * 0.01,
+                                                    left: size.x * 0.02,
+                                                    child: RawImage(
+                                                        image: game
+                                                            .carbonEmissionSprite
+                                                            .toImageSync())),
+                                                Positioned(
+                                                  bottom: size.y * 0.02,
+                                                  right: size.x * 0.02,
+                                                  child: Text(
+                                                    research.deltaCarbon
+                                                        .toStringAsFixed(2),
+                                                    style: const TextStyle(
+                                                        color: Colors.white,
+                                                        fontSize: 10),
+                                                  ),
+                                                ),
+                                              ]),
+                                          Stack(children: [
+                                            SizedBox(
+                                                width: size.x * 0.18,
+                                                height: size.y * 0.15,
+                                                child: Card(
+                                                  elevation: 5,
+                                                  color:
+                                                      research.deltaResources >=
+                                                              0
+                                                          ? Colors.green
+                                                          : Colors.red.shade900,
+                                                )),
+                                            Positioned(
+                                                top: size.y * 0.01,
+                                                left: size.x * 0.02,
+                                                child: RawImage(
+                                                    image: game.resourcesSprite
+                                                        .toImageSync())),
+                                            Positioned(
+                                              bottom: size.y * 0.02,
+                                              right: size.x * 0.02,
+                                              child: Text(
+                                                research.deltaResources
+                                                    .toStringAsFixed(2),
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 10),
+                                              ),
+                                            ),
+                                          ]),
+                                        ],
+                                      )),
+                                  Positioned(
+                                      top: size.y * 0.15,
+                                      right: -size.x * 0.05,
+                                      child: Column(
+                                        children: [
+                                          Stack(children: [
+                                            SizedBox(
+                                                width: size.x * 0.18,
+                                                height: size.y * 0.15,
+                                                child: Card(
+                                                  elevation: 5,
+                                                  color:
+                                                      research.deltaEnergy >= 0
+                                                          ? Colors.green
+                                                          : Colors.red.shade900,
+                                                )),
+                                            Positioned(
+                                                top: size.y * 0.01,
+                                                left: size.x * 0.02,
+                                                child: RawImage(
+                                                    image: game.energySprite
+                                                        .toImageSync())),
+                                            Positioned(
+                                              bottom: size.y * 0.02,
+                                              right: size.x * 0.02,
+                                              child: Text(
+                                                research.deltaEnergy
+                                                    .toStringAsFixed(2),
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 10),
+                                              ),
+                                            ),
+                                          ]),
+                                          Stack(children: [
+                                            SizedBox(
+                                                width: size.x * 0.18,
+                                                height: size.y * 0.15,
+                                                child: Card(
+                                                  elevation: 5,
+                                                  color:
+                                                      research.deltaCapital >= 0
+                                                          ? Colors.green
+                                                          : Colors.red.shade900,
+                                                )),
+                                            Positioned(
+                                                top: size.y * 0.01,
+                                                left: size.x * 0.02,
+                                                child: RawImage(
+                                                    image: game.capitalSprite
+                                                        .toImageSync())),
+                                            Positioned(
+                                              bottom: size.y * 0.02,
+                                              right: size.x * 0.02,
+                                              child: Text(
+                                                research.deltaCapital
+                                                    .toStringAsFixed(2),
+                                                style: const TextStyle(
+                                                    color: Colors.white,
+                                                    fontSize: 10),
+                                              ),
+                                            ),
+                                          ]),
+                                        ],
+                                      )),
+                                ],
+                              )
+                            ]))),
                 Positioned(
-                  top: 10,
-                  right: 0,
-                  width: size.x / 2 - 5,
-                  height: size.y,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(heading,
-                            style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold)),
-                        Text(subheading, style: const TextStyle(fontSize: 12)),
-                        Text(description, style: const TextStyle(fontSize: 10)),
-                      ]),
-                ),
+                    top: 10,
+                    right: 0,
+                    width: size.x / 2 - 5,
+                    height: size.y,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(heading,
+                                style: const TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold)),
+                            Text(description,
+                                style: const TextStyle(fontSize: 10)),
+                          ]),
+                    )),
                 Positioned(
                     bottom: 10,
                     left: 10,
@@ -189,7 +366,7 @@ class ElevatedCard extends StatelessWidget {
                                       ? MaterialStateProperty.all(Colors.green)
                                       : MaterialStateProperty.all(Colors.grey),
                                   fixedSize: MaterialStateProperty.all(
-                                      Size(size.x * 0.45, 20)),
+                                      Size(size.x * 0.5, 20)),
                                 ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,

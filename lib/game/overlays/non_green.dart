@@ -26,7 +26,8 @@ class NonGreenComponent extends SpriteComponent
   @override
   Future<void> onLoad() async {
     sprite = Sprite(await Flame.images.load('non_green.png'));
-    position = Vector2(50, 200);
+    position = Vector2(game.size.x * 0.05, game.size.y * 0.70);
+    anchor = Anchor.center;
     size = Vector2.all(32);
   }
 
@@ -60,7 +61,7 @@ class NonGreenMenu extends StatelessWidget {
                         game,
                         Vector2(game.size.x * 0.40, game.size.y * 0.40),
                         FossilFuel(),
-                        game.getSpriteFromSheet("fossil_fuel.png"),
+                        game.getSpriteFromSheet("fossil.png"),
                         "Fossil Fuel Energy",
                         "Embrace the allure of fossil fuels to rapidly boost energy production. Harness the power of traditional energy sources, but beware of the environmental consequences as carbon emissions soar and air quality declines.",
                         false,
@@ -69,7 +70,7 @@ class NonGreenMenu extends StatelessWidget {
                         game,
                         Vector2(game.size.x * 0.40, game.size.y * 0.40),
                         Deforrestation(),
-                        game.getSpriteFromSheet("deforrestation.png"),
+                        game.getSpriteFromSheet("fossil.png"),
                         "Deforrestation",
                         "Clear the way for development with ruthless deforestation. Exploit natural resources and expand civilization, but at the cost of biodiversity loss, habitat destruction, and escalating carbon emissions.",
                         false,
@@ -89,7 +90,7 @@ class NonGreenMenu extends StatelessWidget {
                         game,
                         Vector2(game.size.x * 0.40, game.size.y * 0.40),
                         WasteIncineration(),
-                        game.getSpriteFromSheet("waste_incineration.png"),
+                        game.getSpriteFromSheet("waste.png"),
                         "Waste Incineration",
                         "Dispose of waste quickly and efficiently with incineration technology. Tackle the mounting waste crisis, but contend with the environmental repercussions of air pollution, toxic emissions, and the depletion of natural resources.",
                         false,
