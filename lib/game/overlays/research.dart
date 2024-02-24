@@ -24,7 +24,7 @@ class ResearchComponent extends SpriteComponent
   @override
   Future<void> onLoad() async {
     sprite = Sprite(await Flame.images.load('research.png'));
-    position = Vector2(game.size.x * 0.05, game.size.y * 0.40);
+    position = Vector2(game.size.x * 0.075, game.size.y * 0.40);
     anchor = Anchor.center;
     size = Vector2.all(32);
   }

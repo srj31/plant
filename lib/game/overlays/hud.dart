@@ -90,15 +90,15 @@ class Hud extends PositionComponent with HasGameReference<OurGame> {
 
     final style = TextStyle(
       fontSize: 20.0, // Change the font size here
-      fontWeight: FontWeight.bold,
-      fontFamily: GoogleFonts.varelaRound().fontFamily,
+      fontWeight: FontWeight.w500,
+      fontFamily: GoogleFonts.play().fontFamily,
     );
     final regular = TextPaint(style: style);
     final larger = TextPaint(
         style: style.copyWith(
       fontSize: 30.0,
-      fontWeight: FontWeight.bold,
-      fontFamily: GoogleFonts.varelaRound().fontFamily,
+      fontWeight: FontWeight.w600,
+      fontFamily: GoogleFonts.play().fontFamily,
     ));
 
     _healthTextComponent = addTextComponent('${game.health}',

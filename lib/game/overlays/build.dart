@@ -25,7 +25,7 @@ class BuildComponent extends SpriteComponent
   @override
   Future<void> onLoad() async {
     sprite = Sprite(await Flame.images.load('build.png'));
-    position = Vector2(game.size.x * 0.05, game.size.y * 0.25);
+    position = Vector2(game.size.x * 0.075, game.size.y * 0.25);
     size = Vector2.all(32);
     anchor = Anchor.center;
   }
@@ -35,7 +35,6 @@ class BuildComponent extends SpriteComponent
     game.overlays.add(BuildMenu.id);
     AudioManager.playSfx('opening_overlay.wav', game.soundVolume);
   }
-
 }
 
 class BuildMenu extends StatelessWidget {

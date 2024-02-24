@@ -353,8 +353,7 @@ class ElevatedCard extends StatelessWidget {
                                 fontSize: 13,
                                 color: Colors.black,
                                 fontWeight: FontWeight.w600,
-                                fontFamily:
-                                    GoogleFonts.varelaRound().fontFamily,
+                                fontFamily: GoogleFonts.play().fontFamily,
                               )),
                         ),
                         Container(

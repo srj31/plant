@@ -24,11 +24,15 @@ class PausePlayComponent extends SpriteAnimationComponent
     playing = false;
   }
 
-  @override
-  void onTapDown(TapDownEvent event) {
+  void interact() {
     isPaused = !isPaused;
     game.hasTimerStarted = !isPaused;
     playing = true;
+  }
+
+  @override
+  void onTapDown(TapDownEvent event) {
+    interact();
   }
 
   @override

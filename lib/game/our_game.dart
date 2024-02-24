@@ -35,6 +35,7 @@ import 'tile_info.dart';
 class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   late TiledComponent mapComponent;
   late BuildComponent buildComponent;
+  late PausePlayComponent pauseComponent;
 
   late Sprite capitalSprite;
   late Sprite moraleSprite;
@@ -334,38 +335,41 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     }, repeat: true);
 
     camera.viewport.add(BannerComponent(
-        position: Vector2(size.x * 0.05, size.y * 0.25),
+        position: Vector2(size.x * 0.075, size.y * 0.25),
         size: Vector2.all(45),
         borderSize: 1,
         priority: 0,
         anchor: Anchor.center));
     camera.viewport.add(buildComponent);
     camera.viewport.add(BannerComponent(
-        position: Vector2(size.x * 0.05, size.y * 0.40),
+        position: Vector2(size.x * 0.075, size.y * 0.40),
         size: Vector2.all(45),
         borderSize: 1,
         priority: 0,
         anchor: Anchor.center));
     camera.viewport.add(ResearchComponent());
     camera.viewport.add(BannerComponent(
-        position: Vector2(size.x * 0.05, size.y * 0.55),
+        position: Vector2(size.x * 0.075, size.y * 0.55),
         size: Vector2.all(45),
         borderSize: 1,
         priority: 0,
         anchor: Anchor.center));
     camera.viewport.add(PoliciesComponent());
     camera.viewport.add(BannerComponent(
-        position: Vector2(size.x * 0.05, size.y * 0.70),
+        position: Vector2(size.x * 0.075, size.y * 0.70),
         size: Vector2.all(45),
         borderSize: 1,
         priority: 0,
         anchor: Anchor.center));
     camera.viewport.add(NonGreenComponent());
-    camera.viewport.add(PausePlayComponent(
-        position: Vector2(size.x * 0.075, size.y * 0.9),
-        anchor: Anchor.center,
-        scale: Vector2.all(1.5)));
+    camera.viewport.add(pauseComponent);
     camera.viewport.add(Hud());
+    camera.viewport.add(BannerComponent(
+        position: Vector2(size.x - 100, size.y * 0.25),
+        size: Vector2.all(45),
+        borderSize: 1,
+        priority: 0,
+        anchor: Anchor.center));
     camera.viewport.add(StatsComponent());
   }
 
@@ -400,11 +404,11 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   }
 
   void pause() {
-    hasTimerStarted = false;
+    pauseComponent.interact();
   }
 
   void resume() {
-    hasTimerStarted = true;
+    pauseComponent.interact();
   }
 
   Future<void> _initializeMap() async {
@@ -550,8 +554,12 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     moraleSprite = Sprite(await Flame.images.load("morale.png"));
 
     buildComponent = BuildComponent();
+    pauseComponent = PausePlayComponent(
+        position: Vector2(size.x * 0.075, size.y * 0.9),
+        anchor: Anchor.center,
+        scale: Vector2.all(1.5));
     Vector2 tileSize = mapComponent.tileMap.destTileSize;
-    evFactory = await getSpriteAnimation("ev_factory.png", 4, 0.3, tileSize);
+    evFactory = await getSpriteAnimation("ev_factory.png", 4, 0.5, tileSize);
     windmill = await getSpriteAnimation("windmill.png", 4, 0.15, tileSize);
     recyclingFactory =
         await getSpriteAnimation("recycling_factory.png", 1, 0.3, tileSize);
@@ -575,8 +583,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     wasteIncineration =
         await getSpriteAnimation("waste.png", 1, 0.15, tileSize);
 
-    tree = await getSpriteAnimation("tree_animation.png", 4, 0.3, tileSize);
-    house = await getSpriteAnimation("house.png", 4, 0.3, tileSize);
+    tree = await getSpriteAnimation("tree_animation.png", 4, 0.2, tileSize);
+    house = await getSpriteAnimation("house.png", 4, 0.2, tileSize);
     underConstruction =
         await getSpriteAnimation("underconstruction.png", 1, 0.15, tileSize);
 

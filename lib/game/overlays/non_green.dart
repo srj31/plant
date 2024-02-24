@@ -26,7 +26,7 @@ class NonGreenComponent extends SpriteComponent
   @override
   Future<void> onLoad() async {
     sprite = Sprite(await Flame.images.load('non_green.png'));
-    position = Vector2(game.size.x * 0.05, game.size.y * 0.70);
+    position = Vector2(game.size.x * 0.075, game.size.y * 0.70);
     anchor = Anchor.center;
     size = Vector2.all(32);
   }

@@ -18,15 +18,16 @@ class StatsComponent extends SpriteComponent
 
   @override
   Future<void> onLoad() async {
-    sprite = Sprite(await Flame.images.load('build.png'));
-    position = Vector2(game.deviceSize.width - 100, 100);
+    sprite = Sprite(await Flame.images.load('stats.png'));
+    position = Vector2(game.size.x - 100, game.size.y * 0.25);
     size = Vector2.all(32);
     priority = 2;
+    anchor = Anchor.center;
   }
 
   @override
   void onTapDown(TapDownEvent event) {
-    game.pause();
+    if (game.hasTimerStarted) game.pause();
     game.overlays.add(StatsMenu.id);
   }
 }

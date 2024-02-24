@@ -24,7 +24,7 @@ class PoliciesComponent extends SpriteComponent
   @override
   Future<void> onLoad() async {
     sprite = Sprite(await Flame.images.load('policy.png'));
-    position = Vector2(game.size.x * 0.05, game.size.y * 0.55);
+    position = Vector2(game.size.x * 0.075, game.size.y * 0.55);
     anchor = Anchor.center;
     size = Vector2.all(32);
   }
