@@ -70,7 +70,7 @@ class TreeStructure extends Structure {
               priority: 100,
               size: Vector2.all(75),
               sprite: game.resourcesSprite,
-              position: Vector2(0, 0),
+              position: Vector2(size.x * 0.25, size.y * -0.25),
               onTap: () {
                 game.resources += 0.1;
               }));

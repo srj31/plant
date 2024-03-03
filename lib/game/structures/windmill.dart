@@ -1,5 +1,6 @@
 import 'package:game_name/game/structures/structures.dart';
 import 'package:game_name/game/structures/upgrade/upgrade.dart';
+import 'package:game_name/util/delta.dart';
 
 class WindMill extends Structure {
   WindMill(
@@ -49,5 +50,17 @@ class WindMill extends Structure {
               "Install solar panels to save on energy bills and reduce carbon footprint.",
           game: game)
     ];
+  }
+
+  @override
+  ParamDelta bonusWind() {
+    return ParamDelta(
+      deltaHealth: 0.0,
+      deltaMorale: 0.0,
+      deltaCarbon: 0.1,
+      deltaResources: 0.05,
+      deltaEnergy: 0.1,
+      deltaCapital: 0.0,
+    );
   }
 }

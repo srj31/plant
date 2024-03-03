@@ -1,7 +1,10 @@
+import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 
 import 'package:flame/components.dart';
 import 'package:game_name/game/overlays/banner.dart';
+import 'package:game_name/game/overlays/sun.dart';
+import 'package:game_name/game/overlays/wind.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../our_game.dart';
@@ -24,6 +27,11 @@ class Hud extends PositionComponent with HasGameReference<OurGame> {
   late TextComponent _resourcesTextComponent;
   late TextComponent _energyTextComponent;
   late TextComponent _capitalTextComponent;
+  late TextComponent _temperatureTextComponent;
+  late TextComponent _temperatureTextComponent2;
+  late TextComponent _windTextComponent;
+  late TextComponent _windTextComponent2;
+  late TextComponent _timeTextComponent;
 
   @override
   Future<void> onLoad() async {
@@ -88,6 +96,24 @@ class Hud extends PositionComponent with HasGameReference<OurGame> {
       anchor: Anchor.center,
     ));
 
+    await add(WeatherComponent(
+      position: Vector2(game.size.x * 0.35, game.size.y * 0.10),
+      size: Vector2.all(sizeOfSpirte),
+      anchor: Anchor.center,
+    ));
+
+    await add(WindComponent(
+        position: Vector2(game.size.x * 0.25, game.size.y * 0.10),
+        size: Vector2.all(sizeOfSpirte),
+        anchor: Anchor.center));
+
+    await add(SpriteComponent(
+      sprite: Sprite(await Flame.images.load("time.png")),
+      position: Vector2(game.size.x * 0.2, game.size.y * 0.9),
+      size: Vector2.all(sizeOfSpirte),
+      anchor: Anchor.center,
+    ));
+
     final style = TextStyle(
       fontSize: 20.0, // Change the font size here
       fontWeight: FontWeight.w500,
@@ -98,6 +124,25 @@ class Hud extends PositionComponent with HasGameReference<OurGame> {
         style: style.copyWith(
       fontSize: 30.0,
       fontWeight: FontWeight.w600,
+      fontFamily: GoogleFonts.play().fontFamily,
+    ));
+
+    final style2 = TextStyle(
+      fontSize: 15.0, // Change the font size here
+      fontWeight: FontWeight.bold,
+      fontFamily: GoogleFonts.play().fontFamily,
+      color: Colors.black,
+    );
+
+    final small = TextPaint(style: style2);
+
+    final small2 = TextPaint(
+        style: style2.copyWith(
+      decorationStyle: TextDecorationStyle.dotted,
+      foreground: Paint()
+        ..color = Colors.white
+        ..strokeWidth = 1.5
+        ..style = PaintingStyle.stroke,
       fontFamily: GoogleFonts.play().fontFamily,
     ));
 
@@ -142,6 +187,31 @@ class Hud extends PositionComponent with HasGameReference<OurGame> {
         Vector2(game.size.x * 0.8 + sizeOfSpirte * 2, game.size.y * 0.9))
       ..anchor = Anchor.center
       ..textRenderer = regular;
+
+    _temperatureTextComponent2 = addTextComponent('${game.temperature}',
+        Vector2(game.size.x * 0.35 + sizeOfSpirte, game.size.y * 0.1))
+      ..anchor = Anchor.center
+      ..textRenderer = small2;
+
+    _temperatureTextComponent = addTextComponent('${game.temperature}',
+        Vector2(game.size.x * 0.35 + sizeOfSpirte, game.size.y * 0.1))
+      ..anchor = Anchor.center
+      ..textRenderer = small;
+
+    _windTextComponent2 = addTextComponent('${game.windSpeed}',
+        Vector2(game.size.x * 0.25 + sizeOfSpirte, game.size.y * 0.1))
+      ..anchor = Anchor.center
+      ..textRenderer = small2;
+
+    _windTextComponent = addTextComponent('${game.windSpeed}',
+        Vector2(game.size.x * 0.25 + sizeOfSpirte, game.size.y * 0.1))
+      ..anchor = Anchor.center
+      ..textRenderer = small;
+
+    _timeTextComponent = addTextComponent('${game.elapsedSecs}',
+        Vector2(game.size.x * 0.2 + sizeOfSpirte, game.size.y * 0.9))
+      ..anchor = Anchor.center
+      ..textRenderer = regular;
   }
 
   TextComponent addTextComponent(String text, Vector2 position) {
@@ -160,5 +230,10 @@ class Hud extends PositionComponent with HasGameReference<OurGame> {
     _resourcesTextComponent.text = game.resources.toStringAsFixed(1);
     _energyTextComponent.text = game.energy.toStringAsFixed(1);
     _capitalTextComponent.text = "\$${game.capital.toStringAsFixed(1)}";
+    _temperatureTextComponent.text = game.temperature.toStringAsFixed(1);
+    _temperatureTextComponent2.text = game.temperature.toStringAsFixed(1);
+    _windTextComponent.text = game.windSpeed.toStringAsFixed(1);
+    _windTextComponent2.text = game.windSpeed.toStringAsFixed(1);
+    _timeTextComponent.text = game.elapsedSecs.toStringAsFixed(0);
   }
 }

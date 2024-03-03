@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:game_name/game/game_tutorial.dart';
 import 'package:game_name/main.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:just_audio/just_audio.dart';
@@ -48,7 +49,8 @@ class MainMenuState extends State<MainMenu> {
                 Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
-                        builder: (context) => const OtherScreen()));
+                        builder: (context) =>
+                            const OtherScreen(isTutorial: false)));
               },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.white),
@@ -58,7 +60,12 @@ class MainMenuState extends State<MainMenu> {
               ),
               child: const Text("Play")),
           ElevatedButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const GameTutorial()));
+              },
               style: ButtonStyle(
                 backgroundColor: MaterialStateProperty.all(Colors.white),
                 foregroundColor: MaterialStateProperty.all(Colors.black),

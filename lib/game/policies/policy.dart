@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:game_name/game/our_game.dart';
+import 'package:game_name/util/delta.dart';
 
 class Policy extends SpriteComponent with HasGameReference<OurGame> {
   Policy({
@@ -30,4 +31,13 @@ class Policy extends SpriteComponent with HasGameReference<OurGame> {
   final double deltaHealth;
   final double deltaMorale;
   final double timeToPass;
+
+  ParamDelta get paramDelta => ParamDelta(
+        deltaHealth: deltaHealth,
+        deltaMorale: deltaMorale,
+        deltaCarbon: deltaCarbon,
+        deltaResources: deltaResources,
+        deltaEnergy: deltaEnergy,
+        deltaCapital: deltaCapital,
+      );
 }

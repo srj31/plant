@@ -27,7 +27,7 @@ class SpecializationMenu extends StatelessWidget {
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     ElevatedCard(
                       game,
-                      Vector2(game.size.x * 0.30, game.size.y * 0.80),
+                      Vector2(game.size.x * 0.28, game.size.y * 0.80),
                       TechnologySpecialization(),
                       game.technologySpecialization,
                       "Technology Specialization",
@@ -36,7 +36,7 @@ class SpecializationMenu extends StatelessWidget {
                     ),
                     ElevatedCard(
                       game,
-                      Vector2(game.size.x * 0.30, game.size.y * 0.80),
+                      Vector2(game.size.x * 0.28, game.size.y * 0.80),
                       PolicySpecialization(),
                       game.policySpecialization,
                       "Policy Specialization",
@@ -45,7 +45,7 @@ class SpecializationMenu extends StatelessWidget {
                     ),
                     ElevatedCard(
                       game,
-                      Vector2(game.size.x * 0.30, game.size.y * 0.80),
+                      Vector2(game.size.x * 0.28, game.size.y * 0.80),
                       ResearchSpecialization(),
                       game.researchSpecialization,
                       "Research Specialization",
@@ -59,7 +59,8 @@ class SpecializationMenu extends StatelessWidget {
 
 class ElevatedCard extends StatelessWidget {
   const ElevatedCard(this.game, this.size, this.specialization,
-      this.spriteImage, this.heading, this.advantages, this.description);
+      this.spriteImage, this.heading, this.advantages, this.description,
+      {super.key});
   final OurGame game;
   final String heading;
   final String advantages;
@@ -68,6 +69,8 @@ class ElevatedCard extends StatelessWidget {
 
   final Vector2 size;
   final Sprite spriteImage;
+
+  final double borderWidth = 5;
 
   @override
   Widget build(BuildContext context) {
@@ -79,23 +82,41 @@ class ElevatedCard extends StatelessWidget {
               child: Stack(clipBehavior: Clip.none, children: [
                 Positioned(
                     child: Card(
-                  surfaceTintColor: Colors.lightGreen,
+                  surfaceTintColor: Colors.green,
                   color: Colors.green,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
                     side:
                         const BorderSide(color: Colors.orangeAccent, width: 5),
                   ),
+                  borderOnForeground: false,
                   elevation: 10,
-                  child: SizedBox(
-                    width: size.x,
-                    height: size.y,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Colors.lightGreen.shade800,
+                            Colors.green,
+                            Colors.green.shade600
+                          ],
+                        ),
+                        border: Border.all(
+                          color: Colors.orangeAccent,
+                          width: 5,
+                        ),
+                        borderRadius: BorderRadius.circular(15.0)),
+                    child: SizedBox(
+                      width: size.x,
+                      height: size.y,
+                    ),
                   ),
                 )),
                 // Top Part
                 Positioned(
                     top: -20,
-                    left: size.x * 0.1,
+                    left: size.x * 0.1 + borderWidth,
                     child: Card(
                         elevation: 10,
                         shape: RoundedRectangleBorder(
@@ -112,6 +133,14 @@ class ElevatedCard extends StatelessWidget {
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(10.0),
                                       color: Colors.lightGreen,
+                                      gradient: RadialGradient(
+                                        center: Alignment.center,
+                                        radius: 1,
+                                        colors: [
+                                          Colors.lightGreen,
+                                          Colors.green.shade900
+                                        ],
+                                      ),
                                       boxShadow: const [
                                         BoxShadow(
                                           color: Colors.green,
@@ -145,11 +174,9 @@ class ElevatedCard extends StatelessWidget {
                                         Positioned(
                                           bottom: size.y * 0.02,
                                           right: size.x * 0.02,
-                                          child: Text(
-                                            'x${specialization.factorMorale.toStringAsFixed(2)}',
-                                            style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 10),
+                                          child: BorderedText(
+                                            text: specialization.factorMorale
+                                                .toStringAsFixed(2),
                                           ),
                                         ),
                                       ]),
@@ -169,11 +196,9 @@ class ElevatedCard extends StatelessWidget {
                                         Positioned(
                                           bottom: size.y * 0.02,
                                           right: size.x * 0.02,
-                                          child: Text(
-                                            'x${specialization.factorCarbon.toStringAsFixed(2)}',
-                                            style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 10),
+                                          child: BorderedText(
+                                            text: specialization.factorCarbon
+                                                .toStringAsFixed(2),
                                           ),
                                         ),
                                       ]),
@@ -193,11 +218,9 @@ class ElevatedCard extends StatelessWidget {
                                         Positioned(
                                           bottom: size.y * 0.02,
                                           right: size.x * 0.02,
-                                          child: Text(
-                                            'x${specialization.factorResources.toStringAsFixed(2)}',
-                                            style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 10),
+                                          child: BorderedText(
+                                            text: specialization.factorResources
+                                                .toStringAsFixed(2),
                                           ),
                                         ),
                                       ]),
@@ -224,11 +247,9 @@ class ElevatedCard extends StatelessWidget {
                                         Positioned(
                                           bottom: size.y * 0.02,
                                           right: size.x * 0.02,
-                                          child: Text(
-                                            'x${specialization.factorEnergy.toStringAsFixed(2)}',
-                                            style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 10),
+                                          child: BorderedText(
+                                            text: specialization.factorEnergy
+                                                .toStringAsFixed(2),
                                           ),
                                         ),
                                       ]),
@@ -248,11 +269,9 @@ class ElevatedCard extends StatelessWidget {
                                         Positioned(
                                           bottom: size.y * 0.02,
                                           right: size.x * 0.02,
-                                          child: Text(
-                                            'x${specialization.factorCapital.toStringAsFixed(2)}',
-                                            style: const TextStyle(
-                                                color: Colors.black,
-                                                fontSize: 10),
+                                          child: BorderedText(
+                                            text: specialization.factorCapital
+                                                .toStringAsFixed(2),
                                           ),
                                         ),
                                       ]),
@@ -264,11 +283,11 @@ class ElevatedCard extends StatelessWidget {
                 // The time and cost stats
                 Positioned(
                   top: size.y * 0.47,
-                  right: 0,
+                  left: 2 * borderWidth,
                   width: size.x,
                   height: size.y * 0.6,
                   child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -341,25 +360,38 @@ class ElevatedCard extends StatelessWidget {
                             )
                           ],
                         ),
-                        const Padding(
-                          padding: EdgeInsets.only(right: 10.0),
-                          child: Divider(color: Colors.amber),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: 10.0, right: 10.0, bottom: 10.0),
-                          child: Text(description,
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: Colors.black,
-                                fontWeight: FontWeight.w600,
-                                fontFamily: GoogleFonts.play().fontFamily,
+                        const Spacer(),
+                        Column(children: [
+                          SizedBox(
+                              width: size.x,
+                              height: size.y * 0.3,
+                              child: Container(
+                                alignment: Alignment.topCenter,
+                                decoration: const BoxDecoration(
+                                  color: Colors.black12,
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.only(
+                                    top: 10.0,
+                                    left: 10.0,
+                                    right: 10.0,
+                                  ),
+                                  child: Text(description,
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.w600,
+                                        fontFamily:
+                                            GoogleFonts.play().fontFamily,
+                                      )),
+                                ),
                               )),
-                        ),
+                        ]),
                         Container(
                             alignment: Alignment.center,
                             child: SizedBox(
-                                height: 20,
+                                width: size.x,
+                                height: size.y * 0.1,
                                 child: ElevatedButton(
                                     onPressed: () {
                                       game.setSpecialization(specialization);
@@ -370,6 +402,8 @@ class ElevatedCard extends StatelessWidget {
                                           .remove(SpecializationMenu.id);
                                     },
                                     style: ButtonStyle(
+                                      shadowColor: MaterialStateProperty.all(
+                                          Colors.yellow),
                                       foregroundColor:
                                           MaterialStateProperty.all(
                                               Colors.black),
@@ -377,10 +411,51 @@ class ElevatedCard extends StatelessWidget {
                                           MaterialStateProperty.all(
                                               Colors.amber),
                                     ),
-                                    child: const Text("Choose")))),
+                                    child: Text("CHOOSE",
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            fontFamily:
+                                                GoogleFonts.play().fontFamily,
+                                            fontWeight: FontWeight.bold))))),
                       ]),
                 )
               ]),
             )));
+  }
+}
+
+class BorderedText extends StatelessWidget {
+  const BorderedText({
+    super.key,
+    required this.text,
+  });
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Text(
+          'x$text',
+          style: TextStyle(
+              fontWeight: FontWeight.bold,
+              foreground: Paint()
+                ..color = Colors.white
+                ..strokeWidth = 2.5
+                ..style = PaintingStyle.stroke,
+              fontFamily: GoogleFonts.play().fontFamily,
+              fontSize: 12),
+        ),
+        Text(
+          'x$text',
+          style: TextStyle(
+              color: Colors.black,
+              fontWeight: FontWeight.bold,
+              fontFamily: GoogleFonts.play().fontFamily,
+              fontSize: 12),
+        ),
+      ],
+    );
   }
 }

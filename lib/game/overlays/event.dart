@@ -4,6 +4,7 @@ import 'package:game_name/game/event/earthquake.dart';
 import 'package:game_name/game/event/event.dart';
 import 'package:game_name/game/event/forrest_fire.dart';
 import 'package:game_name/game/our_game.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class EventMenu extends StatelessWidget {
   static const id = 'EventMenu';
@@ -28,7 +29,7 @@ class EventMenu extends StatelessWidget {
                       Earthquake(game: game),
                       game.earthquake,
                       "Earthquake",
-                      "Witness the devastating aftermath of prolonged strain on Earth's health as structures crumble under seismic activity. Highlighting the urgent need for sustainable practices, this event emphasizes the critical importance of safeguarding against environmental degradation to mitigate natural disasters",
+                      "Witness the devastating aftermath of prolonged strain on Earth's health as structures crumble under seismic activity.",
                     ),
                     ElevatedCard(
                       game,
@@ -36,7 +37,7 @@ class EventMenu extends StatelessWidget {
                       ForrestFire(game: game),
                       game.forrestFire,
                       "Forrest Fire",
-                      "Experience the ferocity of wildfires fueled by escalating global temperatures. Witness the destruction of precious ecosystems and habitats as forests blaze under the intensified heat of climate change. This event underscores the urgent need for environmental action to combat the escalating threats posed by rising temperatures and their devastating consequences.",
+                      "Experience the ferocity of wildfires fueled by escalating global temperatures. Witness the destruction of precious ecosystems and habitats as forests blaze under the intensified heat of climate change.",
                     ),
                   ]),
                 ]))));
@@ -77,9 +78,22 @@ class ElevatedCard extends StatelessWidget {
                         const BorderSide(color: Colors.orangeAccent, width: 5),
                   ),
                   elevation: 10,
-                  child: SizedBox(
-                    width: size.x,
-                    height: size.y,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            Colors.red.shade800,
+                            Colors.red.shade600,
+                            Colors.orange.shade700
+                          ],
+                        )),
+                    child: SizedBox(
+                      width: size.x,
+                      height: size.y,
+                    ),
                   ),
                 )),
                 Positioned(
@@ -102,6 +116,14 @@ class ElevatedCard extends StatelessWidget {
                                         borderRadius:
                                             BorderRadius.circular(10.0),
                                         color: Colors.lightGreen,
+                                        gradient: RadialGradient(
+                                          center: Alignment.center,
+                                          radius: 1,
+                                          colors: [
+                                            Colors.orange,
+                                            Colors.red.shade900
+                                          ],
+                                        ),
                                         boxShadow: const [
                                           BoxShadow(
                                             color: Colors.green,
@@ -123,15 +145,26 @@ class ElevatedCard extends StatelessWidget {
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            heading,
-                            style: const TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            description,
-                            style: const TextStyle(fontSize: 12),
-                          )
+                          Text(heading,
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: GoogleFonts.play().fontFamily,
+                                fontSize: 20,
+                              )),
+                          Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10.0),
+                                color: Colors.orange.withAlpha(100),
+                              ),
+                              child: Text(
+                                description,
+                                style: TextStyle(
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                    fontFamily: GoogleFonts.play().fontFamily,
+                                    fontSize: 12),
+                              ))
                         ]))
               ]),
             )));

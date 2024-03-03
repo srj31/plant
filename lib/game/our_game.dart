@@ -2,6 +2,7 @@ import 'dart:collection';
 import 'dart:math' as math;
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame/flame.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:flutter/material.dart';
@@ -22,20 +23,26 @@ import 'package:game_name/game/overlays/policies.dart';
 import 'package:game_name/game/overlays/research.dart';
 import 'package:game_name/game/overlays/specialization.dart';
 import 'package:game_name/game/overlays/stats.dart';
+import 'package:game_name/game/overlays/tutorial.dart';
 import 'package:game_name/game/policies/policy.dart';
 import 'package:game_name/game/research/researh.dart';
 import 'package:game_name/game/specializations/specialization.dart';
 import 'package:game_name/game/state/default.dart';
 import 'package:game_name/game/structures/structures.dart';
 import 'package:game_name/game/structures/upgrade/upgrade.dart';
+import 'package:game_name/util/delta.dart';
 import 'package:game_name/util/hex.dart';
 import 'overlays/hud.dart';
 import 'tile_info.dart';
 
 class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
+  OurGame({this.isTutorial = false});
+
+  final bool isTutorial;
   late TiledComponent mapComponent;
   late BuildComponent buildComponent;
   late PausePlayComponent pauseComponent;
+  late SpriteComponent noPower;
 
   late Sprite capitalSprite;
   late Sprite moraleSprite;
@@ -84,6 +91,11 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   bool playSounds = true;
   double soundVolume = 1.0;
 
+  double temperature = 25.0;
+  double windSpeed = 1.0;
+
+  bool powerShortage = false;
+
   Size deviceSize = WidgetsBinding
           .instance.platformDispatcher.views.first.physicalSize /
       WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio;
@@ -101,12 +113,15 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   double energy = 0;
   double capital = 1000;
 
-  double deltaHealth = -0.1;
-  double deltaMorale = 0;
-  double deltaCarbon = 0;
-  double deltaResources = 0;
-  double deltaEnergy = 0;
-  double deltaCapital = 0;
+  ParamDelta paramDelta = ParamDelta(
+      deltaHealth: -0.1,
+      deltaMorale: 0,
+      deltaCarbon: 0,
+      deltaResources: 0,
+      deltaEnergy: 0,
+      deltaCapital: 0);
+
+  ParamDelta bonus = ParamDelta.zero();
 
   List<Structure> builtItems = [];
   List<TreeStructure> trees = [];
@@ -132,12 +147,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       resources -= item.resources;
       inProgressStructures.add((elapsedSecs + item.timeToBuild, item));
     } else {
-      deltaHealth += item.deltaHealth;
-      deltaMorale += item.deltaMorale;
-      deltaCarbon += item.deltaCarbon;
-      deltaResources += item.deltaResources;
-      deltaEnergy += item.deltaEnergy;
-      deltaCapital += item.deltaCapital;
+      paramDelta += item.paramDelta;
     }
   }
 
@@ -163,19 +173,29 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
   void removeBuiltItem(int index) {
     final item = builtItems[index];
-    deltaHealth -= item.deltaHealth;
-    deltaMorale -= item.deltaMorale;
-    deltaCarbon -= item.deltaCarbon;
-    deltaResources -= item.deltaResources;
-    deltaEnergy -= item.deltaEnergy;
-    deltaCapital -= item.deltaCapital;
-    world.remove(item);
+    paramDelta -= item.paramDelta;
+    item.addAll([
+      OpacityEffect.fadeOut(
+        LinearEffectController(1.5),
+        target: item,
+        onComplete: removeFromParent,
+      ),
+      ColorEffect(const Color(0xFFFF0000), ZigzagEffectController(period: 1.5))
+    ]);
     builtItems.removeAt(index);
   }
 
   void removeTree(int index) {
     final tree = trees[index];
-    world.remove(tree);
+    tree.addAll([
+      OpacityEffect.fadeOut(
+        LinearEffectController(1.5),
+        target: tree,
+        onComplete: removeFromParent,
+      ),
+      ColorEffect(const Color(0xFFFF0000), ZigzagEffectController(period: 1.5)),
+      ScaleEffect.by(Vector2(0.9, 0.9), LinearEffectController(1.5))
+    ]);
     trees.removeAt(index);
   }
 
@@ -211,12 +231,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       {required TreeStructure tree, bool isPreBuilt = false}) async {
     world.add(tree);
 
-    deltaHealth += tree.deltaHealth;
-    deltaMorale += tree.deltaMorale;
-    deltaCarbon += tree.deltaCarbon;
-    deltaResources += tree.deltaResources;
-    deltaEnergy += tree.deltaEnergy;
-    deltaCapital += tree.deltaCapital;
+    paramDelta += tree.paramDelta;
 
     trees.add(tree);
   }
@@ -227,6 +242,9 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
   @override
   Future<void> onLoad() async {
+    if (isTutorial) {
+      overlays.add(Tutorial.id);
+    }
     camera.viewfinder
       ..zoom = _startZoom
       ..position = Vector2(size.x, size.y * 0.8)
@@ -266,56 +284,39 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
           inProgressStructures.first.$1 <= elapsedSecs) {
         final itemWithTime = inProgressStructures.removeFirst();
         final item = itemWithTime.$2;
-        deltaHealth += item.deltaHealth;
-        deltaMorale += item.deltaMorale;
-        deltaCarbon += item.deltaCarbon;
-        deltaResources += item.deltaResources;
-        deltaEnergy += item.deltaEnergy;
-        deltaCapital += item.deltaCapital;
+        paramDelta += item.paramDelta;
       }
 
       while (inProgressPolicies.isNotEmpty &&
           inProgressPolicies.first.$1 <= elapsedSecs) {
         final policyWithTime = inProgressPolicies.removeFirst();
         final policy = policyWithTime.$2;
-        deltaHealth += policy.deltaHealth;
-        deltaMorale += policy.deltaMorale;
-        deltaCarbon += policy.deltaCarbon;
-        deltaResources += policy.deltaResources;
-        deltaEnergy += policy.deltaEnergy;
-        deltaCapital += policy.deltaCapital;
+        paramDelta += policy.paramDelta;
       }
 
       while (inProgressResearches.isNotEmpty &&
           inProgressResearches.first.$1 <= elapsedSecs) {
         final researchWithTime = inProgressResearches.removeFirst();
         final research = researchWithTime.$2;
-        deltaHealth += research.deltaHealth;
-        deltaMorale += research.deltaMorale;
-        deltaCarbon += research.deltaCarbon;
-        deltaResources += research.deltaResources;
-        deltaEnergy += research.deltaEnergy;
-        deltaCapital += research.deltaCapital;
+        paramDelta += research.paramDelta;
       }
 
       while (inProgressUpgrade.isNotEmpty &&
           inProgressUpgrade.first.$1 <= elapsedSecs) {
         final upgradeWithTime = inProgressUpgrade.removeFirst();
         final upgrade = upgradeWithTime.$2;
-        deltaHealth += upgrade.deltaHealth;
-        deltaMorale += upgrade.deltaMorale;
-        deltaCarbon += upgrade.deltaCarbon;
-        deltaResources += upgrade.deltaResources;
-        deltaEnergy += upgrade.deltaEnergy;
-        deltaCapital += upgrade.deltaCapital;
+        paramDelta += upgrade.paramDelta;
       }
 
-      health = math.max(0, health + deltaHealth - (1 - 0.001 * carbonEmission));
-      energy = math.max(0, energy + deltaEnergy);
-      carbonEmission = math.max(0, carbonEmission + deltaCarbon);
-      resources = math.max(0, resources + deltaResources);
-      capital = math.max(0, capital + deltaCapital);
-      morale = math.max(0, morale + deltaMorale);
+      _bonusCalculation();
+
+      health = math.max(
+          0, health + paramDelta.deltaHealth - (1 - 0.001 * carbonEmission));
+      energy = math.max(0, energy + paramDelta.deltaEnergy);
+      carbonEmission = math.max(0, carbonEmission + paramDelta.deltaCarbon);
+      resources = math.max(0, resources + paramDelta.deltaResources);
+      capital = math.max(0, capital + paramDelta.deltaCapital);
+      morale = math.max(0, morale + paramDelta.deltaMorale);
       if (health <= 0) {
         overlays.add(GameOverMenu.id);
         AudioManager.playSfx('game_over.wav', soundVolume);
@@ -325,6 +326,12 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
         overlays.add(NextLevelMenu.id);
         hasTimerStarted = false;
       }
+
+      if (morale < 5) {
+        // chances of riot
+      }
+
+      _checkPower();
 
       if (elapsedSecs % 10 == 0) {
         if (math.Random().nextDouble() < 0.8) {
@@ -365,12 +372,49 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     camera.viewport.add(pauseComponent);
     camera.viewport.add(Hud());
     camera.viewport.add(BannerComponent(
-        position: Vector2(size.x - 100, size.y * 0.25),
+        position: Vector2(size.x * 0.9, size.y * 0.25),
         size: Vector2.all(45),
         borderSize: 1,
         priority: 0,
         anchor: Anchor.center));
     camera.viewport.add(StatsComponent());
+  }
+
+  void _checkPower() {
+    if (energy == 0) {
+      // stop the factories
+      powerShortage = true;
+      camera.viewport.add(noPower);
+      for (final builtItem in builtItems) {
+        paramDelta -= builtItem.paramDelta;
+      }
+    }
+
+    if (powerShortage && energy > 1e-6) {
+      powerShortage = false;
+      camera.viewport.remove(noPower);
+      for (final builtItem in builtItems) {
+        paramDelta += builtItem.paramDelta;
+      }
+    }
+  }
+
+  void _bonusCalculation() {
+    bonus = ParamDelta.zero();
+    bonus += _bonusWind();
+    bonus += _bonusSolar();
+  }
+
+  ParamDelta _bonusWind() {
+    var bonus = ParamDelta.zero();
+    for (final builtItem in builtItems) {
+      bonus += builtItem.bonusWind() * windSpeed;
+    }
+    return bonus;
+  }
+
+  ParamDelta _bonusSolar() {
+    return ParamDelta.zero();
   }
 
   void _updateDataPoints() {
@@ -522,12 +566,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     energy = 40;
     capital = 1000;
 
-    deltaHealth = 20;
-    deltaMorale = -0.5;
-    deltaCarbon = -0.5;
-    deltaResources = -0.5;
-    deltaEnergy = -0.5;
-    deltaCapital = -10;
+    paramDelta = ParamDelta.zero();
 
     world.removeAll(builtItems);
     world.removeAll(trees);
@@ -553,35 +592,39 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     resourcesSprite = Sprite(await Flame.images.load("resources.png"));
     moraleSprite = Sprite(await Flame.images.load("morale.png"));
 
+    noPower = SpriteComponent(
+        position: Vector2(size.x * 0.9, size.y * 0.4),
+        anchor: Anchor.center,
+        sprite: Sprite(await Flame.images.load("no_power.png")));
+
     buildComponent = BuildComponent();
     pauseComponent = PausePlayComponent(
         position: Vector2(size.x * 0.075, size.y * 0.9),
         anchor: Anchor.center,
         scale: Vector2.all(1.5));
     Vector2 tileSize = mapComponent.tileMap.destTileSize;
-    evFactory = await getSpriteAnimation("ev_factory.png", 4, 0.5, tileSize);
+    evFactory = await getSpriteAnimation("ev_factory.png", 4, 0.2, tileSize);
     windmill = await getSpriteAnimation("windmill.png", 4, 0.15, tileSize);
     recyclingFactory =
-        await getSpriteAnimation("recycling_factory.png", 1, 0.3, tileSize);
+        await getSpriteAnimation("recycling_factory.png", 4, 0.3, tileSize);
     greenHydrogen =
         await getSpriteAnimation("green_hydrogen.png", 4, 0.15, tileSize);
 
-    publicTransport = getObjectSprite(216, 0, 86, 94);
-    carbonTax = getObjectSprite(970, 128, 18, 37);
+    publicTransport = Sprite(await Flame.images.load("public_transport.png"));
+    carbonTax = Sprite(await Flame.images.load("carbon_tax.png"));
     afforestation = Sprite(await Flame.images.load("grass_13.png"));
-    globalTreaty = getObjectSprite(386, 75, 74, 70);
+    globalTreaty = Sprite(await Flame.images.load("global_treaty.png"));
 
     carbonTechnology = getObjectSprite(908, 90, 30, 56);
     smartGrid = getObjectSprite(532, 0, 68, 98);
     biodegradable = getObjectSprite(601, 100, 56, 62);
     nanoTechnology = getObjectSprite(712, 433, 50, 50);
 
-    fossilFuel = await getSpriteAnimation("fossil.png", 4, 0.5, tileSize);
-    deforestation =
-        await getSpriteAnimation("resources.png", 1, 0.15, tileSize);
-    plastic = await getSpriteAnimation("plastic.png", 1, 0.15, tileSize);
+    fossilFuel = await getSpriteAnimation("fossil.png", 4, 0.15, tileSize);
+    deforestation = await getSpriteAnimation("chemical.png", 4, 0.15, tileSize);
+    plastic = await getSpriteAnimation("plastic.png", 4, 0.15, tileSize);
     wasteIncineration =
-        await getSpriteAnimation("waste.png", 1, 0.15, tileSize);
+        await getSpriteAnimation("waste.png", 4, 0.15, tileSize);
 
     tree = await getSpriteAnimation("tree_animation.png", 4, 0.2, tileSize);
     house = await getSpriteAnimation("house.png", 4, 0.2, tileSize);

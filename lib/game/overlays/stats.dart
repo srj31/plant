@@ -19,7 +19,7 @@ class StatsComponent extends SpriteComponent
   @override
   Future<void> onLoad() async {
     sprite = Sprite(await Flame.images.load('stats.png'));
-    position = Vector2(game.size.x - 100, game.size.y * 0.25);
+    position = Vector2(game.size.x * 0.9, game.size.y * 0.25);
     size = Vector2.all(32);
     priority = 2;
     anchor = Anchor.center;
@@ -67,31 +67,31 @@ class StatsMenu extends StatelessWidget {
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       StatSection(
                           title: "Health",
-                          value: game.deltaHealth.toStringAsFixed(3),
+                          value: game.paramDelta.deltaHealth.toStringAsFixed(3),
                           data: game.dataPoints["health"]!),
                       StatSection(
                           title: "Morale",
-                          value: game.deltaMorale.toStringAsFixed(2),
+                          value: game.paramDelta.deltaMorale.toStringAsFixed(2),
                           data: game.dataPoints["morale"]!),
                     ]),
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       StatSection(
                           title: "CO2 Control",
-                          value: game.deltaCarbon.toStringAsFixed(2),
+                          value: game.paramDelta.deltaCarbon.toStringAsFixed(2),
                           data: game.dataPoints["carbon"]!),
                       StatSection(
                           title: "Resources",
-                          value: game.deltaResources.toStringAsFixed(2),
+                          value: game.paramDelta.deltaResources.toStringAsFixed(2),
                           data: game.dataPoints["resources"]!),
                     ]),
                     Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                       StatSection(
                           title: "Energy",
-                          value: game.deltaEnergy.toStringAsFixed(2),
+                          value: game.paramDelta.deltaEnergy.toStringAsFixed(2),
                           data: game.dataPoints["energy"]!),
                       StatSection(
                           title: "Capital",
-                          value: (game.deltaCapital.toStringAsFixed(2)),
+                          value: (game.paramDelta.deltaCapital.toStringAsFixed(2)),
                           data: game.dataPoints["capital"]!),
                     ]),
                   ]))),

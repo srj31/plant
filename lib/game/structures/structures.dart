@@ -15,6 +15,7 @@ import 'package:game_name/game/structures/green_hydrogen.dart';
 import 'package:game_name/game/structures/recycling_factory.dart';
 import 'package:game_name/game/structures/upgrade/upgrade.dart';
 import 'package:game_name/game/structures/windmill.dart';
+import 'package:game_name/util/delta.dart';
 
 enum BuildingState {
   start,
@@ -108,11 +109,26 @@ class Structure extends SpriteAnimationGroupComponent<BuildingState>
       case "windmill":
         return WindMill(position: location, priority: 1, anchor: Anchor.center);
       case "house":
-        return HouseStructure(position: location, priority: 1, anchor: Anchor.center);
+        return HouseStructure(
+            position: location, priority: 1, anchor: Anchor.center);
 
       default:
         return throw Exception("Unknown type $name");
     }
+  }
+
+  ParamDelta get paramDelta {
+    return ParamDelta(
+        deltaHealth: deltaHealth,
+        deltaMorale: deltaMorale,
+        deltaCarbon: deltaCarbon,
+        deltaResources: deltaResources,
+        deltaEnergy: deltaEnergy,
+        deltaCapital: deltaCapital);
+  }
+
+  ParamDelta bonusWind() {
+    return ParamDelta.zero();
   }
 }
 

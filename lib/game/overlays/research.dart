@@ -9,6 +9,8 @@ import 'package:game_name/game/research/carbon_technology.dart';
 import 'package:game_name/game/research/nano_technology.dart';
 import 'package:game_name/game/research/researh.dart';
 import 'package:game_name/game/research/smart_grid.dart';
+import 'package:game_name/util/text_style.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ResearchComponent extends SpriteComponent
     with TapCallbacks, HasGameReference<OurGame> {
@@ -60,7 +62,7 @@ class ResearchMenu extends StatelessWidget {
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
                       CarbonTechnology(),
                       game.carbonTechnology,
-                      "Advanced Carbon Capture Technology",
+                      "Advanced Carbon Capture ",
                       "Pioneer innovative solutions to combat climate change with advanced carbon capture technology. Develop cutting-edge methods to capture and store carbon emissions, mitigating the environmental impact of industrial processes and fostering a cleaner, greener future.",
                     ),
                     ElevatedCard(
@@ -118,9 +120,21 @@ class ElevatedCard extends StatelessWidget {
                     child: Card(
                   color: Colors.green,
                   elevation: 10,
-                  child: SizedBox(
-                    width: size.x,
-                    height: size.y,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Colors.green.shade800,
+                              Colors.lightGreen,
+                              Colors.green.shade600
+                            ])),
+                    child: SizedBox(
+                      width: size.x,
+                      height: size.y,
+                    ),
                   ),
                 )),
                 Positioned(
@@ -145,6 +159,12 @@ class ElevatedCard extends StatelessWidget {
                                         color: Colors.lightGreen,
                                         borderRadius:
                                             BorderRadius.circular(15.0),
+                                        gradient: RadialGradient(
+                                            radius: 0.5,
+                                            colors: [
+                                              Colors.green.shade800,
+                                              Colors.lightGreen,
+                                            ]),
                                       ),
                                       child: Padding(
                                         padding: const EdgeInsets.all(10.0),
@@ -180,12 +200,10 @@ class ElevatedCard extends StatelessWidget {
                                                 Positioned(
                                                   bottom: size.y * 0.02,
                                                   right: size.x * 0.02,
-                                                  child: Text(
-                                                    research.deltaMorale
+                                                  child: BorderedText(
+                                                    text: research.deltaMorale
+                                                        .abs()
                                                         .toStringAsFixed(2),
-                                                    style: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 10),
                                                   ),
                                                 ),
                                               ]),
@@ -213,12 +231,10 @@ class ElevatedCard extends StatelessWidget {
                                                 Positioned(
                                                   bottom: size.y * 0.02,
                                                   right: size.x * 0.02,
-                                                  child: Text(
-                                                    research.deltaCarbon
+                                                  child: BorderedText(
+                                                    text: research.deltaCarbon
+                                                        .abs()
                                                         .toStringAsFixed(2),
-                                                    style: const TextStyle(
-                                                        color: Colors.white,
-                                                        fontSize: 10),
                                                   ),
                                                 ),
                                               ]),
@@ -243,12 +259,10 @@ class ElevatedCard extends StatelessWidget {
                                             Positioned(
                                               bottom: size.y * 0.02,
                                               right: size.x * 0.02,
-                                              child: Text(
-                                                research.deltaResources
+                                              child: BorderedText(
+                                                text: research.deltaResources
+                                                    .abs()
                                                     .toStringAsFixed(2),
-                                                style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 10),
                                               ),
                                             ),
                                           ]),
@@ -279,12 +293,10 @@ class ElevatedCard extends StatelessWidget {
                                             Positioned(
                                               bottom: size.y * 0.02,
                                               right: size.x * 0.02,
-                                              child: Text(
-                                                research.deltaEnergy
+                                              child: BorderedText(
+                                                text: research.deltaEnergy
+                                                    .abs()
                                                     .toStringAsFixed(2),
-                                                style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 10),
                                               ),
                                             ),
                                           ]),
@@ -308,12 +320,10 @@ class ElevatedCard extends StatelessWidget {
                                             Positioned(
                                               bottom: size.y * 0.02,
                                               right: size.x * 0.02,
-                                              child: Text(
-                                                research.deltaCapital
+                                              child: BorderedText(
+                                                text: research.deltaCapital
+                                                    .abs()
                                                     .toStringAsFixed(2),
-                                                style: const TextStyle(
-                                                    color: Colors.white,
-                                                    fontSize: 10),
                                               ),
                                             ),
                                           ]),
@@ -332,11 +342,38 @@ class ElevatedCard extends StatelessWidget {
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(heading,
-                                style: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold)),
-                            Text(description,
-                                style: const TextStyle(fontSize: 10)),
+                            Container(
+                              decoration: BoxDecoration(
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.black,
+                                    blurRadius: 1.0,
+                                    spreadRadius: 0.0,
+                                    offset: Offset(0.0, 0.0),
+                                  ),
+                                ],
+                                color: Colors.green.shade600,
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(heading,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily:
+                                            GoogleFonts.play().fontFamily,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                            Text(
+                              description,
+                              style: TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: GoogleFonts.play().fontFamily),
+                            ),
                           ]),
                     )),
                 Positioned(
@@ -374,14 +411,17 @@ class ElevatedCard extends StatelessWidget {
                                     RawImage(
                                       image: game.capitalSprite.toImageSync(),
                                     ),
-                                    Text(research.capital.toStringAsFixed(0),
-                                        style: const TextStyle(fontSize: 10)),
+                                    BorderedText(
+                                      text: research.capital.toStringAsFixed(0),
+                                    ),
                                     const Spacer(),
                                     RawImage(
                                       image: game.resourcesSprite.toImageSync(),
                                     ),
-                                    Text(research.resources.toStringAsFixed(0),
-                                        style: const TextStyle(fontSize: 10)),
+                                    BorderedText(
+                                      text:
+                                          research.resources.toStringAsFixed(0),
+                                    ),
                                   ],
                                 )))))
               ]),

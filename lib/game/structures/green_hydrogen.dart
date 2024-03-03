@@ -12,7 +12,7 @@ class GreenHydrogen extends Structure {
       : super(
           capital: 1000,
           resources: 50,
-          deltaCapital: -0.1,
+          deltaCapital: -2,
           deltaResources: 0.2,
           deltaCarbon: 0.1,
           deltaEnergy: -0.05,

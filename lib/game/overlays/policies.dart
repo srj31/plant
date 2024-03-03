@@ -9,6 +9,8 @@ import 'package:game_name/game/policies/carbon_tax.dart';
 import 'package:game_name/game/policies/global_treaty.dart';
 import 'package:game_name/game/policies/policy.dart';
 import 'package:game_name/game/policies/public_transport.dart';
+import 'package:game_name/util/text_style.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class PoliciesComponent extends SpriteComponent
     with TapCallbacks, HasGameReference<OurGame> {
@@ -60,14 +62,14 @@ class PoliciesMenu extends StatelessWidget {
                         Vector2(game.size.x * 0.40, game.size.y * 0.40),
                         PublicTransport(),
                         game.publicTransport,
-                        "Public Transportation Expansion",
+                        "Public Transport Expansion",
                         "Propel environmental progress by investing in robust public transit systems. Reduce traffic congestion, lower emissions, and improve urban air quality with expanded public transportation options, fostering sustainable mobility and vibrant communities"),
                     ElevatedCard(
                         game,
                         Vector2(game.size.x * 0.40, game.size.y * 0.40),
                         CarbonTax(),
                         game.carbonTax,
-                        "Carbon Tax Implementation",
+                        "Carbon Tax",
                         "Take decisive action against climate change with a carbon tax. Incentivize emissions reduction, spur innovation in clean energy, and generate revenue for environmental initiatives, paving the way for a greener and more prosperous future.")
                   ]),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -84,7 +86,7 @@ class PoliciesMenu extends StatelessWidget {
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
                       GlobalTreaty(),
                       game.globalTreaty,
-                      "Global Collaboration Treaty",
+                      "Global Collaboration",
                       "Forge international unity in the fight against climate change with a comprehensive global treaty. Coordinate efforts, share resources, and amplify impact on a global scale, ushering in a new era of cooperation and collective responsibility for a sustainable future.",
                     )
                   ])
@@ -94,7 +96,8 @@ class PoliciesMenu extends StatelessWidget {
 
 class ElevatedCard extends StatelessWidget {
   const ElevatedCard(this.game, this.size, this.policy, this.spriteImage,
-      this.heading, this.description);
+      this.heading, this.description,
+      {super.key});
   final OurGame game;
   final String heading;
   final Policy policy;
@@ -115,9 +118,21 @@ class ElevatedCard extends StatelessWidget {
                     child: Card(
                   color: Colors.green,
                   elevation: 10,
-                  child: SizedBox(
-                    width: size.x,
-                    height: size.y,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Colors.green.shade800,
+                              Colors.lightGreen,
+                              Colors.green.shade600
+                            ])),
+                    child: SizedBox(
+                      width: size.x,
+                      height: size.y,
+                    ),
                   ),
                 )),
                 Positioned(
@@ -139,6 +154,11 @@ class ElevatedCard extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     color: Colors.lightGreen,
                                     borderRadius: BorderRadius.circular(15.0),
+                                    gradient:
+                                        RadialGradient(radius: 0.5, colors: [
+                                      Colors.green.shade800,
+                                      Colors.lightGreen,
+                                    ]),
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.all(10.0),
@@ -170,12 +190,9 @@ class ElevatedCard extends StatelessWidget {
                                         Positioned(
                                           bottom: size.y * 0.02,
                                           right: size.x * 0.02,
-                                          child: Text(
-                                            policy.deltaMorale
+                                          child: BorderedText(
+                                            text: policy.deltaMorale
                                                 .toStringAsFixed(2),
-                                            style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 10),
                                           ),
                                         ),
                                       ]),
@@ -198,12 +215,9 @@ class ElevatedCard extends StatelessWidget {
                                         Positioned(
                                           bottom: size.y * 0.02,
                                           right: size.x * 0.02,
-                                          child: Text(
-                                            policy.deltaCarbon
+                                          child: BorderedText(
+                                            text: policy.deltaCarbon
                                                 .toStringAsFixed(2),
-                                            style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 10),
                                           ),
                                         ),
                                       ]),
@@ -226,12 +240,9 @@ class ElevatedCard extends StatelessWidget {
                                         Positioned(
                                           bottom: size.y * 0.02,
                                           right: size.x * 0.02,
-                                          child: Text(
-                                            policy.deltaResources
+                                          child: BorderedText(
+                                            text: policy.deltaResources
                                                 .toStringAsFixed(2),
-                                            style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 10),
                                           ),
                                         ),
                                       ]),
@@ -261,12 +272,9 @@ class ElevatedCard extends StatelessWidget {
                                         Positioned(
                                           bottom: size.y * 0.02,
                                           right: size.x * 0.02,
-                                          child: Text(
-                                            policy.deltaEnergy
+                                          child: BorderedText(
+                                            text: policy.deltaEnergy
                                                 .toStringAsFixed(2),
-                                            style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 10),
                                           ),
                                         ),
                                       ]),
@@ -289,12 +297,9 @@ class ElevatedCard extends StatelessWidget {
                                         Positioned(
                                           bottom: size.y * 0.02,
                                           right: size.x * 0.02,
-                                          child: Text(
-                                            policy.deltaCapital
-                                                .toStringAsFixed(2),
-                                            style: const TextStyle(
-                                                color: Colors.white,
-                                                fontSize: 10),
+                                          child: BorderedText(
+                                            text: policy.deltaCapital
+                                                .toStringAsFixed(0),
                                           ),
                                         ),
                                       ]),
@@ -313,11 +318,38 @@ class ElevatedCard extends StatelessWidget {
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(heading,
-                                style: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold)),
-                            Text(description,
-                                style: const TextStyle(fontSize: 10)),
+                            Container(
+                              decoration: BoxDecoration(
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.black,
+                                    blurRadius: 1.0,
+                                    spreadRadius: 0.0,
+                                    offset: Offset(0.0, 0.0),
+                                  ),
+                                ],
+                                color: Colors.green.shade600,
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(heading,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontFamily:
+                                            GoogleFonts.play().fontFamily,
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            ),
+                            Text(
+                              description,
+                              style: TextStyle(
+                                  fontSize: 11,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.w600,
+                                  fontFamily: GoogleFonts.play().fontFamily),
+                            ),
                           ]),
                     )),
                 Positioned(
@@ -355,14 +387,16 @@ class ElevatedCard extends StatelessWidget {
                                     RawImage(
                                       image: game.capitalSprite.toImageSync(),
                                     ),
-                                    Text(policy.capital.toStringAsFixed(0),
-                                        style: const TextStyle(fontSize: 10)),
+                                    BorderedText(
+                                      text: policy.capital.toStringAsFixed(0),
+                                    ),
                                     const Spacer(),
                                     RawImage(
                                       image: game.resourcesSprite.toImageSync(),
                                     ),
-                                    Text(policy.resources.toStringAsFixed(0),
-                                        style: const TextStyle(fontSize: 10)),
+                                    BorderedText(
+                                      text: policy.resources.toStringAsFixed(0),
+                                    ),
                                   ],
                                 )))))
               ]),

@@ -4,6 +4,8 @@ import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/our_game.dart';
 import 'package:game_name/game/state/place_item.dart';
 import 'package:game_name/game/structures/structures.dart';
+import 'package:game_name/util/text_style.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class ItemCard<Item extends Structure> extends StatelessWidget {
   const ItemCard(this.game, this.size, this.structure, this.spriteImage,
@@ -30,11 +32,25 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
               child: Stack(clipBehavior: Clip.none, children: [
                 Positioned(
                     child: Card(
-                  color: isGreen ? Colors.green : Colors.grey.shade900,
                   elevation: 10,
-                  child: SizedBox(
-                    width: size.x,
-                    height: size.y,
+                  child: Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15.0),
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: isGreen
+                              ? [
+                                  Colors.green.shade800,
+                                  Colors.lightGreen,
+                                  Colors.green.shade600
+                                ]
+                              : [Colors.grey.shade700, Colors.grey],
+                        )),
+                    child: SizedBox(
+                      width: size.x,
+                      height: size.y,
+                    ),
                   ),
                 )),
                 Positioned(
@@ -55,9 +71,15 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                   height: size.y,
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(15.0),
-                                    color: isGreen
-                                        ? Colors.lightGreen
-                                        : Colors.grey.shade700,
+                                    gradient: RadialGradient(
+                                      radius: 0.5,
+                                      colors: isGreen
+                                          ? [
+                                              Colors.green.shade800,
+                                              Colors.lightGreen,
+                                            ]
+                                          : [Colors.grey.shade700, Colors.grey],
+                                    ),
                                   ),
                                   child: RawImage(
                                     image: spriteImage.toImageSync(),
@@ -94,12 +116,10 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                               Positioned(
                                                 bottom: size.y * 0.02,
                                                 right: size.x * 0.02,
-                                                child: Text(
-                                                  structure.deltaMorale
+                                                child: BorderedText(
+                                                  text: structure.deltaMorale
+                                                      .abs()
                                                       .toStringAsFixed(2),
-                                                  style: const TextStyle(
-                                                      color: Colors.white,
-                                                      fontSize: 10),
                                                 ),
                                               ),
                                             ]),
@@ -126,12 +146,10 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                           Positioned(
                                             bottom: size.y * 0.02,
                                             right: size.x * 0.02,
-                                            child: Text(
-                                              structure.deltaCarbon
+                                            child: BorderedText(
+                                              text: structure.deltaCarbon
+                                                  .abs()
                                                   .toStringAsFixed(2),
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 10),
                                             ),
                                           ),
                                         ]),
@@ -158,12 +176,10 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                           Positioned(
                                             bottom: size.y * 0.02,
                                             right: size.x * 0.02,
-                                            child: Text(
-                                              structure.deltaResources
+                                            child: BorderedText(
+                                              text: structure.deltaResources
+                                                  .abs()
                                                   .toStringAsFixed(2),
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 10),
                                             ),
                                           ),
                                         ]),
@@ -196,12 +212,10 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                           Positioned(
                                             bottom: size.y * 0.02,
                                             right: size.x * 0.02,
-                                            child: Text(
-                                              structure.deltaEnergy
+                                            child: BorderedText(
+                                              text: structure.deltaEnergy
+                                                  .abs()
                                                   .toStringAsFixed(2),
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 10),
                                             ),
                                           ),
                                         ]),
@@ -227,12 +241,10 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                           Positioned(
                                             bottom: size.y * 0.02,
                                             right: size.x * 0.02,
-                                            child: Text(
-                                              structure.deltaCapital
-                                                  .toStringAsFixed(2),
-                                              style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 10),
+                                            child: BorderedText(
+                                              text: structure.deltaCapital
+                                                  .abs()
+                                                  .toStringAsFixed(0),
                                             ),
                                           ),
                                         ]),
@@ -246,15 +258,42 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                     width: size.x / 2 - 5,
                     height: size.y,
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      padding: const EdgeInsets.symmetric(horizontal: 15),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(heading,
-                                style: const TextStyle(
-                                    fontSize: 16, fontWeight: FontWeight.bold)),
+                            Container(
+                              decoration: BoxDecoration(
+                                boxShadow: const [
+                                  BoxShadow(
+                                    color: Colors.black,
+                                    blurRadius: 1.0,
+                                    spreadRadius: 0.0,
+                                    offset: Offset(0.0, 0.0),
+                                  ),
+                                ],
+                                color: isGreen
+                                    ? Colors.green.shade600
+                                    : Colors.grey.shade700,
+                                borderRadius: BorderRadius.circular(10.0),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(heading,
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 16,
+                                        fontFamily:
+                                            GoogleFonts.play().fontFamily,
+                                        fontWeight: FontWeight.bold)),
+                              ),
+                            ),
                             Text(description,
-                                style: const TextStyle(fontSize: 10)),
+                                style: TextStyle(
+                                    fontSize: 11,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.w600,
+                                    fontFamily: GoogleFonts.play().fontFamily)),
                           ]),
                     )),
                 Positioned(
@@ -280,7 +319,7 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                 },
                                 style: ButtonStyle(
                                   foregroundColor:
-                                      MaterialStateProperty.all(Colors.white),
+                                      MaterialStateProperty.all(Colors.black),
                                   backgroundColor: structure.capital <=
                                               game.capital &&
                                           structure.resources <= game.resources
@@ -299,14 +338,18 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                     RawImage(
                                       image: game.capitalSprite.toImageSync(),
                                     ),
-                                    Text(structure.capital.toStringAsFixed(0),
-                                        style: const TextStyle(fontSize: 10)),
+                                    BorderedText(
+                                      text:
+                                          structure.capital.toStringAsFixed(0),
+                                    ),
                                     const Spacer(),
                                     RawImage(
                                       image: game.resourcesSprite.toImageSync(),
                                     ),
-                                    Text(structure.resources.toStringAsFixed(0),
-                                        style: const TextStyle(fontSize: 10)),
+                                    BorderedText(
+                                      text: structure.resources
+                                          .toStringAsFixed(0),
+                                    )
                                   ],
                                 )))))
               ]),

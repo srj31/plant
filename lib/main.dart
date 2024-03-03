@@ -11,6 +11,7 @@ import 'package:game_name/game/overlays/policies.dart';
 import 'package:game_name/game/overlays/research.dart';
 import 'package:game_name/game/overlays/specialization.dart';
 import 'package:game_name/game/overlays/stats.dart';
+import 'package:game_name/game/overlays/tutorial.dart';
 import 'package:game_name/game/splash_screen.dart';
 import 'package:game_name/game/structures/structures.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -47,13 +48,14 @@ class MyApp extends StatelessWidget {
 }
 
 class OtherScreen extends StatelessWidget {
-  const OtherScreen({super.key});
+  const OtherScreen({super.key, required this.isTutorial});
+  final bool isTutorial;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: GameWidget<OurGame>(
-        game: OurGame(),
+        game: OurGame(isTutorial: isTutorial),
         overlayBuilderMap: {
           BuildMenu.id: (context, game) => BuildMenu(game: game),
           StructureInfo.id: (context, game) => StructureInfo(game: game),
@@ -66,8 +68,9 @@ class OtherScreen extends StatelessWidget {
           NextLevelMenu.id: (context, game) => NextLevelMenu(game: game),
           EventMenu.id: (context, game) => EventMenu(game: game),
           StatsMenu.id: (context, game) => StatsMenu(game: game),
+          Tutorial.id: (context, game) => Tutorial(),
         },
-        initialActiveOverlays: const [SpecializationMenu.id],
+        // initialActiveOverlays: const [EventMenu.id],
       ),
     );
   }

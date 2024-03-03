@@ -99,7 +99,7 @@ class HouseStructure extends Structure {
               priority: 1000,
               size: Vector2.all(75),
               sprite: game.moraleSprite,
-              position: Vector2(size.x * 0.25, 0),
+              position: Vector2(size.x * 0.25, size.y * -0.25),
               onTap: () {
                 game.morale += 0.1;
               }));

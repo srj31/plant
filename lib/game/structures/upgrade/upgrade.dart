@@ -1,6 +1,7 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
 import 'package:game_name/game/our_game.dart';
+import 'package:game_name/util/delta.dart';
 
 class Upgrade extends Component {
   Upgrade({
@@ -34,6 +35,16 @@ class Upgrade extends Component {
   final double deltaHealth;
   final double deltaMorale;
   final double timeToUpgrade;
+
+  ParamDelta get paramDelta {
+    return ParamDelta(
+        deltaHealth: deltaHealth,
+        deltaMorale: deltaMorale,
+        deltaCarbon: deltaCarbon,
+        deltaResources: deltaResources,
+        deltaEnergy: deltaEnergy,
+        deltaCapital: deltaCapital);
+  }
 
   final OurGame game;
 }
@@ -103,8 +114,7 @@ class UpgradeWidgetState extends State<UpgradeWidget> {
                                     MaterialStateProperty.all(Colors.white),
                                 backgroundColor: isPurchased
                                     ? MaterialStateProperty.all(Colors.blueGrey)
-                                    : MaterialStateProperty.all(
-                                        Colors.green)),
+                                    : MaterialStateProperty.all(Colors.green)),
                             child: isPurchased
                                 ? const Text("Purchased",
                                     style: TextStyle(fontSize: 10))
