@@ -81,64 +81,106 @@ class UpgradeWidgetState extends State<UpgradeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-        child: Card(
-            color: Colors.green,
-            shape: const RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(Radius.circular(10))),
-            child: Column(children: [
-              Text(upgrade.name),
-              Row(
-                children: [
-                  Expanded(
-                      flex: 2,
-                      child: Text(
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Container(
+        decoration: BoxDecoration(
+            color: Colors.green.shade700,
+            borderRadius: BorderRadius.circular(8.0),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.black,
+                blurRadius: 1.0,
+                spreadRadius: 0.0,
+                offset: Offset(0.0, 0.0),
+              ),
+            ]),
+        child: SizedBox(
+          height: MediaQuery.of(context).size.height * 0.15,
+          child: Row(
+            children: [
+              Expanded(
+                  flex: 4,
+                  child: Column(
+                    children: [
+                      Text(upgrade.name),
+                      Text(
                         upgrade.description,
                         style: const TextStyle(fontSize: 12),
-                      )),
-                  Expanded(
-                    flex: 1,
-                    child: SizedBox(
-                        height: 30,
-                        child: TextButton(
-                            onPressed: () {
-                              _checkPurchasable();
-                              if (upgrade.isPurchased) return;
-                              if (isPurchasable) {
-                                upgrade.game.applyUpgrade(upgrade);
-                                _clickPurchase();
-                              }
-                            },
-                            style: ButtonStyle(
-                                foregroundColor:
-                                    MaterialStateProperty.all(Colors.white),
-                                backgroundColor: isPurchased
-                                    ? MaterialStateProperty.all(Colors.blueGrey)
-                                    : MaterialStateProperty.all(Colors.green)),
-                            child: isPurchased
-                                ? const Text("Purchased",
-                                    style: TextStyle(fontSize: 10))
-                                : Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      RawImage(
-                                        image: upgrade.game.capitalSprite
-                                            .toImageSync(),
+                      ),
+                    ],
+                  )),
+              Expanded(
+                flex: 1,
+                child: GestureDetector(
+                    onTap: () {
+                      _checkPurchasable();
+                      if (upgrade.isPurchased) return;
+                      if (isPurchasable) {
+                        upgrade.game.applyUpgrade(upgrade);
+                        _clickPurchase();
+                      }
+                    },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Expanded(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(
+                                  topRight: Radius.circular(8),
+                                  bottomRight: Radius.circular(8)),
+                              color: isPurchased
+                                  ? Colors.green.shade800
+                                  : Colors.green.shade600.withAlpha(255),
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: isPurchased
+                                  ? [
+                                      const Text("Purchased",
+                                          style: TextStyle(fontSize: 10))
+                                    ]
+                                  : [
+                                      Row(
+                                        children: [
+                                          RawImage(
+                                            scale: 1.25,
+                                            image: upgrade.game.capitalSprite
+                                                .toImageSync(),
+                                          ),
+                                          Text(
+                                              upgrade.capital
+                                                  .toStringAsFixed(0),
+                                              style: const TextStyle(
+                                                  fontSize: 10)),
+                                        ],
                                       ),
-                                      Text(upgrade.capital.toStringAsFixed(0),
-                                          style: const TextStyle(fontSize: 10)),
-                                      const Spacer(),
-                                      RawImage(
-                                        image: upgrade.game.resourcesSprite
-                                            .toImageSync(),
+                                      Row(
+                                        children: [
+                                          RawImage(
+                                            scale: 1.25,
+                                            image: upgrade.game.resourcesSprite
+                                                .toImageSync(),
+                                          ),
+                                          Text(
+                                              upgrade.resources
+                                                  .toStringAsFixed(0),
+                                              style: const TextStyle(
+                                                  fontSize: 10)),
+                                        ],
                                       ),
-                                      Text(upgrade.resources.toStringAsFixed(0),
-                                          style: const TextStyle(fontSize: 10)),
                                     ],
-                                  ))),
-                  )
-                ],
+                            ),
+                          ),
+                        )
+                      ],
+                    )),
               )
-            ])));
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }

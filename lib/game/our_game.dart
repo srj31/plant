@@ -178,7 +178,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       OpacityEffect.fadeOut(
         LinearEffectController(1.5),
         target: item,
-        onComplete: removeFromParent,
+        onComplete: () => world.remove(item),
       ),
       ColorEffect(const Color(0xFFFF0000), ZigzagEffectController(period: 1.5))
     ]);
@@ -191,7 +191,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       OpacityEffect.fadeOut(
         LinearEffectController(1.5),
         target: tree,
-        onComplete: removeFromParent,
+        onComplete: () => world.remove(tree),
       ),
       ColorEffect(const Color(0xFFFF0000), ZigzagEffectController(period: 1.5)),
       ScaleEffect.by(Vector2(0.9, 0.9), LinearEffectController(1.5))
@@ -603,10 +603,10 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
         anchor: Anchor.center,
         scale: Vector2.all(1.5));
     Vector2 tileSize = mapComponent.tileMap.destTileSize;
-    evFactory = await getSpriteAnimation("ev_factory.png", 4, 0.2, tileSize);
+    evFactory = await getSpriteAnimation("ev_factory.png", 4, 0.15, tileSize);
     windmill = await getSpriteAnimation("windmill.png", 4, 0.15, tileSize);
     recyclingFactory =
-        await getSpriteAnimation("recycling_factory.png", 4, 0.3, tileSize);
+        await getSpriteAnimation("recycling_factory.png", 4, 0.15, tileSize);
     greenHydrogen =
         await getSpriteAnimation("green_hydrogen.png", 4, 0.15, tileSize);
 
@@ -626,8 +626,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     wasteIncineration =
         await getSpriteAnimation("waste.png", 4, 0.15, tileSize);
 
-    tree = await getSpriteAnimation("tree_animation.png", 4, 0.2, tileSize);
-    house = await getSpriteAnimation("house.png", 4, 0.2, tileSize);
+    tree = await getSpriteAnimation("tree_animation.png", 4, 0.15, tileSize);
+    house = await getSpriteAnimation("house.png", 4, 0.15, tileSize);
     underConstruction =
         await getSpriteAnimation("underconstruction.png", 1, 0.15, tileSize);
 

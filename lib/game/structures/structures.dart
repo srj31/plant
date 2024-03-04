@@ -16,6 +16,7 @@ import 'package:game_name/game/structures/recycling_factory.dart';
 import 'package:game_name/game/structures/upgrade/upgrade.dart';
 import 'package:game_name/game/structures/windmill.dart';
 import 'package:game_name/util/delta.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 enum BuildingState {
   start,
@@ -159,25 +160,26 @@ class StructureInfo extends StatelessWidget {
                       Vector2(game.size.x * 0.70, game.size.y * 0.80),
                       structure.displaySprite,
                       structure.fullName,
-                      "Delta for all thigs",
-                      "Details about upgrading the structure"),
+                      "Details about upgrading the structure",
+                      true),
                 ]))));
   }
 }
 
 class ElevatedCard extends StatefulWidget {
   const ElevatedCard(this.game, this.structure, this.size, this.spriteImage,
-      this.heading, this.subheading, this.description,
+      this.heading, this.description, this.isGreen,
       {super.key});
   final OurGame game;
   final String heading;
-  final String subheading;
   final String description;
 
   final Structure structure;
 
   final Vector2 size;
   final Sprite spriteImage;
+
+  final bool isGreen;
 
   @override
   ElevatedCardState createState() => ElevatedCardState(game);
@@ -210,9 +212,29 @@ class ElevatedCardState extends State<ElevatedCard> {
                 Positioned(
                     child: Card(
                   elevation: 10,
-                  child: SizedBox(
-                    width: widget.size.x,
-                    height: widget.size.y,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.0),
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: widget.isGreen
+                            ? [
+                                Colors.green.shade800,
+                                Colors.lightGreen,
+                                Colors.green.shade600
+                              ]
+                            : [
+                                Colors.grey.shade700,
+                                Colors.grey.shade400,
+                                Colors.grey
+                              ],
+                      ),
+                    ),
+                    child: SizedBox(
+                      width: widget.size.x,
+                      height: widget.size.y,
+                    ),
                   ),
                 )),
                 Positioned(
@@ -228,31 +250,111 @@ class ElevatedCardState extends State<ElevatedCard> {
                         height: widget.size.y,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(15.0),
+                          gradient: RadialGradient(
+                            radius: 0.5,
+                            colors: widget.isGreen
+                                ? [
+                                    Colors.green.shade800,
+                                    Colors.lightGreen,
+                                  ]
+                                : [Colors.grey.shade700, Colors.grey],
+                          ),
                         ),
                         child: RawImage(
                           image: widget.spriteImage.toImageSync(),
+                          scale: 0.5,
                         ),
                       ),
                     )),
                 Positioned(
                   top: 10,
-                  right: 0,
-                  width: widget.size.x / 2 - 5,
-                  height: widget.size.y,
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(widget.heading,
-                            style: const TextStyle(
-                                fontSize: 16, fontWeight: FontWeight.bold)),
-                        Text(widget.subheading,
-                            style: const TextStyle(fontSize: 12)),
-                        Text(widget.description,
-                            style: const TextStyle(fontSize: 10)),
-                        ...widget.structure.upgrades
-                            .map((upgrade) => UpgradeWidget(upgrade))
-                            .toList(),
-                      ]),
+                  right: 10,
+                  width: widget.size.x * 0.5 - 20,
+                  height: widget.size.y - 20,
+                  child: Column(children: [
+                    Container(
+                      decoration: const BoxDecoration(
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.black,
+                              blurRadius: 1.0,
+                              spreadRadius: 0.0,
+                              offset: Offset(0.0, 0.0),
+                            ),
+                          ],
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              Colors.green,
+                              Colors.lightGreen,
+                              Colors.green
+                            ],
+                          ),
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(15.0),
+                            topRight: Radius.circular(15.0),
+                          )),
+                      child: Center(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8, vertical: 10),
+                          child: Text(widget.heading,
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                  fontFamily: GoogleFonts.play().fontFamily,
+                                  fontWeight: FontWeight.bold)),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Container(
+                        decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: widget.isGreen
+                                  ? [
+                                      Colors.green.shade800,
+                                      Colors.lightGreen,
+                                      Colors.green.shade600
+                                    ]
+                                  : [
+                                      Colors.grey.shade700,
+                                      Colors.grey.shade400,
+                                      Colors.grey
+                                    ],
+                            ),
+                            boxShadow: const [
+                              BoxShadow(
+                                color: Colors.black,
+                                blurRadius: 1.0,
+                                spreadRadius: 0.0,
+                                offset: Offset(0.0, 0.0),
+                              ),
+                            ],
+                            color: Colors.green.shade600.withAlpha(255),
+                            borderRadius: const BorderRadius.only(
+                              bottomLeft: Radius.circular(15.0),
+                              bottomRight: Radius.circular(15.0),
+                            )),
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 8.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(widget.description,
+                                  style: const TextStyle(fontSize: 12)),
+                              ...widget.structure.upgrades
+                                  .map((upgrade) => UpgradeWidget(upgrade))
+                                  .toList(),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ]),
                 )
               ]),
             )));

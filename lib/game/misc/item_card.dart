@@ -45,7 +45,11 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                   Colors.lightGreen,
                                   Colors.green.shade600
                                 ]
-                              : [Colors.grey.shade700, Colors.grey],
+                              : [
+                                  Colors.grey.shade700,
+                                  Colors.grey.shade400,
+                                  Colors.grey
+                                ],
                         )),
                     child: SizedBox(
                       width: size.x,
@@ -275,17 +279,22 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                 color: isGreen
                                     ? Colors.green.shade600
                                     : Colors.grey.shade700,
-                                borderRadius: BorderRadius.circular(10.0),
+                                borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(15.0),
+                                  topRight: Radius.circular(15.0),
+                                ),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(heading,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 16,
-                                        fontFamily:
-                                            GoogleFonts.play().fontFamily,
-                                        fontWeight: FontWeight.bold)),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(heading,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 16,
+                                          fontFamily:
+                                              GoogleFonts.play().fontFamily,
+                                          fontWeight: FontWeight.bold)),
+                                ),
                               ),
                             ),
                             Text(description,
