@@ -11,8 +11,6 @@ class BackgroundTile extends ParallaxComponent {
           position: position,
         );
 
-  final double scrollSpeed = 40;
-
   @override
   FutureOr<void> onLoad() async {
     priority = -1000;
@@ -21,7 +19,7 @@ class BackgroundTile extends ParallaxComponent {
       ParallaxImageData('background/water.png'),
       ParallaxImageData('background/water2.png')
     ],
-        baseVelocity: Vector2(0, -scrollSpeed),
+        baseVelocity: Vector2(0, 0),
         velocityMultiplierDelta: Vector2(0, 0.5),
         repeat: ImageRepeat.repeat,
         fill: LayerFill.none);

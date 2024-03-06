@@ -40,95 +40,104 @@ class MainMenuState extends State<MainMenu> {
               fit: BoxFit.fill)),
       child: Padding(
         padding: const EdgeInsets.only(left: 50.0),
-        child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 20),
-                  child: Stack(
-                    children: [
-                      Text(
-                        "Plant Inc",
-                        style: TextStyle(
-                            fontSize: 75,
-                            fontStyle: FontStyle.italic,
-                            fontFamily: GoogleFonts.play().fontFamily,
-                            foreground: Paint()
-                              ..color = Colors.green.shade800
-                              ..strokeWidth = 5
-                              ..style = PaintingStyle.stroke),
-                      ),
-                      Text(
-                        "Plant Inc",
-                        style: TextStyle(
-                            fontSize: 75,
-                            fontStyle: FontStyle.italic,
-                            fontFamily: GoogleFonts.play().fontFamily,
-                            foreground: Paint()..color = Colors.green),
-                      ),
-                    ],
-                  )),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                const OtherScreen(isTutorial: false)));
-                  },
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.green.shade800),
-                    foregroundColor: MaterialStateProperty.all(Colors.white),
-                    shape: MaterialStateProperty.all(
-                        const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10)))),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Padding(
+              padding: const EdgeInsets.symmetric(vertical: 20),
+              child: Stack(
+                children: [
+                  Text(
+                    "Plant Inc",
+                    style: TextStyle(
+                        fontSize: 75,
+                        fontStyle: FontStyle.italic,
+                        fontFamily: GoogleFonts.play().fontFamily,
+                        foreground: Paint()
+                          ..color = Colors.green.shade800
+                          ..strokeWidth = 5
+                          ..style = PaintingStyle.stroke),
                   ),
-                  child: const Text("Play")),
-              ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const GameTutorial()));
-                  },
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.green.shade800),
-                    foregroundColor: MaterialStateProperty.all(Colors.white),
-                    shape: MaterialStateProperty.all(
-                        const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10)))),
+                  Text(
+                    "Plant Inc",
+                    style: TextStyle(
+                        fontSize: 75,
+                        fontStyle: FontStyle.italic,
+                        fontFamily: GoogleFonts.play().fontFamily,
+                        foreground: Paint()..color = Colors.green),
                   ),
-                  child: const Text("Learn More")),
-              ElevatedButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.green.shade800),
-                    foregroundColor: MaterialStateProperty.all(Colors.white),
-                    shape: MaterialStateProperty.all(
-                        const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10)))),
-                  ),
-                  child: const Text("Options")),
-              ElevatedButton(
-                  onPressed: () {},
-                  style: ButtonStyle(
-                    backgroundColor:
-                        MaterialStateProperty.all(Colors.green.shade800),
-                    foregroundColor: MaterialStateProperty.all(Colors.white),
-                    shape: MaterialStateProperty.all(
-                        const RoundedRectangleBorder(
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(10)))),
-                  ),
-                  child: const Text("Quit")),
-            ]),
+                ],
+              )),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) =>
+                              const OtherScreen(isTutorial: false)));
+                },
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(Colors.green.shade800),
+                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                  shadowColor: MaterialStateProperty.all(Colors.black),
+                  shape: MaterialStateProperty.all(const RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.brown),
+                      borderRadius: BorderRadius.all(Radius.circular(10)))),
+                ),
+                child: const Text("Play")),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const GameTutorial()));
+                },
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(Colors.green.shade800),
+                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                  shadowColor: MaterialStateProperty.all(Colors.black),
+                  shape: MaterialStateProperty.all(const RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.brown),
+                      borderRadius: BorderRadius.all(Radius.circular(10)))),
+                ),
+                child: const Text("Learn More")),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: ElevatedButton(
+                onPressed: () {},
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(Colors.green.shade800),
+                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                  shadowColor: MaterialStateProperty.all(Colors.black),
+                  shape: MaterialStateProperty.all(const RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.brown),
+                      borderRadius: BorderRadius.all(Radius.circular(10)))),
+                ),
+                child: const Text("Options")),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: ElevatedButton(
+                onPressed: () {},
+                style: ButtonStyle(
+                  backgroundColor:
+                      MaterialStateProperty.all(Colors.green.shade800),
+                  foregroundColor: MaterialStateProperty.all(Colors.white),
+                  shadowColor: MaterialStateProperty.all(Colors.black),
+                  shape: MaterialStateProperty.all(const RoundedRectangleBorder(
+                      side: BorderSide(color: Colors.brown),
+                      borderRadius: BorderRadius.all(Radius.circular(10)))),
+                ),
+                child: const Text("Quit")),
+          ),
+        ]),
       ),
     ));
   }
