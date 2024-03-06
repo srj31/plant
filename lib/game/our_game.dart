@@ -320,6 +320,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       capital = math.max(0, capital + paramDelta.deltaCapital);
       morale = math.max(0, morale + paramDelta.deltaMorale);
       if (health <= 0) {
+        overlays.removeAll([EventMenu.id, NextLevelMenu.id]);
         overlays.add(GameOverMenu.id);
         AudioManager.playSfx('game_over.wav', soundVolume);
         hasTimerStarted = false;
