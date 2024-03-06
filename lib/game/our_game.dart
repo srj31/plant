@@ -11,6 +11,7 @@ import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/map_generation/map_generation.dart';
+import 'package:game_name/game/misc/background.dart';
 import 'package:game_name/game/misc_structures/tree.dart';
 import 'package:game_name/game/overlays/banner.dart';
 import 'package:game_name/game/overlays/build.dart';
@@ -257,6 +258,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
     await Flame.images.load("hexagonObjects_sheet.png");
     world.add(mapComponent);
+    _scrollingBackground();
     await initializeGame();
   }
 
@@ -637,6 +639,13 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     technologySpecialization = getObjectSprite(904, 437, 34, 41);
     policySpecialization = getObjectSprite(382, 319, 76, 76);
     researchSpecialization = getObjectSprite(594, 384, 58, 108);
+  }
+
+  void _scrollingBackground() {
+    final backgroundTile = BackgroundTile(
+      position: Vector2(0, 0),
+    );
+    add(backgroundTile);
   }
 
   Future<SpriteAnimation> getSpriteAnimation(

@@ -58,7 +58,15 @@ class StatsMenu extends StatelessWidget {
                     alignment: Alignment.centerLeft,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(8),
-                        color: Colors.brown.shade700),
+                        color: Colors.brown.shade700,
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.black,
+                            blurRadius: 1.0,
+                            spreadRadius: 0.0,
+                            offset: const Offset(1.0, 1.0),
+                          ),
+                        ]),
                     child: const Center(
                       child: Text("Back",
                           style: TextStyle(

@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
+import 'package:flame/particles.dart';
 import 'package:flutter/material.dart';
 import 'package:game_name/game/our_game.dart';
 
@@ -13,6 +15,8 @@ class FinishBuildingEffect extends SpriteAnimationComponent
     super.size,
     super.scale,
   });
+  final _random = Random();
+
   @override
   FutureOr<void> onLoad() async {
     parent!.addAll([
@@ -39,6 +43,22 @@ class FinishBuildingEffect extends SpriteAnimationComponent
         ScaleEffect.by(Vector2(1 / 0.9, 1 / 1.2), LinearEffectController(0.15)),
       ])
     ]);
+    final particleComponent = ParticleSystemComponent(
+      particle: Particle.generate(
+        count: 20,
+        lifespan: 0.5,
+        generator: (i) => AcceleratedParticle(
+          acceleration: getRandomVector(),
+          speed: getRandomVector(),
+          position: Vector2(60, 70),
+          child: CircleParticle(
+            radius: 3,
+            paint: Paint()..color = Colors.white,
+          ),
+        ),
+      ),
+    );
+    parent!.add(particleComponent);
     removeOnFinish = true;
     animation = SpriteAnimation.fromFrameData(
       await game.images.load('built_complete.png'),
@@ -49,5 +69,11 @@ class FinishBuildingEffect extends SpriteAnimationComponent
         loop: false,
       ),
     );
+  }
+
+  // This method generates a random vector with its angle
+  // between from 0 and 360 degrees.
+  Vector2 getRandomVector() {
+    return (Vector2.random(_random) - Vector2.random(_random)) * 100;
   }
 }

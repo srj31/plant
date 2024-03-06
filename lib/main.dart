@@ -12,6 +12,7 @@ import 'package:game_name/game/overlays/research.dart';
 import 'package:game_name/game/overlays/specialization.dart';
 import 'package:game_name/game/overlays/stats.dart';
 import 'package:game_name/game/overlays/tutorial.dart';
+import 'package:game_name/game/specializations/specialization.dart';
 import 'package:game_name/game/splash_screen.dart';
 import 'package:game_name/game/structures/structures.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -70,7 +71,7 @@ class OtherScreen extends StatelessWidget {
           StatsMenu.id: (context, game) => StatsMenu(game: game),
           Tutorial.id: (context, game) => Tutorial(),
         },
-        initialActiveOverlays: const [StatsMenu.id],
+        initialActiveOverlays: const [EventMenu.id],
       ),
     );
   }

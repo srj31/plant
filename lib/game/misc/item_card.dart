@@ -279,7 +279,7 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                 color: isGreen
                                     ? Colors.green.shade600
                                     : Colors.grey.shade700,
-                                borderRadius: BorderRadius.only(
+                                borderRadius: const BorderRadius.only(
                                   topLeft: Radius.circular(15.0),
                                   topRight: Radius.circular(15.0),
                                 ),

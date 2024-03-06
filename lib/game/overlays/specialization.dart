@@ -6,6 +6,7 @@ import 'package:game_name/game/specializations/policy.dart';
 import 'package:game_name/game/specializations/research.dart';
 import 'package:game_name/game/specializations/specialization.dart';
 import 'package:game_name/game/specializations/technology.dart';
+import 'package:game_name/util/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class SpecializationMenu extends StatelessWidget {
@@ -30,7 +31,7 @@ class SpecializationMenu extends StatelessWidget {
                       Vector2(game.size.x * 0.28, game.size.y * 0.80),
                       TechnologySpecialization(),
                       game.technologySpecialization,
-                      "Technology Specialization",
+                      "Technology",
                       "Faster research and implementation of technological advancements.Reduced costs for technology-related upgrades",
                       "Unleash the power of technology to optimize resource management, revolutionize infrastructure, and pioneer eco-friendly solutions. ",
                     ),
@@ -39,7 +40,7 @@ class SpecializationMenu extends StatelessWidget {
                       Vector2(game.size.x * 0.28, game.size.y * 0.80),
                       PolicySpecialization(),
                       game.policySpecialization,
-                      "Policy Specialization",
+                      "Policy",
                       "Quicker rule changes and policy implementations. Higher starting Morale and easier to maintain",
                       "Slower research and adoption of new scientific advancements. Policies may require more capital investment",
                     ),
@@ -48,7 +49,7 @@ class SpecializationMenu extends StatelessWidget {
                       Vector2(game.size.x * 0.28, game.size.y * 0.80),
                       ResearchSpecialization(),
                       game.researchSpecialization,
-                      "Research Specialization",
+                      "Research",
                       "Faster progress in scientific advancements. Reduced costs for scientific research and development. ",
                       "Slower in enacting new rules and policy changes. Lower starting Morale and harder to maintain.",
                     ),
@@ -82,8 +83,6 @@ class ElevatedCard extends StatelessWidget {
               child: Stack(clipBehavior: Clip.none, children: [
                 Positioned(
                     child: Card(
-                  surfaceTintColor: Colors.green,
-                  color: Colors.green,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
                     side:
@@ -96,11 +95,7 @@ class ElevatedCard extends StatelessWidget {
                         gradient: LinearGradient(
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
-                          colors: [
-                            Colors.lightGreen.shade800,
-                            Colors.green,
-                            Colors.green.shade600
-                          ],
+                          colors: [Colors.green.shade700, Colors.lightGreen],
                         ),
                         border: Border.all(
                           color: Colors.orangeAccent,
@@ -282,6 +277,39 @@ class ElevatedCard extends StatelessWidget {
                         ))),
                 // The time and cost stats
                 Positioned(
+                  top: size.y * 0.375,
+                  left: size.x * 0.1 + 2 * borderWidth,
+                  child: Center(
+                      child: Container(
+                    alignment: Alignment.center,
+                    width: size.x * 0.8,
+                    decoration: BoxDecoration(
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          spreadRadius: 1,
+                          blurRadius: 1,
+                          offset: Offset(0, 3),
+                        )
+                      ],
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Colors.amber.shade800,
+                          Colors.amber,
+                          Colors.amber.shade600
+                        ],
+                      ),
+                    ),
+                    child: Text(heading,
+                        style: const TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold)),
+                  )),
+                ),
+                Positioned(
                   top: size.y * 0.47,
                   left: 2 * borderWidth,
                   width: size.x,
@@ -361,32 +389,39 @@ class ElevatedCard extends StatelessWidget {
                           ],
                         ),
                         const Spacer(),
-                        Column(children: [
-                          SizedBox(
-                              width: size.x,
-                              height: size.y * 0.3,
-                              child: Container(
-                                alignment: Alignment.topCenter,
-                                decoration: const BoxDecoration(
-                                  color: Colors.black12,
-                                ),
-                                child: Padding(
-                                  padding: const EdgeInsets.only(
-                                    top: 10.0,
-                                    left: 10.0,
-                                    right: 10.0,
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: 8.0, vertical: 6.0),
+                          child: Column(children: [
+                            SizedBox(
+                                width: size.x,
+                                height: size.y * 0.3,
+                                child: Container(
+                                  alignment: Alignment.topCenter,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.black12,
+                                    borderRadius: BorderRadius.only(
+                                        bottomRight: Radius.circular(10.0),
+                                        bottomLeft: Radius.circular(10.0)),
                                   ),
-                                  child: Text(description,
-                                      style: TextStyle(
-                                        fontSize: 12,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w600,
-                                        fontFamily:
-                                            GoogleFonts.play().fontFamily,
-                                      )),
-                                ),
-                              )),
-                        ]),
+                                  child: Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 10.0,
+                                      left: 10.0,
+                                      right: 10.0,
+                                    ),
+                                    child: Text(description,
+                                        style: TextStyle(
+                                          fontSize: 12,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily:
+                                              GoogleFonts.play().fontFamily,
+                                        )),
+                                  ),
+                                )),
+                          ]),
+                        ),
                         Container(
                             alignment: Alignment.center,
                             child: SizedBox(
@@ -421,41 +456,5 @@ class ElevatedCard extends StatelessWidget {
                 )
               ]),
             )));
-  }
-}
-
-class BorderedText extends StatelessWidget {
-  const BorderedText({
-    super.key,
-    required this.text,
-  });
-
-  final String text;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        Text(
-          'x$text',
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              foreground: Paint()
-                ..color = Colors.white
-                ..strokeWidth = 2.5
-                ..style = PaintingStyle.stroke,
-              fontFamily: GoogleFonts.play().fontFamily,
-              fontSize: 12),
-        ),
-        Text(
-          'x$text',
-          style: TextStyle(
-              color: Colors.black,
-              fontWeight: FontWeight.bold,
-              fontFamily: GoogleFonts.play().fontFamily,
-              fontSize: 12),
-        ),
-      ],
-    );
   }
 }
