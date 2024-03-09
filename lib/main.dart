@@ -71,7 +71,7 @@ class OtherScreen extends StatelessWidget {
           Tutorial.id: (context, game) => const Tutorial(),
           GameOverMenu.id: (context, game) => GameOverMenu(game: game),
         },
-        // initialActiveOverlays: const [EventMenu.id],
+        initialActiveOverlays: const [SpecializationMenu.id],
       ),
     );
   }

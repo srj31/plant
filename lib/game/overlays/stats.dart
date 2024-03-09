@@ -44,42 +44,46 @@ class StatsMenu extends StatelessWidget {
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: Colors.black.withAlpha(100),
-        body: Container(
-            child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        body: Flex(
+          direction: Axis.vertical,
           children: [
-            Positioned(
-              child: GestureDetector(
-                onTap: () =>
-                    {game.resume(), game.overlays.remove(StatsMenu.id)},
+            Expanded(
+              flex: 1,
+              child: Container(
+                alignment: Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 30, top: 20),
-                  child: Container(
-                    width: 50,
-                    height: 40,
-                    alignment: Alignment.centerLeft,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: Colors.brown.shade700,
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.black,
-                            blurRadius: 1.0,
-                            spreadRadius: 0.0,
-                            offset: const Offset(1.0, 1.0),
-                          ),
-                        ]),
-                    child: const Center(
-                      child: Text("Back",
-                          style: TextStyle(
-                            fontSize: 15,
-                          )),
+                  padding: const EdgeInsets.only(left: 50.0, top: 30.0),
+                  child: GestureDetector(
+                    onTap: () =>
+                        {game.resume(), game.overlays.remove(StatsMenu.id)},
+                    child: Container(
+                      width: 70,
+                      height: 50,
+                      alignment: Alignment.centerLeft,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          color: Colors.brown.shade700,
+                          boxShadow: const [
+                            BoxShadow(
+                              color: Colors.black,
+                              blurRadius: 1.0,
+                              spreadRadius: 0.0,
+                              offset: Offset(1.0, 1.0),
+                            ),
+                          ]),
+                      child: const Center(
+                        child: Text("Back",
+                            style: TextStyle(
+                              fontSize: 15,
+                            )),
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
             Expanded(
+              flex: 6,
               child: Padding(
                 padding: EdgeInsets.symmetric(
                     horizontal: width * 0.05, vertical: height * 0.05),
@@ -140,7 +144,7 @@ class StatsMenu extends StatelessWidget {
               ),
             ),
           ],
-        )));
+        ));
   }
 }
 
