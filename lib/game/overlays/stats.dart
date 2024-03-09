@@ -40,6 +40,8 @@ class StatsMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final height = MediaQuery.of(context).size.height;
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
         backgroundColor: Colors.black.withAlpha(100),
         body: Container(
@@ -79,7 +81,8 @@ class StatsMenu extends StatelessWidget {
             ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: EdgeInsets.symmetric(
+                    horizontal: width * 0.05, vertical: height * 0.05),
                 child: SingleChildScrollView(
                     child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -172,9 +175,11 @@ class StatSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return SizedBox(
-        width: MediaQuery.of(context).size.width * 0.45,
-        height: MediaQuery.of(context).size.height * 0.5,
+        width: width * 0.45,
+        height: height * 0.55,
         child: Stack(children: [
           Card(
               color: Colors.black26,
@@ -196,7 +201,7 @@ class StatSection extends StatelessWidget {
                       ),
                       child: Column(children: [
                         Padding(
-                          padding: const EdgeInsets.only(bottom: 8.0),
+                          padding: EdgeInsets.only(bottom: height * 0.01),
                           child: Container(
                             width:
                                 MediaQuery.of(context).size.width * 0.45 * 0.25,
@@ -216,8 +221,8 @@ class StatSection extends StatelessWidget {
                               children: [
                                 Image.asset(
                                   'assets/images/$imagePath',
-                                  width: 40,
-                                  height: 40,
+                                  width: 32,
+                                  height: 32,
                                 ),
                                 Text(title,
                                     style: TextStyle(
@@ -231,8 +236,9 @@ class StatSection extends StatelessWidget {
                           ),
                         ),
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 8.0, vertical: 2.0),
+                          padding: EdgeInsets.symmetric(
+                              horizontal: width * 0.01,
+                              vertical: height * 0.01),
                           child: Container(
                             decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(8.0),

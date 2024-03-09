@@ -91,21 +91,21 @@ class HouseStructure extends Structure {
       return;
     }
 
-    switch (current) {
-      case BuildingState.done:
-        {
-          showBubble = false;
-          add(BubblePopup(
-              priority: 1000,
-              size: Vector2.all(75),
-              sprite: game.moraleSprite,
-              position: Vector2(size.x * 0.25, size.y * -0.25),
-              onTap: () {
-                game.morale += 0.1;
-              }));
-        }
-      case _:
-        {}
-    }
+    // switch (current) {
+    //   case BuildingState.done:
+    //     {
+    //       showBubble = false;
+    //       add(BubblePopup(
+    //           priority: 1000,
+    //           size: Vector2.all(75),
+    //           sprite: game.moraleSprite,
+    //           position: Vector2(size.x * 0.25, size.y * -0.25),
+    //           onTap: () {
+    //             game.morale += 0.1;
+    //           }));
+    //     }
+    //   case _:
+    //     {}
+    // }
   }
 }

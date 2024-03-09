@@ -72,19 +72,12 @@ class Structure extends SpriteAnimationGroupComponent<BuildingState>
     super.onLongTapDown(event);
   }
 
-  @override
-  void update(double dt) {
-    super.update(dt);
-    timeLeft = max(0, timeLeft - dt);
-    if (timeLeft == 0) {
-      if (!isDone) {
-        AudioManager.playSfx('when_built.wav', game.soundVolume);
-        add(FinishBuildingEffect(
-            size: Vector2.all(100), priority: 1000, position: Vector2.all(0)));
-      }
-      isDone = true;
-      current = BuildingState.done;
-    }
+  void finishBuilding() {
+    AudioManager.playSfx('when_built.wav', game.soundVolume);
+    add(FinishBuildingEffect(
+        size: Vector2.all(100), priority: 1000, position: Vector2.all(0)));
+    isDone = true;
+    current = BuildingState.done;
   }
 
   factory Structure.factory(String name, Vector2 location) {

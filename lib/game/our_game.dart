@@ -148,6 +148,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       resources -= item.resources;
       inProgressStructures.add((elapsedSecs + item.timeToBuild, item));
     } else {
+      item.finishBuilding();
       paramDelta += item.paramDelta;
     }
   }
@@ -233,6 +234,9 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     world.add(tree);
 
     paramDelta += tree.paramDelta;
+    if (isPreBuilt) {
+      tree.finishBuilding();
+    }
 
     trees.add(tree);
   }
@@ -287,6 +291,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
         final itemWithTime = inProgressStructures.removeFirst();
         final item = itemWithTime.$2;
         paramDelta += item.paramDelta;
+        item.finishBuilding();
       }
 
       while (inProgressPolicies.isNotEmpty &&

@@ -81,6 +81,8 @@ class UpgradeWidgetState extends State<UpgradeWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
+    final height = MediaQuery.of(context).size.height;
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4.0),
       child: Container(
@@ -96,7 +98,7 @@ class UpgradeWidgetState extends State<UpgradeWidget> {
               ),
             ]),
         child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.15,
+          height: height * 0.15,
           child: Row(
             children: [
               Expanded(
@@ -106,7 +108,7 @@ class UpgradeWidgetState extends State<UpgradeWidget> {
                       Text(upgrade.name),
                       Text(
                         upgrade.description,
-                        style: const TextStyle(fontSize: 12),
+                        style: const TextStyle(fontSize: 11),
                       ),
                     ],
                   )),

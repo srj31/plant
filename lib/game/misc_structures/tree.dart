@@ -62,21 +62,21 @@ class TreeStructure extends Structure {
       return;
     }
 
-    switch (current) {
-      case BuildingState.done:
-        {
-          showBubble = false;
-          add(BubblePopup(
-              priority: 100,
-              size: Vector2.all(75),
-              sprite: game.resourcesSprite,
-              position: Vector2(size.x * 0.25, size.y * -0.25),
-              onTap: () {
-                game.resources += 0.1;
-              }));
-        }
-      case _:
-        {}
-    }
+    // switch (current) {
+    //   case BuildingState.done:
+    //     {
+    //       showBubble = false;
+    //       add(BubblePopup(
+    //           priority: 100,
+    //           size: Vector2.all(75),
+    //           sprite: game.resourcesSprite,
+    //           position: Vector2(size.x * 0.25, size.y * -0.25),
+    //           onTap: () {
+    //             game.resources += 0.1;
+    //           }));
+    //     }
+    //   case _:
+    //     {}
+    // }
   }
 }

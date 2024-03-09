@@ -67,7 +67,7 @@ class MainMenuState extends State<MainMenu> {
                 ],
               )),
           Padding(
-            padding: const EdgeInsets.all(4.0),
+            padding: const EdgeInsets.all(2.0),
             child: ElevatedButton(
                 onPressed: () {
                   Navigator.pushReplacement(
@@ -88,7 +88,7 @@ class MainMenuState extends State<MainMenu> {
                 child: const Text("Play")),
           ),
           Padding(
-            padding: const EdgeInsets.all(4.0),
+            padding: const EdgeInsets.all(2.0),
             child: ElevatedButton(
                 onPressed: () {
                   Navigator.pushReplacement(
@@ -108,7 +108,7 @@ class MainMenuState extends State<MainMenu> {
                 child: const Text("Learn More")),
           ),
           Padding(
-            padding: const EdgeInsets.all(4.0),
+            padding: const EdgeInsets.all(2.0),
             child: ElevatedButton(
                 onPressed: () {},
                 style: ButtonStyle(
@@ -123,7 +123,7 @@ class MainMenuState extends State<MainMenu> {
                 child: const Text("Options")),
           ),
           Padding(
-            padding: const EdgeInsets.all(4.0),
+            padding: const EdgeInsets.all(2.0),
             child: ElevatedButton(
                 onPressed: () {},
                 style: ButtonStyle(

@@ -58,6 +58,7 @@ class OtherScreen extends StatelessWidget {
       body: GameWidget<OurGame>(
         game: OurGame(isTutorial: isTutorial),
         overlayBuilderMap: {
+          EventMenu.id: (context, game) => EventMenu(game: game),
           BuildMenu.id: (context, game) => BuildMenu(game: game),
           StructureInfo.id: (context, game) => StructureInfo(game: game),
           ResearchMenu.id: (context, game) => ResearchMenu(game: game),
@@ -65,11 +66,10 @@ class OtherScreen extends StatelessWidget {
           NonGreenMenu.id: (context, game) => NonGreenMenu(game: game),
           SpecializationMenu.id: (context, game) =>
               SpecializationMenu(game: game),
-          GameOverMenu.id: (context, game) => GameOverMenu(game: game),
           NextLevelMenu.id: (context, game) => NextLevelMenu(game: game),
-          EventMenu.id: (context, game) => EventMenu(game: game),
           StatsMenu.id: (context, game) => StatsMenu(game: game),
-          Tutorial.id: (context, game) => Tutorial(),
+          Tutorial.id: (context, game) => const Tutorial(),
+          GameOverMenu.id: (context, game) => GameOverMenu(game: game),
         },
         initialActiveOverlays: const [EventMenu.id],
       ),

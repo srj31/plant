@@ -398,11 +398,9 @@ class ElevatedCard extends StatelessWidget {
                                 height: size.y * 0.3,
                                 child: Container(
                                   alignment: Alignment.topCenter,
-                                  decoration: const BoxDecoration(
+                                  decoration: BoxDecoration(
                                     color: Colors.black12,
-                                    borderRadius: BorderRadius.only(
-                                        bottomRight: Radius.circular(10.0),
-                                        bottomLeft: Radius.circular(10.0)),
+                                    borderRadius: BorderRadius.circular(10.0),
                                   ),
                                   child: Padding(
                                     padding: const EdgeInsets.only(
