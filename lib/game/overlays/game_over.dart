@@ -2,6 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/main_menu.dart';
 import 'package:game_name/game/our_game.dart';
+import 'package:game_name/game/overlays/build.dart';
+import 'package:game_name/game/overlays/event.dart';
+import 'package:game_name/game/overlays/good_event.dart';
+import 'package:game_name/game/overlays/next_level.dart';
+import 'package:game_name/game/overlays/non_green.dart';
+import 'package:game_name/game/overlays/policies.dart';
+import 'package:game_name/game/overlays/research.dart';
 
 class GameOverMenu extends StatelessWidget {
   static const String id = 'GameOverMenu';
@@ -11,6 +18,15 @@ class GameOverMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    game.overlays.removeAll([
+      BuildMenu.id,
+      ResearchMenu.id,
+      PoliciesMenu.id,
+      NextLevelMenu.id,
+      EventMenu.id,
+      GoodEventMenu.id,
+      NonGreenMenu.id
+    ]);
     return Scaffold(
         backgroundColor: Colors.black.withAlpha(200),
         body: Center(

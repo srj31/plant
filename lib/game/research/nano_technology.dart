@@ -17,7 +17,8 @@ class NanoTechnology extends Research {
             deltaEnergy: -0.1,
             deltaHealth: 0.05,
             deltaMorale: 0.05,
-            timeToImplement: 3);
+            timeToImplement: 3,
+            id: 'nano_technology');
 
   static const name = 'nano_technology';
   @override

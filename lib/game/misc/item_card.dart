@@ -290,21 +290,51 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                   child: Text(heading,
                                       style: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 16,
+                                          fontSize: 15,
                                           fontFamily:
                                               GoogleFonts.play().fontFamily,
                                           fontWeight: FontWeight.bold)),
                                 ),
                               ),
                             ),
-                            Text(description,
-                                style: TextStyle(
-                                    fontSize: 11,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.w600,
-                                    fontFamily: GoogleFonts.play().fontFamily)),
+                            Center(
+                              child: Container(
+                                height: size.y * 0.525,
+                                alignment: Alignment.topCenter,
+                                decoration: const BoxDecoration(
+                                    color: Colors.black12,
+                                    borderRadius: BorderRadius.only(
+                                        bottomLeft: Radius.circular(10.0),
+                                        bottomRight: Radius.circular(10.0))),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(description,
+                                      style: TextStyle(
+                                          fontSize: 9,
+                                          color: Colors.black,
+                                          fontWeight: FontWeight.w600,
+                                          fontFamily:
+                                              GoogleFonts.play().fontFamily)),
+                                ),
+                              ),
+                            ),
                           ]),
                     )),
+                Positioned(
+                    bottom: 40,
+                    left: 15,
+                    child: Row(children: [
+                      RawImage(
+                        scale: 1.5,
+                        image: game.time.toImageSync(),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 2.0),
+                        child: BorderedText(
+                          text: structure.timeToBuild.toStringAsFixed(0),
+                        ),
+                      ),
+                    ])),
                 Positioned(
                     bottom: 10,
                     left: 10,

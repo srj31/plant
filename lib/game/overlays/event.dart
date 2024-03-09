@@ -20,28 +20,25 @@ class EventMenu extends StatelessWidget {
         child: Scaffold(
             backgroundColor: Colors.black.withAlpha(100),
             body: Center(
-                child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                  Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    ElevatedCard(
-                      game,
-                      Vector2(game.size.x * 0.30, game.size.y * 0.80),
-                      Earthquake(game: game),
-                      game.earthquake,
-                      "Earthquake",
-                      "Witness the devastating aftermath of prolonged strain on Earth's health as structures crumble under seismic activity.",
-                    ),
-                    ElevatedCard(
-                      game,
-                      Vector2(game.size.x * 0.30, game.size.y * 0.80),
-                      ForrestFire(game: game),
-                      game.forrestFire,
-                      "Forrest Fire",
-                      "Experience the ferocity of wildfires fueled by escalating global temperatures. Witness the destruction of precious ecosystems and habitats as forests blaze under the intensified heat of climate change.",
-                    ),
-                  ]),
-                ]))));
+                child:
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              ElevatedCard(
+                game,
+                Vector2(game.size.x * 0.30, game.size.y * 0.80),
+                Earthquake(game: game),
+                game.earthquake,
+                "Earthquake",
+                "Witness the devastating aftermath of prolonged strain on Earth's health as structures crumble under seismic activity.",
+              ),
+              ElevatedCard(
+                game,
+                Vector2(game.size.x * 0.30, game.size.y * 0.80),
+                ForrestFire(game: game),
+                game.forrestFire,
+                "Forrest Fire",
+                "Experience the ferocity of wildfires fueled by escalating global temperatures. Witness the destruction of precious ecosystems and habitats as forests blaze under the intensified heat of climate change.",
+              ),
+            ]))));
   }
 }
 

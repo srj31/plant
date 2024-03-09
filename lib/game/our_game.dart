@@ -1,5 +1,6 @@
 import 'dart:collection';
 import 'dart:math' as math;
+import 'dart:math';
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
@@ -12,7 +13,6 @@ import 'package:flame/game.dart';
 import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/map_generation/map_generation.dart';
 import 'package:game_name/game/misc/background.dart';
-import 'package:game_name/game/misc/text_popup.dart';
 import 'package:game_name/game/misc_structures/tree.dart';
 import 'package:game_name/game/overlays/banner.dart';
 import 'package:game_name/game/overlays/build.dart';
@@ -80,6 +80,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   late Sprite earthquake;
   late Sprite forrestFire;
 
+  late Sprite time;
+
   late Specialization specialization;
 
   late Structure toAdd;
@@ -123,10 +125,10 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       deltaEnergy: 0,
       deltaCapital: 0);
 
-  ParamDelta bonus = ParamDelta.zero();
-
   List<Structure> builtItems = [];
   List<TreeStructure> trees = [];
+  List<Policy> policies = [];
+  List<Research> researches = [];
   Queue<(double, Structure)> inProgressStructures =
       Queue<(double, Structure)>();
   Queue<(double, Policy)> inProgressPolicies = Queue<(double, Policy)>();
@@ -141,10 +143,11 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     "capital": []
   };
 
+  Map<String, bool> isPurchased = <String, bool>{};
+
   void addBuiltItem({required Structure item, bool isPreBuilt = false}) {
-    print(item.current);
-    print(item.fullName);
     world.add(item);
+    builtItems.add(item);
     if (!isPreBuilt) {
       capital -= item.capital;
       resources -= item.resources;
@@ -153,8 +156,6 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       item.finishBuilding();
       paramDelta += item.paramDelta;
     }
-    print("here");
-    builtItems.add(item);
   }
 
   void startPolicy(Policy policy) {
@@ -288,13 +289,17 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     }
 
     interval = Timer(2, onTick: () {
+      windSpeed = Random().nextDouble() * 5.0;
+      temperature = Random().nextDouble() * 30.0 + 20.0;
       _updateDataPoints();
       elapsedSecs += 1;
       while (inProgressStructures.isNotEmpty &&
           inProgressStructures.first.$1 <= elapsedSecs) {
         final itemWithTime = inProgressStructures.removeFirst();
         final item = itemWithTime.$2;
-        paramDelta += item.paramDelta;
+        if (!powerShortage) {
+          paramDelta += item.paramDelta;
+        }
         item.finishBuilding();
       }
 
@@ -319,7 +324,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
         paramDelta += upgrade.paramDelta;
       }
 
-      _bonusCalculation();
+      ParamDelta bonus = _bonusCalculation();
 
       health = math.max(
           0, health + paramDelta.deltaHealth - (1 - 0.001 * carbonEmission));
@@ -392,29 +397,44 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     camera.viewport.add(StatsComponent());
   }
 
+  double _calculateDeltaEnergy() {
+    double energy = 0;
+    for (final builtItem in builtItems) {
+      energy += builtItem.paramDelta.deltaEnergy;
+    }
+    for (final tree in trees) {
+      energy += tree.paramDelta.deltaEnergy;
+    }
+
+    double bonusEnergy = _bonusCalculation().deltaEnergy;
+    return energy;
+  }
+
   void _checkPower() {
-    if (energy == 0) {
+    double possibleEnergy = _calculateDeltaEnergy();
+    if (!powerShortage && energy <= 0) {
       // stop the factories
       powerShortage = true;
       camera.viewport.add(noPower);
       for (final builtItem in builtItems) {
-        paramDelta -= builtItem.paramDelta;
+        builtItem.powerOffStructure();
       }
     }
 
-    if (powerShortage && energy > 1e-6) {
+    if (powerShortage && possibleEnergy > 1e-6) {
       powerShortage = false;
       camera.viewport.remove(noPower);
       for (final builtItem in builtItems) {
-        paramDelta += builtItem.paramDelta;
+        builtItem.powerOnStructure();
       }
     }
   }
 
-  void _bonusCalculation() {
-    bonus = ParamDelta.zero();
+  ParamDelta _bonusCalculation() {
+    ParamDelta bonus = ParamDelta.zero();
     bonus += _bonusWind();
     bonus += _bonusSolar();
+    return bonus;
   }
 
   ParamDelta _bonusWind() {
@@ -521,7 +541,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
           item: structure
             ..priority = buildingLocationsinOffset[i].x.toInt()
             ..current = BuildingState.done
-            ..timeLeft = 0,
+            ..timeLeft = 0
+            ..isOff = powerShortage,
           isPreBuilt: true);
     }
   }
@@ -566,6 +587,12 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
   void nextLevel() async {
     overlays.add(SpecializationMenu.id);
+    health = 40;
+    morale = 0;
+    carbonEmission = 20;
+    resources = 100;
+    energy = 0;
+    capital = 1000;
     elapsedSecs = 0;
     state = DefaultState();
 
@@ -585,6 +612,24 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     builtItems = [];
     trees = [];
 
+    builtItems = [];
+    trees = [];
+    policies = [];
+    researches = [];
+    inProgressStructures = Queue<(double, Structure)>();
+    inProgressPolicies = Queue<(double, Policy)>();
+    inProgressResearches = Queue<(double, Research)>();
+    inProgressUpgrade = Queue<(double, Upgrade)>();
+    dataPoints = <String, List<FlSpot>>{
+      "health": [],
+      "morale": [],
+      "carbon": [],
+      "resources": [],
+      "energy": [],
+      "capital": []
+    };
+
+    isPurchased = <String, bool>{};
     await _initializeMap();
   }
 
@@ -608,6 +653,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
         position: Vector2(size.x * 0.9, size.y * 0.4),
         anchor: Anchor.center,
         sprite: Sprite(await Flame.images.load("no_power.png")));
+
+    time = Sprite(await Flame.images.load("time.png"));
 
     buildComponent = BuildComponent();
     pauseComponent = PausePlayComponent(

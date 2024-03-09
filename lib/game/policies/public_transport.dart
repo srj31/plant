@@ -17,9 +17,9 @@ class PublicTransport extends Policy {
             deltaEnergy: -0.2,
             deltaHealth: 0.05,
             deltaMorale: 0.2,
-            timeToPass: 3);
+            timeToPass: 3,
+            id: 'public_transport');
 
-  static const name = 'public_transport';
   @override
   Future<void> onLoad() async {
     sprite = game.publicTransport;

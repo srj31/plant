@@ -17,7 +17,8 @@ class CarbonTechnology extends Research {
             deltaEnergy: -0.05,
             deltaHealth: 0.1,
             deltaMorale: 0.05,
-            timeToImplement: 3);
+            timeToImplement: 3,
+            id: 'carbon_technology');
 
   static const name = 'carbon_technology';
   @override

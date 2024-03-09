@@ -1,3 +1,6 @@
+import 'package:flame/components.dart';
+import 'package:game_name/game/misc/bubble_popup.dart';
+import 'package:game_name/game/misc/text_popup.dart';
 import 'package:game_name/game/non_green/non_green.dart';
 import 'package:game_name/game/structures/structures.dart';
 import 'package:game_name/game/structures/upgrade/upgrade.dart';
@@ -50,5 +53,21 @@ class FossilFuel extends NonGreenStructure {
           game: game)
     ];
     await super.onLoad();
+  }
+
+  void displayTextPopup() {
+    popup = TextPopup(
+        "Fossil fuel combustion is the largest contributor to CO2 emissions, a major driver of climate change.",
+        true,
+        position: Vector2(size.x * 0.5, 0),
+        size: Vector2(300, 100),
+        anchor: Anchor.center);
+
+    addTextPopup(popup!);
+
+    Future.delayed(const Duration(seconds: 7), () {
+      hasPopup = false;
+      remove(popup!);
+    });
   }
 }

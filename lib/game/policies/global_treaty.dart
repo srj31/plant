@@ -17,9 +17,9 @@ class GlobalTreaty extends Policy {
             deltaEnergy: 0.0,
             deltaHealth: 0.05,
             deltaMorale: 0.2,
-            timeToPass: 2);
+            timeToPass: 2,
+            id: 'global_treaty');
 
-  static const name = 'global_treaty';
   @override
   Future<void> onLoad() async {
     sprite = game.globalTreaty;

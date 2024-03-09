@@ -17,7 +17,8 @@ class Biodegradable extends Research {
             deltaEnergy: -0.1,
             deltaHealth: 0.1,
             deltaMorale: 0.01,
-            timeToImplement: 2);
+            timeToImplement: 2,
+            id: 'biodegradable');
 
   static const name = 'biodegradable';
   @override

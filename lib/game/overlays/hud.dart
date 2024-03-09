@@ -108,7 +108,7 @@ class Hud extends PositionComponent with HasGameReference<OurGame> {
         anchor: Anchor.center));
 
     await add(SpriteComponent(
-      sprite: Sprite(await Flame.images.load("time.png")),
+      sprite: game.time,
       position: Vector2(game.size.x * 0.2, game.size.y * 0.9),
       size: Vector2.all(sizeOfSpirte),
       anchor: Anchor.center,

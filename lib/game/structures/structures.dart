@@ -1,10 +1,13 @@
 import 'dart:math';
 
 import 'package:flame/components.dart';
+import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:game_name/game/audio_manager.dart';
+import 'package:game_name/game/misc/bubble_popup.dart';
 import 'package:game_name/game/misc/finish_building_effect.dart';
+import 'package:game_name/game/misc/text_popup.dart';
 import 'package:game_name/game/misc_structures/house.dart';
 import 'package:game_name/game/non_green/fossil_fuel.dart';
 import 'package:game_name/game/non_green/plastic.dart';
@@ -47,6 +50,9 @@ class Structure extends SpriteAnimationGroupComponent<BuildingState>
     timeLeft = timeToBuild;
   }
 
+  TextPopup? popup;
+  BubblePopup? bubble;
+
   final double capital;
   final double resources;
 
@@ -61,17 +67,65 @@ class Structure extends SpriteAnimationGroupComponent<BuildingState>
 
   late Sprite displaySprite;
   bool isDone = false;
+  bool hasPopup = false;
 
   late List<Upgrade> upgrades;
   late double timeLeft;
+  bool isOff = false;
+
+  final ColorEffect powerOff = ColorEffect(
+    const Color(0xFF000000),
+    InfiniteEffectController(LinearEffectController(1.0)),
+    opacityTo: 0.7,
+    opacityFrom: 0.7,
+  );
+
+  final ColorEffect powerOn = ColorEffect(
+    const Color(0x00FFFFFF),
+    LinearEffectController(1.0),
+    opacityTo: 0.0,
+    opacityFrom: 1.0,
+  );
 
   @override
   void onLongTapDown(TapDownEvent event) {
     game.selectedStructure = this;
     game.overlays.add(StructureInfo.id);
-    print(fullName);
-    print(current);
     super.onLongTapDown(event);
+  }
+
+  void addBubblePop(BubblePopup popup) {
+    if (hasPopup) {
+      return;
+    }
+    hasPopup = true;
+    add(popup);
+  }
+
+  void addTextPopup(TextPopup popup) {
+    if (hasPopup) {
+      return;
+    }
+    hasPopup = true;
+    add(popup);
+  }
+
+  void powerOffStructure() {
+    if (isOff) {
+      return;
+    }
+    isOff = true;
+    game.paramDelta -= paramDelta;
+    add(powerOff);
+  }
+
+  void powerOnStructure() {
+    if (isOff) {
+      isOff = false;
+      game.paramDelta += paramDelta;
+      remove(powerOff);
+      add(powerOn);
+    }
   }
 
   void finishBuilding() {
@@ -80,7 +134,6 @@ class Structure extends SpriteAnimationGroupComponent<BuildingState>
         size: Vector2.all(100), priority: 1000, position: Vector2.all(0)));
     isDone = true;
     current = BuildingState.done;
-    print("current: ${current}");
   }
 
   factory Structure.factory(String name, Vector2 location) {

@@ -1,5 +1,6 @@
 import 'package:flame/components.dart';
 import 'package:game_name/game/misc/bubble_popup.dart';
+import 'package:game_name/game/misc/text_popup.dart';
 import 'package:game_name/game/structures/structures.dart';
 import 'package:game_name/game/structures/upgrade/upgrade.dart';
 
@@ -54,29 +55,30 @@ class TreeStructure extends Structure {
     await super.onLoad();
   }
 
-  @override
-  void update(double dt) {
-    super.update(dt);
+  void displayBubble() {
+    addBubblePop(BubblePopup(
+        priority: 100,
+        size: Vector2.all(75),
+        sprite: game.resourcesSprite,
+        position: Vector2(size.x * 0.25, size.y * -0.25),
+        onTap: () {
+          hasPopup = false;
+          game.resources += 0.1;
+        }));
+  }
 
-    if (!showBubble) {
-      return;
-    }
+  void displayTextPopup() {
+    popup = TextPopup(
+        "Trees are important to conserve the Earth's natural resources.", true,
+        position: Vector2(size.x * 0.5, 0),
+        size: Vector2(300, 100),
+        anchor: Anchor.center);
 
-    // switch (current) {
-    //   case BuildingState.done:
-    //     {
-    //       showBubble = false;
-    //       add(BubblePopup(
-    //           priority: 100,
-    //           size: Vector2.all(75),
-    //           sprite: game.resourcesSprite,
-    //           position: Vector2(size.x * 0.25, size.y * -0.25),
-    //           onTap: () {
-    //             game.resources += 0.1;
-    //           }));
-    //     }
-    //   case _:
-    //     {}
-    // }
+    addTextPopup(popup!);
+
+    Future.delayed(const Duration(seconds: 7), () {
+      hasPopup = false;
+      remove(popup!);
+    });
   }
 }

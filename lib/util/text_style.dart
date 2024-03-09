@@ -19,7 +19,7 @@ class BorderedText extends StatelessWidget {
               fontWeight: FontWeight.bold,
               foreground: Paint()
                 ..color = Colors.white
-                ..strokeWidth = 2
+                ..strokeWidth = 1.75
                 ..style = PaintingStyle.stroke,
               fontFamily: GoogleFonts.play().fontFamily,
               fontSize: 12),

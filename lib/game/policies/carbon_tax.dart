@@ -17,9 +17,9 @@ class CarbonTax extends Policy {
             deltaEnergy: 0.0,
             deltaHealth: 0.1,
             deltaMorale: 0.1,
-            timeToPass: 2);
+            timeToPass: 2,
+            id: 'carbon_tax');
 
-  static const name = 'carbon_tax';
   @override
   Future<void> onLoad() async {
     sprite = game.carbonTax;

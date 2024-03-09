@@ -17,7 +17,8 @@ class SmartGrid extends Research {
             deltaEnergy: 0.1,
             deltaHealth: 0.1,
             deltaMorale: 0.05,
-            timeToImplement: 4);
+            timeToImplement: 4,
+            id: 'smart_grid');
 
   static const name = 'smart_grid';
   @override

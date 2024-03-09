@@ -108,6 +108,7 @@ class ElevatedCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    bool isPurchased = game.isPurchased[policy.id] ?? false;
     return Center(
         child: GestureDetector(
             onTap: () {},
@@ -329,29 +330,62 @@ class ElevatedCard extends StatelessWidget {
                                   ),
                                 ],
                                 color: Colors.green.shade600,
-                                borderRadius: BorderRadius.circular(10.0),
+                                borderRadius: const BorderRadius.only(
+                                  topLeft: Radius.circular(15.0),
+                                  topRight: Radius.circular(15.0),
+                                ),
                               ),
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Text(heading,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontFamily:
-                                            GoogleFonts.play().fontFamily,
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)),
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(heading,
+                                      style: TextStyle(
+                                          color: Colors.white,
+                                          fontFamily:
+                                              GoogleFonts.play().fontFamily,
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.bold)),
+                                ),
                               ),
                             ),
-                            Text(
-                              description,
-                              style: TextStyle(
-                                  fontSize: 11,
-                                  color: Colors.black,
-                                  fontWeight: FontWeight.w600,
-                                  fontFamily: GoogleFonts.play().fontFamily),
+                            Container(
+                              height: size.y * 0.525,
+                              alignment: Alignment.topCenter,
+                              decoration: const BoxDecoration(
+                                  color: Colors.black12,
+                                  borderRadius: BorderRadius.only(
+                                      bottomLeft: Radius.circular(10.0),
+                                      bottomRight: Radius.circular(10.0))),
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Text(
+                                  description,
+                                  style: TextStyle(
+                                      fontSize: 9,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.w600,
+                                      fontFamily:
+                                          GoogleFonts.play().fontFamily),
+                                ),
+                              ),
                             ),
                           ]),
                     )),
+                Positioned(
+                    bottom: 40,
+                    left: 15,
+                    child: Row(children: [
+                      RawImage(
+                        scale: 1.5,
+                        image: game.time.toImageSync(),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 2.0),
+                        child: BorderedText(
+                          text: policy.timeToPass.toStringAsFixed(0),
+                        ),
+                      ),
+                    ])),
                 Positioned(
                     bottom: 10,
                     left: 10,
@@ -364,6 +398,7 @@ class ElevatedCard extends StatelessWidget {
                                 onPressed: () {
                                   if (policy.capital <= game.capital &&
                                       policy.resources <= game.resources) {
+                                    game.isPurchased[policy.id] = true;
                                     AudioManager.playSfx(
                                         'tap_button.mp3', game.soundVolume);
                                     game.overlays.remove(PoliciesMenu.id);
@@ -376,28 +411,43 @@ class ElevatedCard extends StatelessWidget {
                                   backgroundColor: policy.capital <=
                                               game.capital &&
                                           policy.resources <= game.resources
-                                      ? MaterialStateProperty.all(Colors.green)
+                                      ? isPurchased
+                                          ? MaterialStateProperty.all(
+                                              Colors.green.shade900)
+                                          : MaterialStateProperty.all(
+                                              Colors.green)
                                       : MaterialStateProperty.all(Colors.grey),
                                   fixedSize: MaterialStateProperty.all(
                                       Size(size.x * 0.5, 20)),
                                 ),
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    RawImage(
-                                      image: game.capitalSprite.toImageSync(),
-                                    ),
-                                    BorderedText(
-                                      text: policy.capital.toStringAsFixed(0),
-                                    ),
-                                    const Spacer(),
-                                    RawImage(
-                                      image: game.resourcesSprite.toImageSync(),
-                                    ),
-                                    BorderedText(
-                                      text: policy.resources.toStringAsFixed(0),
-                                    ),
-                                  ],
+                                  children: isPurchased
+                                      ? [
+                                          const Text("Purchased",
+                                              style: TextStyle(
+                                                  fontSize: 12,
+                                                  color: Colors.white))
+                                        ]
+                                      : [
+                                          RawImage(
+                                            image: game.capitalSprite
+                                                .toImageSync(),
+                                          ),
+                                          BorderedText(
+                                            text: policy.capital
+                                                .toStringAsFixed(0),
+                                          ),
+                                          const Spacer(),
+                                          RawImage(
+                                            image: game.resourcesSprite
+                                                .toImageSync(),
+                                          ),
+                                          BorderedText(
+                                            text: policy.resources
+                                                .toStringAsFixed(0),
+                                          ),
+                                        ],
                                 )))))
               ]),
             )));

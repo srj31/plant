@@ -17,7 +17,8 @@ class Afforestation extends Policy {
             deltaEnergy: 0.0,
             deltaHealth: 0.005,
             deltaMorale: 0.05,
-            timeToPass: 1);
+            timeToPass: 1,
+            id: 'afforestation');
 
   static const name = 'afforestation';
   @override

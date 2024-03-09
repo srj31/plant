@@ -6,7 +6,6 @@ import 'package:flame/events.dart';
 import 'package:flutter/material.dart';
 import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/our_game.dart';
-import 'package:just_audio/just_audio.dart';
 
 class BubblePopup extends SpriteComponent
     with TapCallbacks, HasGameReference<OurGame> {
