@@ -12,6 +12,7 @@ import 'package:flame/game.dart';
 import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/map_generation/map_generation.dart';
 import 'package:game_name/game/misc/background.dart';
+import 'package:game_name/game/misc/text_popup.dart';
 import 'package:game_name/game/misc_structures/tree.dart';
 import 'package:game_name/game/overlays/banner.dart';
 import 'package:game_name/game/overlays/build.dart';
@@ -141,8 +142,9 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   };
 
   void addBuiltItem({required Structure item, bool isPreBuilt = false}) {
+    print(item.current);
+    print(item.fullName);
     world.add(item);
-    builtItems.add(item);
     if (!isPreBuilt) {
       capital -= item.capital;
       resources -= item.resources;
@@ -151,6 +153,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       item.finishBuilding();
       paramDelta += item.paramDelta;
     }
+    print("here");
+    builtItems.add(item);
   }
 
   void startPolicy(Policy policy) {
@@ -492,7 +496,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       await populateTrees(
           tree: TreeStructure(
               position: Vector2(location.x, location.y),
-              priority: 1,
+              priority: treeLocationsinOffset[i].x.toInt(),
               anchor: Anchor.center)
             ..current = BuildingState.done
             ..timeLeft = 0,
@@ -515,7 +519,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       final structure = Structure.factory(buildingName, location);
       addBuiltItem(
           item: structure
-            ..priority = 100
+            ..priority = buildingLocationsinOffset[i].x.toInt()
             ..current = BuildingState.done
             ..timeLeft = 0,
           isPreBuilt: true);

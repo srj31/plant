@@ -69,6 +69,8 @@ class Structure extends SpriteAnimationGroupComponent<BuildingState>
   void onLongTapDown(TapDownEvent event) {
     game.selectedStructure = this;
     game.overlays.add(StructureInfo.id);
+    print(fullName);
+    print(current);
     super.onLongTapDown(event);
   }
 
@@ -78,6 +80,7 @@ class Structure extends SpriteAnimationGroupComponent<BuildingState>
         size: Vector2.all(100), priority: 1000, position: Vector2.all(0)));
     isDone = true;
     current = BuildingState.done;
+    print("current: ${current}");
   }
 
   factory Structure.factory(String name, Vector2 location) {

@@ -27,7 +27,6 @@ class WindMill extends Structure {
 
   @override
   Future<void> onLoad() async {
-    await super.onLoad();
     displaySprite = game.getSpriteFromSheet('windmill.png');
     animations = {
       BuildingState.start: game.underConstruction,
@@ -50,6 +49,7 @@ class WindMill extends Structure {
               "Install solar panels to save on energy bills and reduce carbon footprint.",
           game: game)
     ];
+    await super.onLoad();
   }
 
   @override

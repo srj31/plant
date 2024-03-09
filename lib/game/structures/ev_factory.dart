@@ -26,7 +26,6 @@ class EvFactory extends Structure {
 
   @override
   Future<void> onLoad() async {
-    await super.onLoad();
     displaySprite = game.getSpriteFromSheet("ev_factory.png");
     animations = {
       BuildingState.start: game.underConstruction,
