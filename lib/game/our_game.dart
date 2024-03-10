@@ -19,6 +19,7 @@ import 'package:game_name/game/overlays/build.dart';
 import 'package:game_name/game/overlays/event.dart';
 import 'package:game_name/game/overlays/game_over.dart';
 import 'package:game_name/game/overlays/next_level.dart';
+import 'package:game_name/game/overlays/no_power.dart';
 import 'package:game_name/game/overlays/non_green.dart';
 import 'package:game_name/game/overlays/pause.dart';
 import 'package:game_name/game/overlays/policies.dart';
@@ -27,6 +28,7 @@ import 'package:game_name/game/overlays/specialization.dart';
 import 'package:game_name/game/overlays/stats.dart';
 import 'package:game_name/game/overlays/tutorial.dart';
 import 'package:game_name/game/policies/policy.dart';
+import 'package:game_name/game/popup_manager.dart';
 import 'package:game_name/game/research/researh.dart';
 import 'package:game_name/game/specializations/specialization.dart';
 import 'package:game_name/game/state/default.dart';
@@ -44,7 +46,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   late TiledComponent mapComponent;
   late BuildComponent buildComponent;
   late PausePlayComponent pauseComponent;
-  late SpriteComponent noPower;
+  late SpriteAnimationGroupComponent noPower;
 
   late Sprite capitalSprite;
   late Sprite moraleSprite;
@@ -100,6 +102,15 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
   bool powerShortage = false;
 
+  ParamDelta paramDelta = ParamDelta(
+    deltaCarbon: 0,
+    deltaResources: 0,
+    deltaCapital: 0,
+    deltaMorale: 0,
+    deltaEnergy: 0,
+    deltaHealth: -0.5,
+  );
+
   Size deviceSize = WidgetsBinding
           .instance.platformDispatcher.views.first.physicalSize /
       WidgetsBinding.instance.platformDispatcher.views.first.devicePixelRatio;
@@ -117,18 +128,10 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   double energy = 0;
   double capital = 1000;
 
-  ParamDelta paramDelta = ParamDelta(
-      deltaHealth: -0.1,
-      deltaMorale: 0,
-      deltaCarbon: 0,
-      deltaResources: 0,
-      deltaEnergy: 0,
-      deltaCapital: 0);
-
   List<Structure> builtItems = [];
   List<TreeStructure> trees = [];
-  List<Policy> policies = [];
-  List<Research> researches = [];
+  List<Policy> donePolicies = [];
+  List<Research> doneResearches = [];
   Queue<(double, Structure)> inProgressStructures =
       Queue<(double, Structure)>();
   Queue<(double, Policy)> inProgressPolicies = Queue<(double, Policy)>();
@@ -147,14 +150,16 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
   void addBuiltItem({required Structure item, bool isPreBuilt = false}) {
     world.add(item);
-    builtItems.add(item);
     if (!isPreBuilt) {
       capital -= item.capital;
       resources -= item.resources;
       inProgressStructures.add((elapsedSecs + item.timeToBuild, item));
     } else {
+      if (powerShortage) {
+        item.powerOffStructure();
+      }
+      builtItems.add(item);
       item.finishBuilding();
-      paramDelta += item.paramDelta;
     }
   }
 
@@ -180,7 +185,6 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
   void removeBuiltItem(int index) {
     final item = builtItems[index];
-    paramDelta -= item.paramDelta;
     item.addAll([
       OpacityEffect.fadeOut(
         LinearEffectController(1.5),
@@ -231,18 +235,21 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       grid[rowAndCol.x.floor()][rowAndCol.y.floor()] = true;
     }
 
+    for (final item in inProgressStructures) {
+      final pos = item.$2.position;
+      final rowAndCol = pixelToOffset(layout, pos);
+      grid[rowAndCol.x.floor()][rowAndCol.y.floor()] = true;
+    }
+
     return grid;
   }
 
   Future<void> populateTrees(
       {required TreeStructure tree, bool isPreBuilt = false}) async {
     world.add(tree);
-
-    paramDelta += tree.paramDelta;
     if (isPreBuilt) {
       tree.finishBuilding();
     }
-
     trees.add(tree);
   }
 
@@ -268,15 +275,14 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     await Flame.images.load("hexagonObjects_sheet.png");
     world.add(mapComponent);
     _scrollingBackground();
-    await initializeGame();
-  }
-
-  Future<void> initializeGame() async {
     await _loadSprites();
     await AudioManager.init();
 
     AudioManager.playBgm('game_menu.wav', soundVolume * 0.2);
+    await initializeGame();
+  }
 
+  Future<void> initializeGame() async {
     _initializeMap();
 
     final tiledData =
@@ -289,42 +295,44 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     }
 
     interval = Timer(2, onTick: () {
+      PopupManager.showPopup(this);
       windSpeed = Random().nextDouble() * 5.0;
       temperature = Random().nextDouble() * 30.0 + 20.0;
-      _updateDataPoints();
       elapsedSecs += 1;
       while (inProgressStructures.isNotEmpty &&
           inProgressStructures.first.$1 <= elapsedSecs) {
         final itemWithTime = inProgressStructures.removeFirst();
         final item = itemWithTime.$2;
-        if (!powerShortage) {
-          paramDelta += item.paramDelta;
-        }
         item.finishBuilding();
+        if (powerShortage) {
+          item.powerOffStructure();
+        }
+        builtItems.add(item);
       }
 
       while (inProgressPolicies.isNotEmpty &&
           inProgressPolicies.first.$1 <= elapsedSecs) {
         final policyWithTime = inProgressPolicies.removeFirst();
         final policy = policyWithTime.$2;
-        paramDelta += policy.paramDelta;
+        donePolicies.add(policy);
       }
 
       while (inProgressResearches.isNotEmpty &&
           inProgressResearches.first.$1 <= elapsedSecs) {
         final researchWithTime = inProgressResearches.removeFirst();
         final research = researchWithTime.$2;
-        paramDelta += research.paramDelta;
+        doneResearches.add(research);
       }
 
       while (inProgressUpgrade.isNotEmpty &&
           inProgressUpgrade.first.$1 <= elapsedSecs) {
         final upgradeWithTime = inProgressUpgrade.removeFirst();
         final upgrade = upgradeWithTime.$2;
-        paramDelta += upgrade.paramDelta;
       }
 
-      ParamDelta bonus = _bonusCalculation();
+      _checkPower();
+      paramDelta = _calculateParamDelta();
+      _updateDataPoints();
 
       health = math.max(
           0, health + paramDelta.deltaHealth - (1 - 0.001 * carbonEmission));
@@ -348,10 +356,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
         // chances of riot
       }
 
-      _checkPower();
-
-      if (elapsedSecs % 10 == 0) {
-        if (math.Random().nextDouble() < 0.8) {
+      if (elapsedSecs % 15 == 0) {
+        if (math.Random().nextDouble() < 0.7) {
           overlays.add(EventMenu.id);
           hasTimerStarted = false;
         }
@@ -397,23 +403,41 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     camera.viewport.add(StatsComponent());
   }
 
-  double _calculateDeltaEnergy() {
-    double energy = 0;
+  ParamDelta _calculateParamDelta() {
+    ParamDelta delta = ParamDelta.zero();
     for (final builtItem in builtItems) {
-      energy += builtItem.paramDelta.deltaEnergy;
+      if (builtItem.isOff) continue;
+      delta += builtItem.paramDelta;
     }
     for (final tree in trees) {
-      energy += tree.paramDelta.deltaEnergy;
+      delta += tree.paramDelta;
     }
 
-    double bonusEnergy = _bonusCalculation().deltaEnergy;
+    for (final policy in donePolicies) {
+      delta += policy.paramDelta;
+    }
+
+    for (final research in doneResearches) {
+      delta += research.paramDelta;
+    }
+
+    delta += _bonusCalculation();
+
+    return delta;
+  }
+
+  double calculatePossibleDeltaEnergy() {
+    double energy = _calculateParamDelta().deltaEnergy;
+    for (final builtItem in builtItems) {
+      if (!builtItem.isOff) continue;
+      energy += builtItem.paramDelta.deltaEnergy;
+    }
     return energy;
   }
 
   void _checkPower() {
-    double possibleEnergy = _calculateDeltaEnergy();
-    if (!powerShortage && energy <= 0) {
-      // stop the factories
+    double possibleEnergy = calculatePossibleDeltaEnergy();
+    if (!powerShortage && energy <= 0 && possibleEnergy < 1e-6) {
       powerShortage = true;
       camera.viewport.add(noPower);
       for (final builtItem in builtItems) {
@@ -425,6 +449,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       powerShortage = false;
       camera.viewport.remove(noPower);
       for (final builtItem in builtItems) {
+        if (!builtItem.isOff) continue;
         builtItem.powerOnStructure();
       }
     }
@@ -440,7 +465,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   ParamDelta _bonusWind() {
     var bonus = ParamDelta.zero();
     for (final builtItem in builtItems) {
-      bonus += builtItem.bonusWind() * windSpeed;
+      if (builtItem.isOff) continue;
+      bonus += builtItem.bonusWind() * windSpeed * 0.5;
     }
     return bonus;
   }
@@ -533,7 +559,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
           buildingLocationsinOffset[i].y + yOffset));
       final location = hexToPixel(layout, hexAxial);
       String buildingName = "house";
-      if (i > 4) buildingName = "fossil";
+      if (i > 5) buildingName = "fossil";
       if (i > 6) buildingName = "waste_incineration";
       if (i > 8) buildingName = "plastic";
       final structure = Structure.factory(buildingName, location);
@@ -541,8 +567,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
           item: structure
             ..priority = buildingLocationsinOffset[i].x.toInt()
             ..current = BuildingState.done
-            ..timeLeft = 0
-            ..isOff = powerShortage,
+            ..timeLeft = 0,
           isPreBuilt: true);
     }
   }
@@ -605,8 +630,6 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     energy = 40;
     capital = 1000;
 
-    paramDelta = ParamDelta.zero();
-
     world.removeAll(builtItems);
     world.removeAll(trees);
     builtItems = [];
@@ -614,8 +637,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
     builtItems = [];
     trees = [];
-    policies = [];
-    researches = [];
+    donePolicies = [];
+    doneResearches = [];
     inProgressStructures = Queue<(double, Structure)>();
     inProgressPolicies = Queue<(double, Policy)>();
     inProgressResearches = Queue<(double, Research)>();
@@ -630,7 +653,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     };
 
     isPurchased = <String, bool>{};
-    await _initializeMap();
+    await initializeGame();
   }
 
   void setSpecialization(Specialization specialization) {
@@ -649,11 +672,11 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     resourcesSprite = Sprite(await Flame.images.load("resources.png"));
     moraleSprite = Sprite(await Flame.images.load("morale.png"));
 
-    noPower = SpriteComponent(
-        position: Vector2(size.x * 0.9, size.y * 0.4),
-        anchor: Anchor.center,
-        sprite: Sprite(await Flame.images.load("no_power.png")));
-
+    noPower = NoPowerComponent(
+      position: Vector2(size.x * 0.9, size.y * 0.4),
+      size: Vector2(32, 32),
+      anchor: Anchor.center,
+    );
     time = Sprite(await Flame.images.load("time.png"));
 
     buildComponent = BuildComponent();

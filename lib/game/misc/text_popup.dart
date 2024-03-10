@@ -12,21 +12,19 @@ class TextPopup extends TextBoxComponent {
     super.align,
     super.size,
     super.anchor,
+    double? fontSize,
     double? timePerChar,
   }) : super(
           text: text,
           textRenderer: TextPaint(
               style: TextStyle(
-            fontSize: 18.0,
+            fontSize: fontSize ?? 18.0,
             color: isRed ? Colors.red.shade100 : Colors.lightGreenAccent,
             fontFamily: 'monospace',
             letterSpacing: 2.0,
           )),
           boxConfig: TextBoxConfig(
-            maxWidth: 400,
-            timePerChar: timePerChar ?? 0.05,
-            growingBox: true,
-            margins: const EdgeInsets.all(10.0),
+            timePerChar: 0.05,
           ),
         );
 
@@ -37,6 +35,12 @@ class TextPopup extends TextBoxComponent {
 
     paint.color = Colors.black54;
     return super.onLoad();
+  }
+
+  @override
+  void drawBackground(Canvas c) {
+    super.drawBackground(c);
+    c.drawColor(Colors.transparent, BlendMode.clear);
   }
 
   @override

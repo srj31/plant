@@ -55,6 +55,7 @@ class TreeStructure extends Structure {
     await super.onLoad();
   }
 
+  @override
   void displayBubble() {
     addBubblePop(BubblePopup(
         priority: 100,
@@ -67,9 +68,10 @@ class TreeStructure extends Structure {
         }));
   }
 
+  @override
   void displayTextPopup() {
     popup = TextPopup(
-        "Trees are important to conserve the Earth's natural resources.", true,
+        "Trees are important to conserve the Earth's natural resources.", false,
         position: Vector2(size.x * 0.5, 0),
         size: Vector2(300, 100),
         anchor: Anchor.center);
@@ -77,8 +79,8 @@ class TreeStructure extends Structure {
     addTextPopup(popup!);
 
     Future.delayed(const Duration(seconds: 7), () {
+      if (hasPopup) popup!.removeFromParent();
       hasPopup = false;
-      remove(popup!);
     });
   }
 }

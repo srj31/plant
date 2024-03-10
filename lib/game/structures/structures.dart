@@ -94,6 +94,10 @@ class Structure extends SpriteAnimationGroupComponent<BuildingState>
     super.onLongTapDown(event);
   }
 
+  void displayBubble() {}
+
+  void displayTextPopup() {}
+
   void addBubblePop(BubblePopup popup) {
     if (hasPopup) {
       return;
@@ -115,16 +119,15 @@ class Structure extends SpriteAnimationGroupComponent<BuildingState>
       return;
     }
     isOff = true;
-    game.paramDelta -= paramDelta;
+    powerOff.removeFromParent();
     add(powerOff);
   }
 
   void powerOnStructure() {
     if (isOff) {
       isOff = false;
-      game.paramDelta += paramDelta;
-      remove(powerOff);
       add(powerOn);
+      powerOff.removeFromParent();
     }
   }
 

@@ -51,4 +51,9 @@ class ParamDelta {
         deltaEnergy: deltaEnergy * other,
         deltaCapital: deltaCapital * other);
   }
+
+  @override
+  String toString() {
+    return 'ParamDelta( health: $deltaHealth, morale: $deltaMorale, carbon: $deltaCarbon, resources: $deltaResources, energy: $deltaEnergy, capital: $deltaCapital)';
+  }
 }

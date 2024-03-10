@@ -172,10 +172,7 @@ class StatSection extends StatelessWidget {
   //   FlSpot(11, 4),
   // ];
 
-  final List<Color> gradientColors = const [
-    Colors.lightGreen,
-    Colors.lightGreen
-  ];
+  final List<Color> gradientColors = const [Colors.lightGreen, Colors.green];
 
   @override
   Widget build(BuildContext context) {
@@ -330,6 +327,29 @@ class StatSection extends StatelessWidget {
                       padding: const EdgeInsets.only(
                           right: 8.0, top: 10, bottom: 10),
                       child: LineChart(LineChartData(
+                        lineTouchData: LineTouchData(
+                          touchTooltipData: LineTouchTooltipData(
+                            maxContentWidth: 50,
+                            tooltipBgColor: Colors.black87,
+                            getTooltipItems: (touchedSpots) {
+                              return touchedSpots
+                                  .map((LineBarSpot touchedSpot) {
+                                final textStyle = TextStyle(
+                                  color: touchedSpot.bar.gradient?.colors[0] ??
+                                      touchedSpot.bar.color,
+                                  fontWeight: FontWeight.bold,
+                                  fontSize: 11,
+                                );
+                                return LineTooltipItem(
+                                  '${touchedSpot.y.toStringAsFixed(2)}\n${touchedSpot.x.toStringAsFixed(0)}',
+                                  textStyle,
+                                );
+                              }).toList();
+                            },
+                          ),
+                          handleBuiltInTouches: true,
+                          getTouchLineStart: (data, index) => 0,
+                        ),
                         lineBarsData: [
                           LineChartBarData(
                             aboveBarData: BarAreaData(
@@ -342,11 +362,19 @@ class StatSection extends StatelessWidget {
                               cutOffY: 0.0,
                               applyCutOffY: true,
                             ),
-                            isCurved: true,
+                            isCurved: false,
                             barWidth: 2,
                             isStrokeCapRound: true,
                             color: Colors.green.shade700,
-                            dotData: const FlDotData(show: true),
+                            dotData: FlDotData(
+                              show: true,
+                              getDotPainter: (spot, percent, barData, index) =>
+                                  FlDotCirclePainter(
+                                radius: 3,
+                                color: Colors.green,
+                                strokeColor: Colors.green.shade700,
+                              ),
+                            ),
                             belowBarData: BarAreaData(
                               show: true,
                               cutOffY: 0.0,
