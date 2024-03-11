@@ -19,7 +19,10 @@ class GreenHydrogen extends Structure {
           deltaHealth: 0.1,
           deltaMorale: 0.1,
           timeToBuild: 3,
-          fullName: "Green Hydrogen",
+          displayName: "Green Hydrogen",
+          description:
+              "A strategic, long-term investment for players aiming for advanced and low-carbon energy solutions",
+          id: "green_hydrogen",
         );
 
   final name = 'green_hydrogen';

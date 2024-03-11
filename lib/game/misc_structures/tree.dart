@@ -22,14 +22,22 @@ class TreeStructure extends Structure {
           deltaHealth: 0.01,
           deltaMorale: 0.0,
           timeToBuild: 1,
-          fullName: "Tree",
+          displayName: "Tree",
+          description:
+              "Expand forests and green spaces to bolster resources. Planting trees enhances biodiversity, improves air quality, and provides valuable materials for sustainable development.",
+          id: 'tree',
         );
 
-  final name = 'tree';
   var showBubble = true;
 
   @override
+  void powerOffStructure() {
+    return;
+  }
+
+  @override
   Future<void> onLoad() async {
+    isOff = false;
     displaySprite = game.getSpriteFromSheet("tree_animation.png");
     animations = {
       BuildingState.start: game.underConstruction,
@@ -79,7 +87,7 @@ class TreeStructure extends Structure {
     addTextPopup(popup!);
 
     Future.delayed(const Duration(seconds: 7), () {
-      if (hasPopup) popup!.removeFromParent();
+      popup!.removeFromParent();
       hasPopup = false;
     });
   }

@@ -23,8 +23,10 @@ class PopupManager {
           int len = game.trees.length;
           if (len > 0) {
             int index = math.Random().nextInt(len);
-            Structure structure = game.trees[index];
-            structure.displayTextPopup();
+            if (game.trees[index].hasPopup == false) {
+              Structure structure = game.trees[index];
+              structure.displayTextPopup();
+            }
           }
         }
       }
@@ -44,8 +46,10 @@ class PopupManager {
           int len = game.builtItems.length;
           if (len > 0) {
             int index = math.Random().nextInt(len);
-            Structure structure = game.builtItems[index];
-            structure.displayTextPopup();
+            if (game.builtItems[index].hasPopup == false) {
+              Structure structure = game.builtItems[index];
+              structure.displayTextPopup();
+            }
           }
         }
       }

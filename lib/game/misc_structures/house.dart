@@ -1,5 +1,3 @@
-import 'package:flame/components.dart';
-import 'package:game_name/game/misc/bubble_popup.dart';
 import 'package:game_name/game/structures/structures.dart';
 import 'package:game_name/game/structures/upgrade/upgrade.dart';
 
@@ -21,7 +19,10 @@ class HouseStructure extends Structure {
           deltaHealth: -0.01,
           deltaMorale: 0.1,
           timeToBuild: 2,
-          fullName: "House",
+          displayName: "House",
+          description:
+              "Building new homes increases morale by providing shelter and fostering community growth. Enhance public sentiment and support for environmental initiatives with improved living conditions.",
+          id: 'house',
         );
 
   final name = 'house';

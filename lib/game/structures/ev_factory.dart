@@ -19,7 +19,10 @@ class EvFactory extends Structure {
           deltaHealth: 0.002,
           deltaMorale: 0.2,
           timeToBuild: 2,
-          fullName: "EV Factory",
+          displayName: "EV Factory",
+          description:
+              "Establish your Electric Vehicle (EV) factory, produce eco-friendly cars, and ride the wave of sustainability.",
+          id: "ev_factory",
         );
 
   final name = 'ev_factory';

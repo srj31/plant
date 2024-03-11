@@ -1,3 +1,6 @@
+import 'package:flame/components.dart';
+import 'package:game_name/game/misc/bubble_popup.dart';
+import 'package:game_name/game/misc/text_popup.dart';
 import 'package:game_name/game/structures/structures.dart';
 import 'package:game_name/game/structures/upgrade/upgrade.dart';
 import 'package:game_name/util/delta.dart';
@@ -20,7 +23,10 @@ class WindMill extends Structure {
           deltaHealth: 0.1,
           deltaMorale: 0.01,
           timeToBuild: 2,
-          fullName: "Wind Mill",
+          displayName: "Wind Mill",
+          description:
+              "Capitalize on the wind's force to boost your Energy production, reduce Carbon Emission, and strengthen Earth's health",
+          id: 'windmill',
         );
 
   final name = 'windmill';
@@ -62,5 +68,35 @@ class WindMill extends Structure {
       deltaEnergy: 0.05,
       deltaCapital: 0.0,
     );
+  }
+
+  @override
+  void displayBubble() {
+    addBubblePop(BubblePopup(
+        priority: 100,
+        size: Vector2.all(75),
+        sprite: game.energySprite,
+        position: Vector2(size.x * 0.25, size.y * -0.25),
+        onTap: () {
+          hasPopup = false;
+          game.energy += 0.1;
+        }));
+  }
+
+  @override
+  void displayTextPopup() {
+    popup = TextPopup(
+        "Windmill farms can also benefit local ecosystems by providing habitats for birds and other wildlife ",
+        false,
+        position: Vector2(size.x * 0.5, 0),
+        size: Vector2(300, 100),
+        anchor: Anchor.center);
+
+    addTextPopup(popup!);
+
+    Future.delayed(const Duration(seconds: 7), () {
+      if (hasPopup) popup!.removeFromParent();
+      hasPopup = false;
+    });
   }
 }

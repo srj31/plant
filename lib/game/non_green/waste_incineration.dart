@@ -20,10 +20,11 @@ class WasteIncineration extends NonGreenStructure {
           deltaHealth: -0.1,
           deltaMorale: 0.05,
           timeToBuild: 2,
-          fullName: "Waste Incineration",
+          displayName: "Waste Incineration",
+          description:
+              "Dispose of waste quickly and efficiently with incineration technology. Tackle the mounting waste crisis, but contend with the environmental repercussions of air pollution, toxic emissions, and the depletion of natural resources.",
+          id: "waste_incineration",
         );
-
-  static const name = 'waste_incineration';
 
   @override
   Future<void> onLoad() async {

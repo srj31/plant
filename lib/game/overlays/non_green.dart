@@ -4,8 +4,8 @@ import 'package:flame/flame.dart';
 import 'package:flutter/material.dart';
 import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/misc/item_card.dart';
+import 'package:game_name/game/non_green/chemical.dart';
 import 'package:game_name/game/non_green/fossil_fuel.dart';
-import 'package:game_name/game/non_green/deforrestation.dart';
 import 'package:game_name/game/non_green/plastic.dart';
 import 'package:game_name/game/non_green/waste_incineration.dart';
 import 'package:game_name/game/our_game.dart';
@@ -61,18 +61,14 @@ class NonGreenMenu extends StatelessWidget {
                         game,
                         Vector2(game.size.x * 0.40, game.size.y * 0.40),
                         FossilFuel(),
-                        game.getSpriteFromSheet("fossil.png"),
-                        "Fossil Fuel Energy",
-                        "Embrace the allure of fossil fuels to rapidly boost energy production. Harness the power of traditional energy sources, but beware of the environmental consequences as carbon emissions soar and air quality declines.",
+                        game.getSpriteFromSheet("fossil_fuel.png"),
                         false,
                         NonGreenMenu.id),
                     ItemCard(
                         game,
                         Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                        Deforrestation(),
-                        game.getSpriteFromSheet("fossil.png"),
-                        "Deforrestation",
-                        "Clear the way for development with ruthless deforestation. Exploit natural resources and expand civilization, but at the cost of biodiversity loss, habitat destruction, and escalating carbon emissions.",
+                        ChemicalPlant(),
+                        game.getSpriteFromSheet("chemical_plant.png"),
                         false,
                         NonGreenMenu.id)
                   ]),
@@ -81,18 +77,14 @@ class NonGreenMenu extends StatelessWidget {
                         game,
                         Vector2(game.size.x * 0.40, game.size.y * 0.40),
                         PlasticPlants(),
-                        game.getSpriteFromSheet("plastic.png"),
-                        "Plastic Manufacturing",
-                        "Dive into the world of plastic production to meet consumer demand. Fuel economic growth with mass-produced plastics, but grapple with the environmental fallout of pollution, marine debris, and ecosystem degradation.",
+                        game.getSpriteFromSheet("plastic_plant.png"),
                         false,
                         NonGreenMenu.id),
                     ItemCard(
                         game,
                         Vector2(game.size.x * 0.40, game.size.y * 0.40),
                         WasteIncineration(),
-                        game.getSpriteFromSheet("waste.png"),
-                        "Waste Incineration",
-                        "Dispose of waste quickly and efficiently with incineration technology. Tackle the mounting waste crisis, but contend with the environmental repercussions of air pollution, toxic emissions, and the depletion of natural resources.",
+                        game.getSpriteFromSheet("waste_incineration.png"),
                         false,
                         NonGreenMenu.id)
                   ])

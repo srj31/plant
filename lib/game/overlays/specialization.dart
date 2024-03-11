@@ -399,7 +399,7 @@ class ElevatedCard extends StatelessWidget {
                                 child: Container(
                                   alignment: Alignment.topCenter,
                                   decoration: BoxDecoration(
-                                    color: Colors.black12,
+                                    color: Colors.yellow.withOpacity(0.2),
                                     borderRadius: BorderRadius.circular(10.0),
                                   ),
                                   child: Padding(
@@ -412,7 +412,6 @@ class ElevatedCard extends StatelessWidget {
                                         style: TextStyle(
                                           fontSize: 12,
                                           color: Colors.black,
-                                          fontWeight: FontWeight.w600,
                                           fontFamily:
                                               GoogleFonts.play().fontFamily,
                                         )),

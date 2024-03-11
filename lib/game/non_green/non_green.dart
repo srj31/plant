@@ -18,7 +18,9 @@ class NonGreenStructure extends Structure {
     required super.deltaHealth,
     required super.deltaMorale,
     required super.timeToBuild,
-    required super.fullName,
+    required super.displayName,
+    required super.description,
+    required super.id,
   });
 
   @override

@@ -20,14 +20,15 @@ class PlasticPlants extends NonGreenStructure {
           deltaHealth: -0.1,
           deltaMorale: 0.1,
           timeToBuild: 2,
-          fullName: "Plastic Plant",
+          displayName: "Plastic Plant",
+          description:
+              "Dive into the world of plastic production to meet consumer demand. Fuel economic growth with mass-produced plastics, but grapple with the environmental fallout of pollution, marine debris, and ecosystem degradation.",
+          id: 'plastic_plant',
         );
-
-  static const name = 'plastic_plants';
 
   @override
   Future<void> onLoad() async {
-    displaySprite = game.getSpriteFromSheet("plastic.png");
+    displaySprite = game.getSpriteFromSheet("plastic_plant.png");
     animations = {
       BuildingState.start: game.underConstruction,
       BuildingState.done: game.plastic,

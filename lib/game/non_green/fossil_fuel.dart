@@ -1,5 +1,4 @@
 import 'package:flame/components.dart';
-import 'package:game_name/game/misc/bubble_popup.dart';
 import 'package:game_name/game/misc/text_popup.dart';
 import 'package:game_name/game/non_green/non_green.dart';
 import 'package:game_name/game/structures/structures.dart';
@@ -23,14 +22,15 @@ class FossilFuel extends NonGreenStructure {
           deltaHealth: -0.05,
           deltaMorale: 0.05,
           timeToBuild: 2,
-          fullName: "Fossil Fuel",
+          displayName: "Fossil Fuel",
+          description:
+              "Embrace the allure of fossil fuels to rapidly boost energy production. Harness the power of traditional energy sources, but beware of the environmental consequences as carbon emissions soar and air quality declines.",
+          id: "fossil_fuel",
         );
-
-  static const name = 'fossil_fuel';
 
   @override
   Future<void> onLoad() async {
-    displaySprite = game.getSpriteFromSheet("fossil.png");
+    displaySprite = game.getSpriteFromSheet("fossil_fuel.png");
     animations = {
       BuildingState.start: game.underConstruction,
       BuildingState.done: game.fossilFuel,
@@ -55,6 +55,7 @@ class FossilFuel extends NonGreenStructure {
     await super.onLoad();
   }
 
+  @override
   void displayTextPopup() {
     popup = TextPopup(
         "Fossil fuel combustion is the largest contributor to CO2 emissions, a major driver of climate change.",

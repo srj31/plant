@@ -8,15 +8,13 @@ import 'package:game_name/util/text_style.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class ItemCard<Item extends Structure> extends StatelessWidget {
-  const ItemCard(this.game, this.size, this.structure, this.spriteImage,
-      this.heading, this.description, this.isGreen, this.overlayId,
+  const ItemCard(this.game, this.size, this.structure, this.sprite,
+      this.isGreen, this.overlayId,
       {super.key});
   final OurGame game;
-  final String heading;
-  final String description;
 
+  final Sprite sprite;
   final Vector2 size;
-  final Sprite spriteImage;
   final Item structure;
 
   final bool isGreen;
@@ -86,7 +84,7 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                     ),
                                   ),
                                   child: RawImage(
-                                    image: spriteImage.toImageSync(),
+                                    image: sprite.toImageSync(),
                                   ),
                                 ),
                                 Positioned(
@@ -287,7 +285,7 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                               child: Center(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text(heading,
+                                  child: Text(structure.displayName,
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontSize: 15,
@@ -301,14 +299,14 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                               child: Container(
                                 height: size.y * 0.525,
                                 alignment: Alignment.topCenter,
-                                decoration: const BoxDecoration(
-                                    color: Colors.black12,
-                                    borderRadius: BorderRadius.only(
+                                decoration: BoxDecoration(
+                                    color: Colors.yellow.withOpacity(0.2),
+                                    borderRadius: const BorderRadius.only(
                                         bottomLeft: Radius.circular(10.0),
                                         bottomRight: Radius.circular(10.0))),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text(description,
+                                  child: Text(structure.description,
                                       style: TextStyle(
                                           fontSize: 9,
                                           color: Colors.black,

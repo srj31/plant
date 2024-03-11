@@ -25,8 +25,8 @@ class MapGenerator {
   static const _max = 1; // maximum noise value
   static const _min = -_max; // minimum noise value
 
-  static const _maxTree = 0.1; // maximum noise value
-  static const _minTree = -_maxTree; // minimum noise value
+  static const _maxStructure = 0.1; // maximum noise value
+  static const _minStructure = -_maxStructure; // minimum noise value
 
   List<List<Gid>> generateMapWithGid() {
     final mapData = generateMap();
@@ -51,7 +51,8 @@ class MapGenerator {
       for (var j = 0; j < width; j++) {
         if (grid[i][j].tile == TileType.grassLand.id) {
           var noise = _noiseSimplex.getNoise2(i.toDouble(), j.toDouble());
-          var percentage = (noise - _minTree) / (_maxTree - _minTree);
+          var percentage =
+              (noise - _minStructure) / (_maxStructure - _minStructure);
           if (percentage < treeDensity && count > 0) {
             count--;
             treeLocations.add(Vector2(i.toDouble(), j.toDouble()));

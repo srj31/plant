@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:flame/game.dart';
 import 'package:flutter/services.dart';
+import 'package:game_name/game/main_menu.dart';
 import 'package:game_name/game/overlays/build.dart';
 import 'package:game_name/game/overlays/event.dart';
 import 'package:game_name/game/overlays/game_over.dart';
+import 'package:game_name/game/overlays/good_event.dart';
 import 'package:game_name/game/overlays/next_level.dart';
 import 'package:game_name/game/overlays/non_green.dart';
 import 'package:game_name/game/overlays/policies.dart';
@@ -12,8 +14,6 @@ import 'package:game_name/game/overlays/research.dart';
 import 'package:game_name/game/overlays/specialization.dart';
 import 'package:game_name/game/overlays/stats.dart';
 import 'package:game_name/game/overlays/tutorial.dart';
-import 'package:game_name/game/specializations/specialization.dart';
-import 'package:game_name/game/splash_screen.dart';
 import 'package:game_name/game/structures/structures.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -44,7 +44,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         title: 'Our Game',
         theme: _buildTheme(Brightness.dark),
-        home: const SplashScreenGame());
+        home: const MainMenu());
   }
 }
 
@@ -70,6 +70,7 @@ class OtherScreen extends StatelessWidget {
           StatsMenu.id: (context, game) => StatsMenu(game: game),
           Tutorial.id: (context, game) => const Tutorial(),
           GameOverMenu.id: (context, game) => GameOverMenu(game: game),
+          GoodEventMenu.id: (context, game) => GoodEventMenu(game: game),
         },
         initialActiveOverlays: const [SpecializationMenu.id],
       ),

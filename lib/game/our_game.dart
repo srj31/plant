@@ -11,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flame/events.dart';
 import 'package:flame/game.dart';
 import 'package:game_name/game/audio_manager.dart';
+import 'package:game_name/game/green_structure_manager.dart';
 import 'package:game_name/game/map_generation/map_generation.dart';
 import 'package:game_name/game/misc/background.dart';
 import 'package:game_name/game/misc_structures/tree.dart';
@@ -18,6 +19,7 @@ import 'package:game_name/game/overlays/banner.dart';
 import 'package:game_name/game/overlays/build.dart';
 import 'package:game_name/game/overlays/event.dart';
 import 'package:game_name/game/overlays/game_over.dart';
+import 'package:game_name/game/overlays/good_event.dart';
 import 'package:game_name/game/overlays/next_level.dart';
 import 'package:game_name/game/overlays/no_power.dart';
 import 'package:game_name/game/overlays/non_green.dart';
@@ -91,6 +93,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   late Structure selectedStructure;
 
   late List<List<Gid>> cachedTiledData;
+
+  List<(Structure, String)> greenStructures = [];
 
   int elapsedSecs = 0;
   AbstractState state = DefaultState();
@@ -285,6 +289,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   Future<void> initializeGame() async {
     _initializeMap();
 
+    greenStructures = GreenStructureManager.getInitializedStructures();
+
     final tiledData =
         mapComponent.tileMap.getLayer<TileLayer>("Map")!.tileData!;
 
@@ -356,9 +362,9 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
         // chances of riot
       }
 
-      if (elapsedSecs % 15 == 0) {
+      if (elapsedSecs % 2 == 0) {
         if (math.Random().nextDouble() < 0.7) {
-          overlays.add(EventMenu.id);
+          overlays.add(GoodEventMenu.id);
           hasTimerStarted = false;
         }
       }
@@ -542,7 +548,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       await populateTrees(
           tree: TreeStructure(
               position: Vector2(location.x, location.y),
-              priority: treeLocationsinOffset[i].x.toInt(),
+              priority: treeLocationsinOffset[i].x.toInt() + xOffset,
               anchor: Anchor.center)
             ..current = BuildingState.done
             ..timeLeft = 0,
@@ -565,7 +571,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       final structure = Structure.factory(buildingName, location);
       addBuiltItem(
           item: structure
-            ..priority = buildingLocationsinOffset[i].x.toInt()
+            ..priority = buildingLocationsinOffset[i].x.toInt() + xOffset
             ..current = BuildingState.done
             ..timeLeft = 0,
           isPreBuilt: true);
@@ -593,7 +599,6 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   @override
   void onScaleEnd(ScaleEndInfo info) {
     _checkScaleBorders();
-    _checkDragBorders();
   }
 
   @override
@@ -702,16 +707,17 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     biodegradable = getObjectSprite(601, 100, 56, 62);
     nanoTechnology = getObjectSprite(712, 433, 50, 50);
 
-    fossilFuel = await getSpriteAnimation("fossil.png", 4, 0.15, tileSize);
-    deforestation = await getSpriteAnimation("chemical.png", 4, 0.15, tileSize);
-    plastic = await getSpriteAnimation("plastic.png", 4, 0.15, tileSize);
+    fossilFuel = await getSpriteAnimation("fossil_fuel.png", 4, 0.15, tileSize);
+    deforestation =
+        await getSpriteAnimation("chemical_plant.png", 4, 0.15, tileSize);
+    plastic = await getSpriteAnimation("plastic_plant.png", 4, 0.15, tileSize);
     wasteIncineration =
         await getSpriteAnimation("waste.png", 4, 0.15, tileSize);
 
     tree = await getSpriteAnimation("tree_animation.png", 4, 0.15, tileSize);
     house = await getSpriteAnimation("house.png", 4, 0.15, tileSize);
     underConstruction =
-        await getSpriteAnimation("underconstruction.png", 1, 0.15, tileSize);
+        await getSpriteAnimation("underconstruction.png", 4, 0.15, tileSize);
 
     earthquake = Sprite(await Flame.images.load("earthquake.png"));
     forrestFire = Sprite(await Flame.images.load("forrest_fire.png"));
@@ -749,11 +755,25 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     final zoomDragFactor = 1.0 /
         _startZoom; // To synchronize a drag distance with current zoom value
     final currentPosition = camera.viewfinder.position;
+    final worldRect = camera.visibleWorldRect;
 
-    camera.viewfinder.position = currentPosition.translated(
-      -delta.x * zoomDragFactor,
-      -delta.y * zoomDragFactor,
-    );
+    var deltaX = -delta.x * zoomDragFactor;
+    var deltaY = -delta.y * zoomDragFactor;
+    if (worldRect.topLeft.dx - delta.x * zoomDragFactor < 0.0) {
+      deltaX -= worldRect.topLeft.dx;
+    } else if (worldRect.bottomRight.dx - delta.x * zoomDragFactor >
+        mapComponent.width) {
+      deltaX -= worldRect.bottomRight.dx - mapComponent.width;
+    }
+
+    if (worldRect.topLeft.dy - delta.y * zoomDragFactor < 0.0) {
+      deltaY -= worldRect.topLeft.dy;
+    } else if (worldRect.bottomRight.dy - delta.y * zoomDragFactor >
+        mapComponent.height) {
+      deltaY -= worldRect.bottomRight.dy - mapComponent.height;
+    }
+
+    camera.viewfinder.position = currentPosition.translated(deltaX, deltaY);
   }
 
   void _processScale(ScaleUpdateInfo info, Vector2 currentScale) {
@@ -763,32 +783,6 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
   void _checkScaleBorders() {
     camera.viewfinder.zoom = camera.viewfinder.zoom.clamp(_minZoom, _maxZoom);
-  }
-
-  void _checkDragBorders() {
-    final worldRect = camera.visibleWorldRect;
-
-    final currentPosition = camera.viewfinder.position;
-
-    final mapSize = Offset(mapComponent.width, mapComponent.height);
-
-    var xTranslate = 0.0;
-    var yTranslate = 0.0;
-
-    if (worldRect.topLeft.dx < 0.0) {
-      xTranslate = -worldRect.topLeft.dx;
-    } else if (worldRect.bottomRight.dx > mapSize.dx) {
-      xTranslate = mapSize.dx - worldRect.bottomRight.dx;
-    }
-
-    if (worldRect.topLeft.dy < 0.0) {
-      yTranslate = -worldRect.topLeft.dy;
-    } else if (worldRect.bottomRight.dy > mapSize.dy) {
-      yTranslate = mapSize.dy - worldRect.bottomRight.dy;
-    }
-
-    camera.viewfinder.position =
-        currentPosition.translated(xTranslate, yTranslate);
   }
 
   TileInfo getTappedCell(TapDownEvent event) {

@@ -45,11 +45,12 @@ class Structure extends SpriteAnimationGroupComponent<BuildingState>
     required this.deltaHealth,
     required this.deltaMorale,
     required this.timeToBuild,
-    required this.fullName,
+    required this.displayName,
+    required this.description,
+    required this.id,
   }) {
     timeLeft = timeToBuild;
   }
-
   TextPopup? popup;
   BubblePopup? bubble;
 
@@ -63,7 +64,9 @@ class Structure extends SpriteAnimationGroupComponent<BuildingState>
   final double deltaHealth;
   final double deltaMorale;
   final double timeToBuild;
-  final String fullName;
+  final String displayName;
+  final String description;
+  final String id;
 
   late Sprite displaySprite;
   bool isDone = false;
@@ -87,12 +90,17 @@ class Structure extends SpriteAnimationGroupComponent<BuildingState>
     opacityFrom: 1.0,
   );
 
-  @override
-  void onLongTapDown(TapDownEvent event) {
-    game.selectedStructure = this;
-    game.overlays.add(StructureInfo.id);
-    super.onLongTapDown(event);
-  }
+/*
+ * Enable upgrading the structures for future iteration
+ *
+ */
+
+  // @override
+  // void onLongTapDown(TapDownEvent event) {
+  //   game.selectedStructure = this;
+  //   game.overlays.add(StructureInfo.id);
+  //   super.onLongTapDown(event);
+  // }
 
   void displayBubble() {}
 
@@ -211,7 +219,7 @@ class StructureInfo extends StatelessWidget {
                       structure,
                       Vector2(game.size.x * 0.70, game.size.y * 0.80),
                       structure.displaySprite,
-                      structure.fullName,
+                      structure.displayName,
                       "Details about upgrading the structure",
                       true),
                 ]))));

@@ -6,10 +6,6 @@ import 'package:flame/events.dart';
 import 'package:game_name/game/audio_manager.dart';
 import 'package:game_name/game/misc/item_card.dart';
 import 'package:game_name/game/our_game.dart';
-import 'package:game_name/game/structures/ev_factory.dart';
-import 'package:game_name/game/structures/green_hydrogen.dart';
-import 'package:game_name/game/structures/recycling_factory.dart';
-import 'package:game_name/game/structures/windmill.dart';
 
 class BuildComponent extends SpriteComponent
     with TapCallbacks, HasGameReference<OurGame> {
@@ -59,19 +55,15 @@ class BuildMenu extends StatelessWidget {
                   ItemCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                      EvFactory(),
-                      game.getSpriteFromSheet("ev_factory.png"),
-                      "EV Factory",
-                      "Establish your Electric Vehicle (EV) factory, produce eco-friendly cars, and ride the wave of sustainability.",
+                      game.greenStructures[0].$1,
+                      game.getSpriteFromSheet(game.greenStructures[0].$2),
                       true,
                       BuildMenu.id),
                   ItemCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                      WindMill(),
-                      game.getSpriteFromSheet("windmill.png"),
-                      "Wind Energy",
-                      "Capitalize on the wind's force to boost your Energy production, reduce Carbon Emission, and strengthen Earth's health",
+                      game.greenStructures[1].$1,
+                      game.getSpriteFromSheet(game.greenStructures[1].$2),
                       true,
                       BuildMenu.id),
                 ]),
@@ -79,19 +71,15 @@ class BuildMenu extends StatelessWidget {
                   ItemCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                      GreenHydrogen(),
-                      game.getSpriteFromSheet("green_hydrogen.png"),
-                      "Green Hydrogen",
-                      "A strategic, long-term investment for players aiming for advanced and low-carbon energy solutions",
+                      game.greenStructures[2].$1,
+                      game.getSpriteFromSheet(game.greenStructures[2].$2),
                       true,
                       BuildMenu.id),
                   ItemCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                      RecyclingFactory(),
-                      game.getSpriteFromSheet("recycling_factory.png"),
-                      "Recycling Factory",
-                      "Process and recycle waste materials, reducing overall pollution and promoting a circular economy",
+                      game.greenStructures[3].$1,
+                      game.getSpriteFromSheet(game.greenStructures[3].$2),
                       true,
                       BuildMenu.id),
                 ])

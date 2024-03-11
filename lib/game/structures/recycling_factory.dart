@@ -19,7 +19,10 @@ class RecyclingFactory extends Structure {
           deltaHealth: 0.1,
           deltaMorale: 0.1,
           timeToBuild: 3,
-          fullName: "Recycling Factory",
+          displayName: "Recycling Factory",
+          description:
+              "Process and recycle waste materials, reducing overall pollution and promoting a circular economy",
+          id: "recycling_factory",
         );
 
   final name = 'recycling_factory';

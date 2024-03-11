@@ -1,8 +1,8 @@
 import 'package:game_name/game/structures/structures.dart';
 import 'package:game_name/game/structures/upgrade/upgrade.dart';
 
-class Deforrestation extends Structure {
-  Deforrestation(
+class ChemicalPlant extends Structure {
+  ChemicalPlant(
       {super.position,
       super.size,
       super.scale,
@@ -19,14 +19,15 @@ class Deforrestation extends Structure {
           deltaHealth: -0.1,
           deltaMorale: 0.1,
           timeToBuild: 1,
-          fullName: "Deforrestation",
+          displayName: "Chemical Plant",
+          description:
+              "Establish a chemical plant to produce a variety of industrial chemicals and materials. It poses environmental risks such as air and water pollution",
+          id: "chemical_plant",
         );
-
-  static const name = 'deforrestation';
 
   @override
   Future<void> onLoad() async {
-    displaySprite = game.getSpriteFromSheet("resources.png");
+    displaySprite = game.getSpriteFromSheet("chemical_plant.png");
     animations = {
       BuildingState.start: game.underConstruction,
       BuildingState.done: game.deforestation,

@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 
 class TextPopup extends TextBoxComponent {
   late Paint paint;
-  late Rect bgRect;
+  late RRect bgRect;
 
   TextPopup(
     String text,
@@ -31,9 +31,10 @@ class TextPopup extends TextBoxComponent {
   @override
   Future<void> onLoad() {
     paint = Paint();
-    bgRect = Rect.fromLTWH(0, 0, width, height);
+    bgRect = RRect.fromRectAndRadius(
+        Rect.fromLTWH(0, 0, width, height), const Radius.circular(15.0));
 
-    paint.color = Colors.black54;
+    paint.color = Colors.black.withAlpha(150);
     return super.onLoad();
   }
 
@@ -45,7 +46,7 @@ class TextPopup extends TextBoxComponent {
 
   @override
   void render(Canvas canvas) {
-    canvas.drawRect(bgRect, paint);
+    canvas.drawRRect(bgRect, paint);
     super.render(canvas);
   }
 }

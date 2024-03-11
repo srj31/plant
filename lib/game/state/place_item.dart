@@ -7,19 +7,19 @@ import 'package:game_name/game/state/default.dart';
 
 class PlaceItemState extends AbstractState {
   void displayGrids(OurGame game) {
-    const groundTileId = 22;
+    const groundTileId = [2, 6];
     final data =
         game.mapComponent.tileMap.getLayer<TileLayer>("Map")!.tileData!;
     final nonEmptyTiles = game.getNonEmptyTiles();
     for (var i = 0; i < data.length; i++) {
       for (var j = 0; j < data[0].length; j++) {
-        if (data[i][j].tile == groundTileId) {
+        if (groundTileId.contains(data[i][j].tile)) {
           if (nonEmptyTiles[i][j] == false) {
             game.mapComponent.tileMap
-                .setTileData(layerId: 0, x: j, y: i, gid: Gid.fromInt(108));
+                .setTileData(layerId: 0, x: j, y: i, gid: Gid.fromInt(4));
           } else {
             game.mapComponent.tileMap
-                .setTileData(layerId: 0, x: j, y: i, gid: Gid.fromInt(92));
+                .setTileData(layerId: 0, x: j, y: i, gid: Gid.fromInt(8));
           }
         }
       }
@@ -29,12 +29,12 @@ class PlaceItemState extends AbstractState {
   @override
   void handleTap(OurGame game, TapDownEvent info) {
     final tappedCel = game.getTappedCell(info);
-    const changeTiles = [108, 92];
+    const changeTiles = [4, 8];
     final data =
         game.mapComponent.tileMap.getLayer<TileLayer>("Map")!.tileData!;
     if (tappedCel.row < 0 ||
         tappedCel.col < 0 ||
-        data[tappedCel.row][tappedCel.col].tile == 0) {
+        data[tappedCel.row][tappedCel.col].tile == 3) {
       return;
     }
     for (var i = 0; i < data.length; i++) {

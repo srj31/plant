@@ -122,7 +122,7 @@ class ElevatedCard extends StatelessWidget {
                                         ),
                                         boxShadow: const [
                                           BoxShadow(
-                                            color: Colors.green,
+                                            color: Colors.red,
                                           )
                                         ]),
                                     child: Padding(
@@ -192,7 +192,6 @@ class ElevatedCard extends StatelessWidget {
                                       description,
                                       style: TextStyle(
                                           color: Colors.black,
-                                          fontWeight: FontWeight.bold,
                                           fontFamily:
                                               GoogleFonts.play().fontFamily,
                                           fontSize: 12),

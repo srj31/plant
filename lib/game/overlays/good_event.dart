@@ -1,9 +1,11 @@
 import 'package:flame/components.dart';
 import 'package:flutter/material.dart';
-import 'package:game_name/game/event/earthquake.dart';
-import 'package:game_name/game/event/event.dart';
-import 'package:game_name/game/event/forrest_fire.dart';
+import 'package:game_name/game/misc_structures/house.dart';
+import 'package:game_name/game/misc_structures/tree.dart';
 import 'package:game_name/game/our_game.dart';
+import 'package:game_name/game/state/place_item.dart';
+import 'package:game_name/game/structures/structures.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class GoodEventMenu extends StatelessWidget {
   static const id = 'GoodEventMenu';
@@ -25,18 +27,14 @@ class GoodEventMenu extends StatelessWidget {
                     ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.30, game.size.y * 0.80),
-                      Earthquake(game: game),
-                      game.earthquake,
-                      "Earthquake",
-                      "Witness the devastating aftermath of prolonged strain on Earth's health as structures crumble under seismic activity. Highlighting the urgent need for sustainable practices, this event emphasizes the critical importance of safeguarding against environmental degradation to mitigate natural disasters",
+                      HouseStructure(),
+                      game.getSpriteFromSheet("house.png"),
                     ),
                     ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.30, game.size.y * 0.80),
-                      ForrestFire(game: game),
-                      game.forrestFire,
-                      "Forrest Fire",
-                      "Experience the ferocity of wildfires fueled by escalating global temperatures. Witness the destruction of precious ecosystems and habitats as forests blaze under the intensified heat of climate change. This event underscores the urgent need for environmental action to combat the escalating threats posed by rising temperatures and their devastating consequences.",
+                      TreeStructure(),
+                      game.getSpriteFromSheet("tree_animation.png"),
                     ),
                   ]),
                 ]))));
@@ -44,26 +42,21 @@ class GoodEventMenu extends StatelessWidget {
 }
 
 class ElevatedCard extends StatelessWidget {
-  const ElevatedCard(this.game, this.size, this.gameEvent, this.spriteImage,
-      this.heading, this.description,
+  const ElevatedCard(this.game, this.size, this.structure, this.sprite,
       {super.key});
   final OurGame game;
-  final String heading;
-  final GameEvent gameEvent;
-  final String description;
+  final Structure structure;
+
+  final Sprite sprite;
 
   final Vector2 size;
-  final Sprite spriteImage;
+  final double borderWidth = 5;
 
   @override
   Widget build(BuildContext context) {
     return Center(
         child: GestureDetector(
-            onTap: () {
-              game.hasTimerStarted = true;
-              gameEvent.handleEvent();
-              game.overlays.remove(GoodEventMenu.id);
-            },
+            onTap: () {},
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Stack(clipBehavior: Clip.none, children: [
@@ -73,13 +66,23 @@ class ElevatedCard extends StatelessWidget {
                   color: Colors.green,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(15.0),
-                    side:
-                        const BorderSide(color: Colors.orangeAccent, width: 5),
+                    side: BorderSide(
+                        color: Colors.orangeAccent, width: borderWidth),
                   ),
                   elevation: 10,
-                  child: SizedBox(
-                    width: size.x,
-                    height: size.y,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(15.0),
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [Colors.green.shade700, Colors.lightGreen],
+                      ),
+                    ),
+                    child: SizedBox(
+                      width: size.x,
+                      height: size.y,
+                    ),
                   ),
                 )),
                 Positioned(
@@ -102,6 +105,14 @@ class ElevatedCard extends StatelessWidget {
                                         borderRadius:
                                             BorderRadius.circular(10.0),
                                         color: Colors.lightGreen,
+                                        gradient: RadialGradient(
+                                          center: Alignment.center,
+                                          radius: 1,
+                                          colors: [
+                                            Colors.lightGreen,
+                                            Colors.green.shade900
+                                          ],
+                                        ),
                                         boxShadow: const [
                                           BoxShadow(
                                             color: Colors.green,
@@ -110,29 +121,111 @@ class ElevatedCard extends StatelessWidget {
                                     child: Padding(
                                       padding: const EdgeInsets.all(10.0),
                                       child: RawImage(
-                                        image: spriteImage.toImageSync(),
+                                        image: sprite.toImageSync(),
                                         fit: BoxFit.contain,
                                       ),
                                     )),
                               ])
                             ]))),
                 Positioned(
-                    top: size.y * 0.5,
-                    left: size.x * 0.1,
+                  top: size.y * 0.375,
+                  left: size.x * 0.1 + borderWidth,
+                  child: Center(
+                      child: Container(
+                    alignment: Alignment.center,
                     width: size.x * 0.8,
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            heading,
-                            style: const TextStyle(
-                                fontSize: 15, fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            description,
-                            style: const TextStyle(fontSize: 12),
-                          )
-                        ]))
+                    decoration: BoxDecoration(
+                      boxShadow: const [
+                        BoxShadow(
+                          color: Colors.black12,
+                          spreadRadius: 1,
+                          blurRadius: 1,
+                          offset: Offset(0, 3),
+                        )
+                      ],
+                      gradient: LinearGradient(
+                        begin: Alignment.topLeft,
+                        end: Alignment.bottomRight,
+                        colors: [
+                          Colors.amber.shade800,
+                          Colors.amber,
+                          Colors.amber.shade600
+                        ],
+                      ),
+                    ),
+                    child: Text(structure.displayName,
+                        style: const TextStyle(
+                            fontSize: 15,
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold)),
+                  )),
+                ),
+                Positioned(
+                    top: size.y * 0.5,
+                    left: 2 * borderWidth,
+                    width: size.x * 0.95,
+                    height: size.y * 0.9,
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            SizedBox(
+                              width: size.x,
+                              height: size.y * 0.45,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  color: Colors.yellow.withOpacity(0.2),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Text(
+                                    structure.description,
+                                    style: TextStyle(
+                                        color: Colors.black,
+                                        fontFamily:
+                                            GoogleFonts.play().fontFamily,
+                                        fontSize: 12),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                                alignment: Alignment.center,
+                                child: SizedBox(
+                                    width: size.x,
+                                    height: size.y * 0.1,
+                                    child: ElevatedButton(
+                                        onPressed: () {
+                                          final newState = PlaceItemState();
+                                          newState.displayGrids(game);
+                                          game.state = newState;
+                                          game.toAdd = structure;
+                                          game.hasTimerStarted = true;
+                                          game.overlays
+                                              .remove(GoodEventMenu.id);
+                                        },
+                                        style: ButtonStyle(
+                                          shadowColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.yellow),
+                                          foregroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.black),
+                                          backgroundColor:
+                                              MaterialStateProperty.all(
+                                                  Colors.amber),
+                                        ),
+                                        child: Text("CHOOSE",
+                                            style: TextStyle(
+                                                fontSize: 20,
+                                                fontFamily: GoogleFonts.play()
+                                                    .fontFamily,
+                                                fontWeight:
+                                                    FontWeight.bold))))),
+                          ]),
+                    ))
               ]),
             )));
   }
