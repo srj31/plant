@@ -129,11 +129,11 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       MapGenerator(width: 10, height: 5, density: 0.62, treeDensity: 0.5);
   double _startZoom = _minZoom;
   double health = 40;
-  double morale = 0;
+  double morale = 10;
   double carbonEmission = 20;
   double resources = 100;
-  double energy = 0;
-  double capital = 9000;
+  double energy = 2;
+  double capital = 2000;
 
   List<Structure> builtItems = [];
   List<TreeStructure> trees = [];
@@ -353,7 +353,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       if (morale < 5) {
         // chances of riot
       }
-      if (elapsedSecs % 11 == 0) {
+      if (elapsedSecs % 20 == 0) {
         if (math.Random().nextDouble() < 0.5) {
           overlays.add(EventMenu.id);
           hasTimerStarted = false;
