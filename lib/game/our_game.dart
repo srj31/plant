@@ -353,7 +353,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       if (morale < 5) {
         // chances of riot
       }
-      if (elapsedSecs % 20 == 0) {
+      if (elapsedSecs % 11 == 0) {
         if (math.Random().nextDouble() < 0.5) {
           overlays.add(EventMenu.id);
           hasTimerStarted = false;
