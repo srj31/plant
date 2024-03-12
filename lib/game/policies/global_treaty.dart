@@ -18,7 +18,10 @@ class GlobalTreaty extends Policy {
             deltaHealth: 0.05,
             deltaMorale: 0.2,
             timeToPass: 2,
-            id: 'global_treaty');
+            displayName: "Global Collaboration",
+            description:
+                "Forge international agreements to coordinate efforts in combating climate change and environmental degradation.",
+            id: 'global_collaboration');
 
   @override
   Future<void> onLoad() async {

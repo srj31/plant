@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flame/components.dart';
 import 'package:flame/effects.dart';
 import 'package:flame/events.dart';
@@ -101,7 +99,6 @@ class Structure extends SpriteAnimationGroupComponent<BuildingState>
   //   game.overlays.add(StructureInfo.id);
   //   super.onLongTapDown(event);
   // }
-
   void displayBubble() {}
 
   void displayTextPopup() {}

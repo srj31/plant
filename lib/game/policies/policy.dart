@@ -19,6 +19,8 @@ class Policy extends SpriteComponent with HasGameReference<OurGame> {
     required this.deltaHealth,
     required this.deltaMorale,
     required this.timeToPass,
+    required this.displayName,
+    required this.description,
     required this.id,
   });
 
@@ -32,6 +34,9 @@ class Policy extends SpriteComponent with HasGameReference<OurGame> {
   final double deltaHealth;
   final double deltaMorale;
   final double timeToPass;
+
+  final String displayName;
+  final String description;
   final String id;
 
   ParamDelta get paramDelta => ParamDelta(

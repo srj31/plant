@@ -18,6 +18,9 @@ class CarbonTax extends Policy {
             deltaHealth: 0.1,
             deltaMorale: 0.1,
             timeToPass: 2,
+            displayName: "Carbon Tax",
+            description:
+                "Introduce a carbon pricing mechanism to incentivize cleaner energy production and reduce greenhouse gas emissions.",
             id: 'carbon_tax');
 
   @override

@@ -1,4 +1,5 @@
 import 'package:game_name/game/research/researh.dart';
+import 'package:game_name/util/delta.dart';
 
 class NanoTechnology extends Research {
   NanoTechnology(
@@ -18,6 +19,9 @@ class NanoTechnology extends Research {
             deltaHealth: 0.05,
             deltaMorale: 0.05,
             timeToImplement: 3,
+            displayName: "Nanotechnology for Air Filtration",
+            description:
+                "Unlocks the potential to develop nanotechnology-based solutions for environmental issues, such as air and water filtration, energy storage, and pollution.",
             id: 'nano_technology');
 
   static const name = 'nano_technology';
@@ -25,5 +29,18 @@ class NanoTechnology extends Research {
   Future<void> onLoad() async {
     sprite = game.nanoTechnology;
     await super.onLoad();
+  }
+
+  @override
+  ParamDelta getResearchBonus() {
+    return ParamDelta(
+          deltaCarbon: 0.1,
+          deltaResources: 0.1,
+          deltaCapital: 0.2,
+          deltaMorale: 0.1,
+          deltaEnergy: 0.1,
+          deltaHealth: 0.1,
+        ) *
+        game.builtItems.length.toDouble();
   }
 }

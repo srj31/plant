@@ -13,16 +13,16 @@ class WasteIncineration extends NonGreenStructure {
       : super(
           capital: 200,
           resources: 10,
-          deltaCapital: 2,
+          deltaCapital: 20,
           deltaResources: -0.1,
-          deltaCarbon: -0.2,
-          deltaEnergy: 0.0,
+          deltaCarbon: -0.3,
+          deltaEnergy: 0.2,
           deltaHealth: -0.1,
           deltaMorale: 0.05,
           timeToBuild: 2,
           displayName: "Waste Incineration",
           description:
-              "Dispose of waste quickly and efficiently with incineration technology. Tackle the mounting waste crisis, but contend with the environmental repercussions of air pollution, toxic emissions, and the depletion of natural resources.",
+              "Disposes of waste through burning, generating energy but emitting harmful pollutants.",
           id: "waste_incineration",
         );
 

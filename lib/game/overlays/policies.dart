@@ -58,19 +58,17 @@ class PoliciesMenu extends StatelessWidget {
                     children: [
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     ElevatedCard(
-                        game,
-                        Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                        PublicTransport(),
-                        game.publicTransport,
-                        "Public Transport Expansion",
-                        "Propel environmental progress by investing in robust public transit systems. Reduce traffic congestion, lower emissions, and improve urban air quality with expanded public transportation options, fostering sustainable mobility and vibrant communities"),
+                      game,
+                      Vector2(game.size.x * 0.40, game.size.y * 0.40),
+                      PublicTransport(),
+                      game.publicTransport,
+                    ),
                     ElevatedCard(
-                        game,
-                        Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                        CarbonTax(),
-                        game.carbonTax,
-                        "Carbon Tax",
-                        "Take decisive action against climate change with a carbon tax. Incentivize emissions reduction, spur innovation in clean energy, and generate revenue for environmental initiatives, paving the way for a greener and more prosperous future.")
+                      game,
+                      Vector2(game.size.x * 0.40, game.size.y * 0.40),
+                      CarbonTax(),
+                      game.carbonTax,
+                    ),
                   ]),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
                     ElevatedCard(
@@ -78,16 +76,12 @@ class PoliciesMenu extends StatelessWidget {
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
                       Afforestation(),
                       game.afforestation,
-                      "Afforestation Program",
-                      "Embrace nature's solution to climate change with a proactive afforestation initiative. Restore ecosystems, mitigate carbon emissions, and enhance biodiversity by planting trees, fostering green spaces, and safeguarding the planet for generations to come.",
                     ),
                     ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
                       GlobalTreaty(),
                       game.globalTreaty,
-                      "Global Collaboration",
-                      "Forge international unity in the fight against climate change with a comprehensive global treaty. Coordinate efforts, share resources, and amplify impact on a global scale, ushering in a new era of cooperation and collective responsibility for a sustainable future.",
                     )
                   ])
                 ]))));
@@ -96,12 +90,9 @@ class PoliciesMenu extends StatelessWidget {
 
 class ElevatedCard extends StatelessWidget {
   const ElevatedCard(this.game, this.size, this.policy, this.spriteImage,
-      this.heading, this.description,
       {super.key});
   final OurGame game;
-  final String heading;
   final Policy policy;
-  final String description;
 
   final Vector2 size;
   final Sprite spriteImage;
@@ -338,7 +329,7 @@ class ElevatedCard extends StatelessWidget {
                               child: Center(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text(heading,
+                                  child: Text(policy.displayName,
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontFamily:
@@ -351,15 +342,15 @@ class ElevatedCard extends StatelessWidget {
                             Container(
                               height: size.y * 0.525,
                               alignment: Alignment.topCenter,
-                              decoration: const BoxDecoration(
-                                  color: Colors.black12,
-                                  borderRadius: BorderRadius.only(
+                              decoration: BoxDecoration(
+                                  color: Colors.yellow.withOpacity(0.2),
+                                  borderRadius: const BorderRadius.only(
                                       bottomLeft: Radius.circular(10.0),
                                       bottomRight: Radius.circular(10.0))),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  description,
+                                  policy.description,
                                   style: TextStyle(
                                       fontSize: 9,
                                       color: Colors.black,

@@ -60,6 +60,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   late SpriteAnimation windmill;
   late SpriteAnimation recyclingFactory;
   late SpriteAnimation greenHydrogen;
+  late SpriteAnimation solarFarm;
   late Sprite publicTransport;
   late Sprite carbonTax;
   late Sprite afforestation;
@@ -94,7 +95,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
   late List<List<Gid>> cachedTiledData;
 
-  List<(Structure, String)> greenStructures = [];
+  List<(Structure Function(), String)> greenStructures = [];
 
   int elapsedSecs = 0;
   AbstractState state = DefaultState();
@@ -289,17 +290,6 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   Future<void> initializeGame() async {
     _initializeMap();
 
-    greenStructures = GreenStructureManager.getInitializedStructures();
-
-    final tiledData =
-        mapComponent.tileMap.getLayer<TileLayer>("Map")!.tileData!;
-
-    cachedTiledData = List.generate(tiledData.length, (_) => []);
-
-    for (var i = 0; i < tiledData.length; i++) {
-      cachedTiledData[i] = [...tiledData[i]];
-    }
-
     interval = Timer(2, onTick: () {
       PopupManager.showPopup(this);
       windSpeed = Random().nextDouble() * 5.0;
@@ -429,6 +419,13 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
     delta += _bonusCalculation();
 
+    delta += ParamDelta(
+        deltaHealth: 40.0,
+        deltaEnergy: 0.0,
+        deltaCarbon: 0.0,
+        deltaResources: 0.0,
+        deltaCapital: 0.0,
+        deltaMorale: 0.0);
     return delta;
   }
 
@@ -465,6 +462,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     ParamDelta bonus = ParamDelta.zero();
     bonus += _bonusWind();
     bonus += _bonusSolar();
+    bonus += _bonusResearch();
     return bonus;
   }
 
@@ -479,6 +477,15 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
 
   ParamDelta _bonusSolar() {
     return ParamDelta.zero();
+  }
+
+  ParamDelta _bonusResearch() {
+    var bonus = ParamDelta.zero();
+    for (final research in doneResearches) {
+      bonus += research.getResearchBonus();
+    }
+
+    return bonus;
   }
 
   void _updateDataPoints() {
@@ -520,6 +527,11 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   }
 
   Future<void> _initializeMap() async {
+    greenStructures = GreenStructureManager.getInitializedStructures();
+    final tiledData =
+        mapComponent.tileMap.getLayer<TileLayer>("Map")!.tileData!;
+
+    cachedTiledData = List.generate(tiledData.length, (_) => []);
     const xOffset = 1;
     const yOffset = 3;
     final tileSize = mapComponent.tileMap.destTileSize;
@@ -575,6 +587,10 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
             ..current = BuildingState.done
             ..timeLeft = 0,
           isPreBuilt: true);
+    }
+
+    for (var i = 0; i < tiledData.length; i++) {
+      cachedTiledData[i] = [...tiledData[i]];
     }
   }
 
@@ -658,7 +674,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     };
 
     isPurchased = <String, bool>{};
-    await initializeGame();
+    await _initializeMap();
   }
 
   void setSpecialization(Specialization specialization) {
@@ -696,6 +712,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
         await getSpriteAnimation("recycling_factory.png", 4, 0.15, tileSize);
     greenHydrogen =
         await getSpriteAnimation("green_hydrogen.png", 4, 0.15, tileSize);
+    solarFarm = await getSpriteAnimation("solar_farm.png", 4, 0.15, tileSize);
 
     publicTransport = Sprite(await Flame.images.load("public_transport.png"));
     carbonTax = Sprite(await Flame.images.load("carbon_tax.png"));

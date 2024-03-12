@@ -55,14 +55,14 @@ class BuildMenu extends StatelessWidget {
                   ItemCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                      game.greenStructures[0].$1,
+                      game.greenStructures[0].$1(),
                       game.getSpriteFromSheet(game.greenStructures[0].$2),
                       true,
                       BuildMenu.id),
                   ItemCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                      game.greenStructures[1].$1,
+                      game.greenStructures[1].$1(),
                       game.getSpriteFromSheet(game.greenStructures[1].$2),
                       true,
                       BuildMenu.id),
@@ -71,14 +71,14 @@ class BuildMenu extends StatelessWidget {
                   ItemCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                      game.greenStructures[2].$1,
+                      game.greenStructures[2].$1(),
                       game.getSpriteFromSheet(game.greenStructures[2].$2),
                       true,
                       BuildMenu.id),
                   ItemCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
-                      game.greenStructures[3].$1,
+                      game.greenStructures[3].$1(),
                       game.getSpriteFromSheet(game.greenStructures[3].$2),
                       true,
                       BuildMenu.id),

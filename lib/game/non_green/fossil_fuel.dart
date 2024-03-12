@@ -15,7 +15,7 @@ class FossilFuel extends NonGreenStructure {
       : super(
           capital: 50,
           resources: 10,
-          deltaCapital: 10,
+          deltaCapital: 100,
           deltaResources: -0.5,
           deltaCarbon: -0.5,
           deltaEnergy: 0.3,
@@ -24,7 +24,7 @@ class FossilFuel extends NonGreenStructure {
           timeToBuild: 2,
           displayName: "Fossil Fuel",
           description:
-              "Embrace the allure of fossil fuels to rapidly boost energy production. Harness the power of traditional energy sources, but beware of the environmental consequences as carbon emissions soar and air quality declines.",
+              "Relies on burning fossil fuels to generate energy, emitting greenhouse gases that contribute to climate change and air pollution",
           id: "fossil_fuel",
         );
 

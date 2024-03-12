@@ -62,16 +62,12 @@ class ResearchMenu extends StatelessWidget {
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
                       CarbonTechnology(),
                       game.carbonTechnology,
-                      "Advanced Carbon Capture ",
-                      "Pioneer innovative solutions to combat climate change with advanced carbon capture technology. Develop cutting-edge methods to capture and store carbon emissions, mitigating the environmental impact of industrial processes and fostering a cleaner, greener future.",
                     ),
                     ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
                       SmartGrid(),
                       game.smartGrid,
-                      "Smart Grid Implementation",
-                      "Revolutionize energy infrastructure with the implementation of a smart grid. Investigate intelligent systems and grid optimization techniques to enhance energy distribution efficiency, integrate renewable resources, and empower communities with sustainable energy solutions.",
                     ),
                   ]),
                   Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -80,16 +76,12 @@ class ResearchMenu extends StatelessWidget {
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
                       Biodegradable(),
                       game.biodegradable,
-                      "Biodegradable Materials",
-                      "Lead the way in sustainable materials innovation with research into biodegradable alternatives. Explore eco-friendly materials and manufacturing processes to reduce pollution, minimize waste, and promote the transition to a circular economy.",
                     ),
                     ElevatedCard(
                       game,
                       Vector2(game.size.x * 0.40, game.size.y * 0.40),
                       NanoTechnology(),
                       game.nanoTechnology,
-                      "Nanotechnology for Air Filtration",
-                      "Harness the power of nanotechnology to purify the air we breathe. Explore cutting-edge filtration techniques and nano-scale materials to combat air pollution, improve indoor air quality, and safeguard public health in an increasingly urbanized world.",
                     )
                   ])
                 ]))));
@@ -98,12 +90,9 @@ class ResearchMenu extends StatelessWidget {
 
 class ElevatedCard extends StatelessWidget {
   const ElevatedCard(this.game, this.size, this.research, this.spriteImage,
-      this.heading, this.description,
       {super.key});
   final OurGame game;
-  final String heading;
   final Research research;
-  final String description;
 
   final Vector2 size;
   final Sprite spriteImage;
@@ -362,7 +351,7 @@ class ElevatedCard extends StatelessWidget {
                               child: Center(
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
-                                  child: Text(heading,
+                                  child: Text(research.displayName,
                                       style: TextStyle(
                                           color: Colors.white,
                                           fontFamily:
@@ -375,15 +364,15 @@ class ElevatedCard extends StatelessWidget {
                             Container(
                               height: size.y * 0.525,
                               alignment: Alignment.topCenter,
-                              decoration: const BoxDecoration(
-                                  color: Colors.black12,
-                                  borderRadius: BorderRadius.only(
+                              decoration: BoxDecoration(
+                                  color: Colors.yellow.withOpacity(0.2),
+                                  borderRadius: const BorderRadius.only(
                                       bottomLeft: Radius.circular(10.0),
                                       bottomRight: Radius.circular(10.0))),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Text(
-                                  description,
+                                  research.description,
                                   style: TextStyle(
                                       fontSize: 9,
                                       color: Colors.black,

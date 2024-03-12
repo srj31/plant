@@ -1,3 +1,5 @@
+import 'package:flame/game.dart';
+import 'package:game_name/game/misc/bubble_popup.dart';
 import 'package:game_name/game/structures/structures.dart';
 import 'package:game_name/game/structures/upgrade/upgrade.dart';
 
@@ -26,6 +28,19 @@ class HouseStructure extends Structure {
         );
 
   var showBubble = true;
+
+  @override
+  void displayBubble() {
+    addBubblePop(BubblePopup(
+        priority: 100,
+        size: Vector2.all(75),
+        sprite: game.moraleSprite,
+        position: Vector2(size.x * 0.25, size.y * -0.25),
+        onTap: () {
+          hasPopup = false;
+          game.morale += 0.1;
+        }));
+  }
 
   @override
   Future<void> onLoad() async {

@@ -19,6 +19,8 @@ class Research extends SpriteComponent with HasGameReference<OurGame> {
     required this.deltaHealth,
     required this.deltaMorale,
     required this.timeToImplement,
+    required this.displayName,
+    required this.description,
     required this.id,
   });
 
@@ -33,6 +35,8 @@ class Research extends SpriteComponent with HasGameReference<OurGame> {
   final double deltaMorale;
   final double timeToImplement;
 
+  final String displayName;
+  final String description;
   final String id;
 
   bool isPurchased = false;
@@ -45,4 +49,8 @@ class Research extends SpriteComponent with HasGameReference<OurGame> {
         deltaEnergy: deltaEnergy,
         deltaCapital: deltaCapital,
       );
+
+  ParamDelta getResearchBonus() {
+    return ParamDelta.zero();
+  }
 }

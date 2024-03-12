@@ -1,4 +1,3 @@
-import 'package:flame/events.dart';
 import 'package:game_name/game/structures/structures.dart';
 
 class NonGreenStructure extends Structure {
@@ -22,10 +21,4 @@ class NonGreenStructure extends Structure {
     required super.description,
     required super.id,
   });
-
-  @override
-  void onTapUp(TapUpEvent event) {
-    game.selectedStructure = this;
-    game.overlays.add(StructureInfo.id);
-  }
 }

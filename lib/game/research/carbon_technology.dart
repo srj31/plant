@@ -1,4 +1,5 @@
 import 'package:game_name/game/research/researh.dart';
+import 'package:game_name/util/delta.dart';
 
 class CarbonTechnology extends Research {
   CarbonTechnology(
@@ -18,6 +19,9 @@ class CarbonTechnology extends Research {
             deltaHealth: 0.1,
             deltaMorale: 0.05,
             timeToImplement: 3,
+            displayName: "Advanced Carbon Technology",
+            description:
+                "Implement cutting-edge solutions to capture and store carbon emissions, combating climate change and promoting environmental sustainability.",
             id: 'carbon_technology');
 
   static const name = 'carbon_technology';
@@ -25,5 +29,18 @@ class CarbonTechnology extends Research {
   Future<void> onLoad() async {
     sprite = game.carbonTechnology;
     await super.onLoad();
+  }
+
+  @override
+  ParamDelta getResearchBonus() {
+    return ParamDelta(
+          deltaCarbon: 0.2,
+          deltaResources: 0.0,
+          deltaCapital: 0.2,
+          deltaMorale: 0.1,
+          deltaEnergy: 0.0,
+          deltaHealth: 0.1,
+        ) *
+        game.builtItems.length.toDouble();
   }
 }

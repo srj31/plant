@@ -19,18 +19,6 @@ class PopupManager {
       }
 
       if (math.Random().nextDouble() < 0.7) {
-        for (int i = 0; i < 2; i++) {
-          int len = game.trees.length;
-          if (len > 0) {
-            int index = math.Random().nextInt(len);
-            if (game.trees[index].hasPopup == false) {
-              Structure structure = game.trees[index];
-              structure.displayTextPopup();
-            }
-          }
-        }
-      }
-      if (math.Random().nextDouble() < 0.7) {
         for (int i = 0; i < 3; i++) {
           int len = game.builtItems.length;
           if (len > 0) {

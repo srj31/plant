@@ -1,5 +1,5 @@
 import 'dart:math';
-import 'package:fast_noise/fast_noise.dart' as noise;
+import 'package:fast_noise/fast_noise.dart';
 import 'package:flame/game.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:game_name/game/map_generation/tile_data.dart';
@@ -16,11 +16,6 @@ class MapGenerator {
   final int height;
   final double density;
   final double treeDensity;
-  final noise.PerlinNoise _noise =
-      noise.PerlinNoise(seed: Random().nextInt(1337), frequency: 0.2);
-
-  final noise.ValueFractalNoise _noiseSimplex = noise.ValueFractalNoise(
-      seed: Random().nextInt(1337), frequency: 0.2, octaves: 2, lacunarity: 2);
 
   static const _max = 1; // maximum noise value
   static const _min = -_max; // minimum noise value
@@ -50,6 +45,11 @@ class MapGenerator {
     for (var i = 0; i < height; i++) {
       for (var j = 0; j < width; j++) {
         if (grid[i][j].tile == TileType.grassLand.id) {
+          final _noiseSimplex = ValueFractalNoise(
+              seed: Random().nextInt(1337),
+              frequency: 0.2,
+              octaves: 2,
+              lacunarity: 2);
           var noise = _noiseSimplex.getNoise2(i.toDouble(), j.toDouble());
           var percentage =
               (noise - _minStructure) / (_maxStructure - _minStructure);
@@ -73,6 +73,11 @@ class MapGenerator {
         if ((grid[i][j].tile == TileType.grassLand.id ||
                 grid[i][j].tile == TileType.highLand.id) &&
             nonEmptyTiles[i + xOffset][j + yOffset] == false) {
+          final _noiseSimplex = ValueFractalNoise(
+              seed: Random().nextInt(1337),
+              frequency: 0.2,
+              octaves: 2,
+              lacunarity: 2);
           var noise = _noiseSimplex.getNoise2(i.toDouble(), j.toDouble());
           var percentage = (noise - _min) / (_max - _min);
           if (percentage < treeDensity && count > 0) {
@@ -92,6 +97,8 @@ class MapGenerator {
         (i) => List<TileData>.generate(
               width,
               (j) {
+                final _noise =
+                    PerlinNoise(seed: Random().nextInt(1337), frequency: 0.2);
                 var noise = _noise.getNoise2(i.toDouble(), j.toDouble());
                 var percentage = (noise - _min) / (_max - _min);
                 if (percentage < density) {

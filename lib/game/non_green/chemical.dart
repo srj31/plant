@@ -1,3 +1,5 @@
+import 'package:flame/components.dart';
+import 'package:game_name/game/misc/text_popup.dart';
 import 'package:game_name/game/structures/structures.dart';
 import 'package:game_name/game/structures/upgrade/upgrade.dart';
 
@@ -12,8 +14,8 @@ class ChemicalPlant extends Structure {
       : super(
           capital: 25,
           resources: 10,
-          deltaCapital: 2,
-          deltaResources: -0.1,
+          deltaCapital: 20,
+          deltaResources: 1,
           deltaCarbon: -0.05,
           deltaEnergy: -0.05,
           deltaHealth: -0.1,
@@ -24,6 +26,23 @@ class ChemicalPlant extends Structure {
               "Establish a chemical plant to produce a variety of industrial chemicals and materials. It poses environmental risks such as air and water pollution",
           id: "chemical_plant",
         );
+
+  @override
+  void displayTextPopup() {
+    popup = TextPopup(
+        "Chemical plants are significant contributors to air and water pollution, releasing hazardous substances",
+        true,
+        position: Vector2(size.x * 0.5, 0),
+        size: Vector2(300, 100),
+        anchor: Anchor.center);
+
+    addTextPopup(popup!);
+
+    Future.delayed(const Duration(seconds: 7), () {
+      hasPopup = false;
+      remove(popup!);
+    });
+  }
 
   @override
   Future<void> onLoad() async {

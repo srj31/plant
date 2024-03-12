@@ -1,4 +1,5 @@
 import 'package:game_name/game/research/researh.dart';
+import 'package:game_name/util/delta.dart';
 
 class SmartGrid extends Research {
   SmartGrid(
@@ -18,6 +19,9 @@ class SmartGrid extends Research {
             deltaHealth: 0.1,
             deltaMorale: 0.05,
             timeToImplement: 4,
+            displayName: "Smart Grid",
+            description:
+                "Revolutionizes energy distribution, maximizing efficiency and reliability through advanced technology.",
             id: 'smart_grid');
 
   static const name = 'smart_grid';
@@ -25,5 +29,18 @@ class SmartGrid extends Research {
   Future<void> onLoad() async {
     sprite = game.smartGrid;
     await super.onLoad();
+  }
+
+  @override
+  ParamDelta getResearchBonus() {
+    return ParamDelta(
+          deltaCarbon: 0.1,
+          deltaResources: 0.1,
+          deltaCapital: 0.2,
+          deltaMorale: 0.1,
+          deltaEnergy: 0.2,
+          deltaHealth: 0.0,
+        ) *
+        game.builtItems.length.toDouble();
   }
 }

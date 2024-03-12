@@ -18,6 +18,9 @@ class PublicTransport extends Policy {
             deltaHealth: 0.05,
             deltaMorale: 0.2,
             timeToPass: 3,
+            displayName: "Public Transport Expansion",
+            description:
+                "Upgrade transportation infrastructure to alleviate congestion, reduce emissions, and enhance urban mobility.",
             id: 'public_transport');
 
   @override

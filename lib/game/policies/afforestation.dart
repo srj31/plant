@@ -18,6 +18,9 @@ class Afforestation extends Policy {
             deltaHealth: 0.005,
             deltaMorale: 0.05,
             timeToPass: 1,
+            displayName: "Afforestation Program",
+            description:
+                "Launch initiatives to plant trees and restore green spaces, bolstering biodiversity and mitigating climate change.",
             id: 'afforestation');
 
   static const name = 'afforestation';

@@ -300,7 +300,9 @@ class ItemCard<Item extends Structure> extends StatelessWidget {
                                 height: size.y * 0.525,
                                 alignment: Alignment.topCenter,
                                 decoration: BoxDecoration(
-                                    color: Colors.yellow.withOpacity(0.2),
+                                    color: isGreen
+                                        ? Colors.yellow.withOpacity(0.2)
+                                        : Colors.black12,
                                     borderRadius: const BorderRadius.only(
                                         bottomLeft: Radius.circular(10.0),
                                         bottomRight: Radius.circular(10.0))),

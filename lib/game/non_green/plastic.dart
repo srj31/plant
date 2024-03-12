@@ -13,7 +13,7 @@ class PlasticPlants extends NonGreenStructure {
       : super(
           capital: 100,
           resources: 10,
-          deltaCapital: 20,
+          deltaCapital: 200,
           deltaResources: -0.05,
           deltaCarbon: -0.1,
           deltaEnergy: -0.05,
@@ -22,7 +22,7 @@ class PlasticPlants extends NonGreenStructure {
           timeToBuild: 2,
           displayName: "Plastic Plant",
           description:
-              "Dive into the world of plastic production to meet consumer demand. Fuel economic growth with mass-produced plastics, but grapple with the environmental fallout of pollution, marine debris, and ecosystem degradation.",
+              "Produces vast quantities of plastic, contributing to pollution and harming ecosystems.",
           id: 'plastic_plant',
         );
 
