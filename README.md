@@ -27,3 +27,5 @@ flutter devices
 ```
 flutter run [-d | --device-id] <device-of-choice>
 ```
+
+Read more about Plant [here](./REPORT.md).
