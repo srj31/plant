@@ -35,6 +35,23 @@ class NextLevelMenu extends StatelessWidget {
                   ),
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10.0),
+                child: Text(
+                  'Score: ${game.worldCount}',
+                  style: const TextStyle(
+                    fontSize: 25.0,
+                    color: Colors.white70,
+                    shadows: const [
+                      Shadow(
+                        blurRadius: 20.0,
+                        color: Colors.grey,
+                        offset: Offset(0, 0),
+                      )
+                    ],
+                  ),
+                ),
+              ),
               const Padding(
                 padding: EdgeInsets.only(bottom: 10.0),
                 child: Text(

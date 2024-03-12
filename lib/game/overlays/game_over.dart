@@ -40,6 +40,24 @@ class GameOverMenu extends StatelessWidget {
               Padding(
                 padding: const EdgeInsets.only(bottom: 10.0),
                 child: Text(
+                  'Score: ${game.worldCount}',
+                  style: TextStyle(
+                    fontSize: 25.0,
+                    fontFamily: GoogleFonts.play().fontFamily,
+                    color: Colors.white70,
+                    shadows: const [
+                      Shadow(
+                        blurRadius: 20.0,
+                        color: Colors.grey,
+                        offset: Offset(0, 0),
+                      )
+                    ],
+                  ),
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(bottom: 10.0),
+                child: Text(
                   'You could not save us all...',
                   style: TextStyle(
                     fontSize: 25.0,

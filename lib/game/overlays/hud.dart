@@ -32,6 +32,7 @@ class Hud extends PositionComponent with HasGameReference<OurGame> {
   late TextComponent _windTextComponent;
   late TextComponent _windTextComponent2;
   late TextComponent _timeTextComponent;
+  late TextComponent _worldTextComponent;
 
   @override
   Future<void> onLoad() async {
@@ -212,6 +213,11 @@ class Hud extends PositionComponent with HasGameReference<OurGame> {
         Vector2(game.size.x * 0.2 + sizeOfSpirte, game.size.y * 0.9))
       ..anchor = Anchor.center
       ..textRenderer = regular;
+
+    _worldTextComponent = addTextComponent('Score: ${game.worldCount}',
+        Vector2(game.size.x * 0.5 + sizeOfSpirte * 2, game.size.y * 0.9))
+      ..anchor = Anchor.center
+      ..textRenderer = regular;
   }
 
   TextComponent addTextComponent(String text, Vector2 position) {
@@ -235,5 +241,6 @@ class Hud extends PositionComponent with HasGameReference<OurGame> {
     _windTextComponent.text = game.windSpeed.toStringAsFixed(1);
     _windTextComponent2.text = game.windSpeed.toStringAsFixed(1);
     _timeTextComponent.text = game.elapsedSecs.toStringAsFixed(0);
+    _worldTextComponent.text = 'Score: ${game.worldCount}';
   }
 }

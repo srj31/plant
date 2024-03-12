@@ -105,6 +105,8 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   double temperature = 25.0;
   double windSpeed = 1.0;
 
+  int worldCount = 1;
+
   bool powerShortage = false;
 
   ParamDelta paramDelta = ParamDelta(
@@ -632,6 +634,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   }
 
   void nextLevel() async {
+    worldCount += 1;
     overlays.add(SpecializationMenu.id);
     health = 40;
     morale = 0;
