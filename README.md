@@ -1,16 +1,33 @@
-# game_name
+# Plant
 
-A new Flutter project.
+This repository consists of the source code for Plant, an innovative game that is advocating the knowledge for climate change.
 
-## Getting Started
+## Steps to Replicate Development Environment
 
-This project is a starting point for a Flutter application.
+- Ensure Flutter is installed on your system. On macOS, you can install it via Homebrew. In order to check if everything works from the installation, run the following command. Resolve issues pointed by it, if any.
 
-A few resources to get you started if this is your first Flutter project:
+```
+flutter doctor
+```
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+- VSCode is the recommended development environment since the Flutter and Dart extension pack has many features.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+- If you are developing for iOS, ensure you have the Simulator app that comes with XCode.
+
+- Run the Simulator for the device of your choice.
+
+- If you have the Flutter extensions on VSCode, you can directly run the application by clicking on the run button Run without debugging on the top right corner.
+
+- Alternatively, CLI can be used to run the application. Find your device by running the following command.
+
+```
+flutter devices
+```
+
+- To run the application, run the following command in the root.
+
+```
+flutter run [-d | --device-id] <device-of-choice>
+```
+
+Read more about Plant [here](./REPORT.md).
