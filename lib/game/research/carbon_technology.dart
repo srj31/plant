@@ -34,13 +34,12 @@ class CarbonTechnology extends Research {
   @override
   ParamDelta getResearchBonus() {
     return ParamDelta(
-          deltaCarbon: 0.2,
-          deltaResources: 0.0,
-          deltaCapital: 0.2,
-          deltaMorale: 0.1,
-          deltaEnergy: 0.0,
-          deltaHealth: 0.1,
-        ) *
-        game.builtItems.length.toDouble();
+      deltaCarbon: 0.2,
+      deltaResources: 0.0,
+      deltaCapital: 0.2,
+      deltaMorale: 0.1,
+      deltaEnergy: 0.0,
+      deltaHealth: 0.1,
+    );
   }
 }

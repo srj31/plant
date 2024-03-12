@@ -353,6 +353,12 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       if (morale < 5) {
         // chances of riot
       }
+      if (elapsedSecs % 11 == 0) {
+        if (math.Random().nextDouble() < 0.5) {
+          overlays.add(EventMenu.id);
+          hasTimerStarted = false;
+        }
+      }
 
       if (elapsedSecs % 20 == 0) {
         if (math.Random().nextDouble() < 0.7) {
@@ -422,7 +428,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
     delta += _bonusCalculation();
 
     delta += ParamDelta(
-        deltaHealth: 40.0,
+        deltaHealth: 1.0,
         deltaEnergy: 0.0,
         deltaCarbon: 0.0,
         deltaResources: 0.0,
@@ -487,7 +493,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
       bonus += research.getResearchBonus();
     }
 
-    return bonus;
+    return bonus * builtItems.length.toDouble() * 0.5;
   }
 
   void _updateDataPoints() {

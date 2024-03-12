@@ -34,13 +34,12 @@ class NanoTechnology extends Research {
   @override
   ParamDelta getResearchBonus() {
     return ParamDelta(
-          deltaCarbon: 0.1,
-          deltaResources: 0.1,
-          deltaCapital: 0.2,
-          deltaMorale: 0.1,
-          deltaEnergy: 0.1,
-          deltaHealth: 0.1,
-        ) *
-        game.builtItems.length.toDouble();
+      deltaCarbon: 0.1,
+      deltaResources: 0.1,
+      deltaCapital: 0.2,
+      deltaMorale: 0.1,
+      deltaEnergy: 0.1,
+      deltaHealth: 0.1,
+    );
   }
 }

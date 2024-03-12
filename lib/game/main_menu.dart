@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:game_name/game/game_tutorial.dart';
 import 'package:game_name/main.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -110,22 +111,9 @@ class MainMenuState extends State<MainMenu> {
           Padding(
             padding: const EdgeInsets.all(2.0),
             child: ElevatedButton(
-                onPressed: () {},
-                style: ButtonStyle(
-                  backgroundColor:
-                      MaterialStateProperty.all(Colors.green.shade800),
-                  foregroundColor: MaterialStateProperty.all(Colors.white),
-                  shadowColor: MaterialStateProperty.all(Colors.black),
-                  shape: MaterialStateProperty.all(const RoundedRectangleBorder(
-                      side: BorderSide(color: Colors.brown),
-                      borderRadius: BorderRadius.all(Radius.circular(10)))),
-                ),
-                child: const Text("Options")),
-          ),
-          Padding(
-            padding: const EdgeInsets.all(2.0),
-            child: ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  SystemChannels.platform.invokeMethod('SystemNavigator.pop');
+                },
                 style: ButtonStyle(
                   backgroundColor:
                       MaterialStateProperty.all(Colors.green.shade800),
