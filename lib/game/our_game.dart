@@ -130,7 +130,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
   double carbonEmission = 20;
   double resources = 100;
   double energy = 0;
-  double capital = 1000;
+  double capital = 9000;
 
   List<Structure> builtItems = [];
   List<TreeStructure> trees = [];
@@ -362,7 +362,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
         // chances of riot
       }
 
-      if (elapsedSecs % 2 == 0) {
+      if (elapsedSecs % 20 == 0) {
         if (math.Random().nextDouble() < 0.7) {
           overlays.add(GoodEventMenu.id);
           hasTimerStarted = false;
@@ -712,7 +712,7 @@ class OurGame extends FlameGame with TapCallbacks, ScaleDetector {
         await getSpriteAnimation("chemical_plant.png", 4, 0.15, tileSize);
     plastic = await getSpriteAnimation("plastic_plant.png", 4, 0.15, tileSize);
     wasteIncineration =
-        await getSpriteAnimation("waste.png", 4, 0.15, tileSize);
+        await getSpriteAnimation("waste_incineration.png", 4, 0.15, tileSize);
 
     tree = await getSpriteAnimation("tree_animation.png", 4, 0.15, tileSize);
     house = await getSpriteAnimation("house.png", 4, 0.15, tileSize);

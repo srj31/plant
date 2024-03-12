@@ -70,7 +70,8 @@ class MapGenerator {
     final nonEmptyTiles = game.getNonEmptyTiles();
     for (var i = 0; i < height; i++) {
       for (var j = 0; j < width; j++) {
-        if (grid[i][j].tile == TileType.grassLand.id &&
+        if ((grid[i][j].tile == TileType.grassLand.id ||
+                grid[i][j].tile == TileType.highLand.id) &&
             nonEmptyTiles[i + xOffset][j + yOffset] == false) {
           var noise = _noiseSimplex.getNoise2(i.toDouble(), j.toDouble());
           var percentage = (noise - _min) / (_max - _min);
@@ -94,7 +95,7 @@ class MapGenerator {
                 var noise = _noise.getNoise2(i.toDouble(), j.toDouble());
                 var percentage = (noise - _min) / (_max - _min);
                 if (percentage < density) {
-                  if (percentage < 0.5 * density) {
+                  if (percentage < 0.6 * density) {
                     return TileData(type: TileType.highLand);
                   }
                   return TileData(type: TileType.grassLand);

@@ -25,7 +25,6 @@ class HouseStructure extends Structure {
           id: 'house',
         );
 
-  final name = 'house';
   var showBubble = true;
 
   @override

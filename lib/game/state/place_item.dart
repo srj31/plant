@@ -2,12 +2,13 @@ import 'package:flame/components.dart';
 import 'package:flame/events.dart';
 import 'package:flame_tiled/flame_tiled.dart';
 import 'package:game_name/game/audio_manager.dart';
+import 'package:game_name/game/map_generation/tile_data.dart';
 import 'package:game_name/game/our_game.dart';
 import 'package:game_name/game/state/default.dart';
 
 class PlaceItemState extends AbstractState {
   void displayGrids(OurGame game) {
-    const groundTileId = [2, 6];
+    final groundTileId = [TileType.highLand.id, TileType.grassLand.id];
     final data =
         game.mapComponent.tileMap.getLayer<TileLayer>("Map")!.tileData!;
     final nonEmptyTiles = game.getNonEmptyTiles();
@@ -16,10 +17,10 @@ class PlaceItemState extends AbstractState {
         if (groundTileId.contains(data[i][j].tile)) {
           if (nonEmptyTiles[i][j] == false) {
             game.mapComponent.tileMap
-                .setTileData(layerId: 0, x: j, y: i, gid: Gid.fromInt(4));
+                .setTileData(layerId: 0, x: j, y: i, gid: Gid.fromInt(7));
           } else {
             game.mapComponent.tileMap
-                .setTileData(layerId: 0, x: j, y: i, gid: Gid.fromInt(8));
+                .setTileData(layerId: 0, x: j, y: i, gid: Gid.fromInt(3));
           }
         }
       }
@@ -29,12 +30,12 @@ class PlaceItemState extends AbstractState {
   @override
   void handleTap(OurGame game, TapDownEvent info) {
     final tappedCel = game.getTappedCell(info);
-    const changeTiles = [4, 8];
+    const changeTiles = [3, 7];
     final data =
         game.mapComponent.tileMap.getLayer<TileLayer>("Map")!.tileData!;
     if (tappedCel.row < 0 ||
         tappedCel.col < 0 ||
-        data[tappedCel.row][tappedCel.col].tile == 3) {
+        data[tappedCel.row][tappedCel.col].tile == 0) {
       return;
     }
     for (var i = 0; i < data.length; i++) {

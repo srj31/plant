@@ -1,7 +1,7 @@
 enum TileType {
-  highLand(id: 6),
-  grassLand(id: 2),
-  water(id: 3);
+  highLand(id: 5),
+  grassLand(id: 1),
+  water(id: 0);
 
   const TileType({required this.id});
   final int id;

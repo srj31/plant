@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.8" tiledversion="1.8.5" orientation="hexagonal" renderorder="right-down" width="15" height="15" tilewidth="120" tileheight="140" infinite="0" hexsidelength="70" staggeraxis="y" staggerindex="odd"  nextlayerid="11" nextobjectid="86">
- <tileset firstgid="1" name="hexagonAll_sheet" tilewidth="122" tileheight="142" tilecount="224" columns="16" objectalignment="top">
+ <tileset firstgid="1" name="hexagonAll_sheet" tilewidth="122" tileheight="142" tilecount="16" columns="4" objectalignment="top">
   <tileoffset x="1" y="1"/>
-  <image source="hexagonAll_sheet.png" width="2048" height="2048"/>
+  <image source="hexagonAll_sheet.png" width="480" height="560"/>
  </tileset>
  <tileset firstgid="225" name="hexagonBuildings_sheet" tilewidth="122" tileheight="142" tilecount="112" columns="8" objectalignment="top">
   <image source="hexagonBuildings_sheet.png" width="1024" height="2048"/>
